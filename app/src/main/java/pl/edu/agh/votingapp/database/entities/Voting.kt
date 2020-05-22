@@ -9,7 +9,7 @@ import java.sql.Time
 @Entity
 data class Voting (
     @PrimaryKey(autoGenerate = true)
-    val votingId: Int,
+    val votingId: Long = 0,
     val type: VotingType,
     val endTime: Time,
     val votingContent: String,
@@ -19,15 +19,15 @@ data class Voting (
         parentColumn = "votingId",
         entityColumn = "votingId"
     )
-    val questions: List<Question>,
+    val questions: List<Question>? = null,
     @Relation(
         parentColumn = "votingId",
         entityColumn = "votingId"
     )
-    val users: List<User>,
+    val users: List<User>? = null,
     @Relation(
         parentColumn = "votingId",
         entityColumn = "votingId"
     )
-    val answers: List<Answers>
+    val answers: List<Answers>? = null
 )

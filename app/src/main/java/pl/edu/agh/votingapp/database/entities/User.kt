@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 @Entity
 data class User(
     @PrimaryKey(autoGenerate = true)
-    val userId: Int,
-    val votingId: Int,
+    val userId: Long = 0,
+    val votingId: Long,
     val userName: String?,
-    val userCode: Int
+    val userCode: Long
 )

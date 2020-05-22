@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class Question (
     @PrimaryKey(autoGenerate = true)
-    val questionId: Int,
-    val votingId: Int,
+    val questionId: Long = 0,
+    val votingId: Long,
     val questionContent: String
 )

@@ -6,9 +6,9 @@ import androidx.room.PrimaryKey
 @Entity
 data class Answers (
     @PrimaryKey(autoGenerate = true)
-    val answerId: Int,
-    val votingId: Int,
-    val answerOwnerIds: List<Int>,
+    val answerId: Long = 0,
+    val votingId: Long,
+    val answerOwnerIds: List<Long>,
     val answerContent: String,
     var count: Long
 )
