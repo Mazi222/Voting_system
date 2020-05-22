@@ -1,12 +1,12 @@
-package pl.edu.agh.votingapp.database.data
+package pl.edu.agh.votingapp.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
 data class Question (
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val questionId: Int,
-    val votingOwnerId: Int,
+    val votingId: Int,
     val questionContent: String
 )

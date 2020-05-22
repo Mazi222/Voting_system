@@ -12,11 +12,9 @@ import pl.edu.agh.votingapp.database.entities.User
 import pl.edu.agh.votingapp.database.entities.Voting
 
 @Database(entities = [(Voting::class), (User::class), (Question::class), (Answers::class)], version = 1, exportSchema = false)
-abstract class VotingDatabase : RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
     abstract fun VotingDAO(): VotingDAO
     abstract fun UserDAO(): UserDAO
     abstract fun QuestionDAO(): QuestionDAO
     abstract fun AnswersDAO(): AnswersDAO
-
-    
 }

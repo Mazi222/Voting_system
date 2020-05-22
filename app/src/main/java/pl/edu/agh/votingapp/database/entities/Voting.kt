@@ -1,4 +1,4 @@
-package pl.edu.agh.votingapp.database.data
+package pl.edu.agh.votingapp.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -8,7 +8,7 @@ import java.sql.Time
 
 @Entity
 data class Voting (
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val votingId: Int,
     val type: VotingType,
     val endTime: Time,
