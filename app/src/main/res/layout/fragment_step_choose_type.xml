@@ -5,6 +5,6 @@
     android:layout_height="match_parent"
     android:scrollbars="vertical"
     android:id="@+id/choose_type"
-    tools:context=".CreateVotingChooseTypeFragment">
+    tools:context=".view.create.StepChooseTypeFragment">
 
 </androidx.recyclerview.widget.RecyclerView>

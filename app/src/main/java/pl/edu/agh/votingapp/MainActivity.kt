@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import pl.edu.agh.votingapp.view.create.CreateVotingActivity
 
 class MainActivity : AppCompatActivity() {
 
