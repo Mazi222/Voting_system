@@ -16,10 +16,19 @@ class MainActivity : AppCompatActivity() {
         createVotingBtn.setOnClickListener {
             this.createVoting()
         }
+
+        val joinVotingBtn: Button = findViewById(R.id.join_voting_btn)
+        joinVotingBtn.setOnClickListener {
+            this.joinVoting()
+        }
     }
 
     private fun createVoting() {
         val intent = Intent(this, CreateVotingActivity::class.java)
+        startActivity(intent)
+    }
+    private fun joinVoting() {  // navigates to CandidateListActivity, need to be changed later
+        val intent = Intent(this, CandidateListActivity::class.java)
         startActivity(intent)
     }
 
