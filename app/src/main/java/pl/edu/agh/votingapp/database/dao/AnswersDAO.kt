@@ -4,22 +4,22 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import pl.edu.agh.votingapp.database.entities.Voting
+import pl.edu.agh.votingapp.database.entities.Answers
 
 @Dao
 interface AnswersDAO {
-    @Query("SELECT * FROM voting")
-    fun loadAllAnswers(vid: Int): List<Voting>
+    @Query("SELECT * FROM answers WHERE votingId = :vid")
+    fun loadAllAnswers(vid: Int): List<Answers>
 
-    @Query("SELECT * FROM voting WHERE votingId = :vid")
-    fun getAnswer(vid: Int): Voting
-
-    @Insert
-    fun insertAll(votings: List<Voting>)
+    @Query("SELECT * FROM answers WHERE votingId = :vid AND answerId = :aid")
+    fun getAnswer(vid: Int, aid: Int): Answers
 
     @Insert
-    fun insert(voting: Voting)
+    fun insertAll(answers: List<Answers>)
+
+    @Insert
+    fun insert(answer: Answers)
 
     @Delete
-    fun delete(voting: Voting)
+    fun delete(answer: Answers)
 }

@@ -9,11 +9,11 @@ import pl.edu.agh.votingapp.database.entities.Voting
 @Dao
 interface VotingDAO {
 
-    @Query("SELECT * FROM answers WHERE votingId = :vid")
-    fun loadAllVotings(vid: Int): List<Voting>
+    @Query("SELECT * FROM voting")
+    fun loadAllVotings(): List<Voting>
 
-    @Query("SELECT * FROM answers WHERE answerId = :aid")
-    fun getVoting(aid: Int): Voting
+    @Query("SELECT * FROM voting WHERE votingId = :vid")
+    fun getVoting(vid: Int): Voting
 
     @Insert
     fun insertAll(votings: List<Voting>)

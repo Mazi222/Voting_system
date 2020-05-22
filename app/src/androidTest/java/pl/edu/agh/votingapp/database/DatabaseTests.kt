@@ -15,8 +15,11 @@ import pl.edu.agh.votingapp.database.dao.AnswersDAO
 import pl.edu.agh.votingapp.database.dao.QuestionDAO
 import pl.edu.agh.votingapp.database.dao.UserDAO
 import pl.edu.agh.votingapp.database.dao.VotingDAO
+import pl.edu.agh.votingapp.database.entities.Answers
+import pl.edu.agh.votingapp.database.entities.Question
 import pl.edu.agh.votingapp.database.entities.User
 import pl.edu.agh.votingapp.database.entities.Voting
+import java.sql.Date
 import java.sql.Time
 
 @RunWith(AndroidJUnit4::class)
@@ -46,9 +49,14 @@ class DatabaseTests {
 
     @Test
     fun addVoting() {
-//        val voting = Voting(type = VotingType.BORDA_COUNT, endTime = Time(1), votingContent = "Test", isOpen = true)
-//        val user = User(votingId = voting.votingId, userName = "Test")
+//        val voting = Voting(type = VotingType.BORDA_COUNT, endTime = Date(1), votingContent = "Test", isOpen = true)
+//        val user = User(votingId = voting.votingId, userName = "TestU", userCode = 12)
+//        val question = Question(votingId = voting.votingId, questionContent = "TestQ")
+//        val answer = Answers(votingId = voting.votingId, answerOwnerIds = listOf(12), answerContent = "TestAns")
+//        voting.users?.add(user)
+//        voting.questions?.add(question)
+//        voting.answers?.add(answer)
 //        db.VotingDAO().insert(voting)
-//        Assert.assertEquals(voting, db.VotingDAO().getVoting(1))
+//        Assert.assertEquals(voting, db.VotingDAO().getVoting(0))
     }
 }

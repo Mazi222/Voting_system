@@ -2,6 +2,8 @@ package pl.edu.agh.votingapp.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import pl.edu.agh.votingapp.database.converters.Converters
 import pl.edu.agh.votingapp.database.dao.AnswersDAO
 import pl.edu.agh.votingapp.database.dao.QuestionDAO
 import pl.edu.agh.votingapp.database.dao.UserDAO
@@ -12,6 +14,7 @@ import pl.edu.agh.votingapp.database.entities.User
 import pl.edu.agh.votingapp.database.entities.Voting
 
 @Database(entities = [(Voting::class), (User::class), (Question::class), (Answers::class)], version = 1, exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun VotingDAO(): VotingDAO
     abstract fun UserDAO(): UserDAO
