@@ -10,10 +10,10 @@ import pl.edu.agh.votingapp.database.entities.Question
 interface QuestionDAO {
 
     @Query("SELECT * FROM question WHERE votingId = :vid")
-    fun loadAllQuestions(vid: Int): List<Question>
+    fun loadAllQuestions(vid: Long): List<Question>
 
     @Query("SELECT * FROM question WHERE questionId = :qid AND votingId = :vid")
-    fun getQuestion(qid: Int, vid: Int): Question
+    fun getQuestion(qid: Long, vid: Long): Question
 
     @Insert
     fun insertAll(questions: List<Question>)

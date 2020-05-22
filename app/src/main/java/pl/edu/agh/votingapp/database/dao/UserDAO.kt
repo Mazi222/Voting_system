@@ -9,10 +9,10 @@ import pl.edu.agh.votingapp.database.entities.User
 @Dao
 interface UserDAO {
     @Query("SELECT * FROM user WHERE votingId = :vid")
-    fun loadAllUsers(vid: Int): List<User>
+    fun loadAllUsers(vid: Long): List<User>
 
     @Query("SELECT * FROM user WHERE userId = :uid AND votingId = :vid")
-    fun getUser(uid: Int, vid: Int): User
+    fun getUser(uid: Long, vid: Long): User
 
     @Insert
     fun insertAll(users: List<User>)

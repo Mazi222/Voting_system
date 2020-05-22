@@ -8,8 +8,10 @@ import androidx.room.PrimaryKey
 data class Answers (
     @PrimaryKey(autoGenerate = true)
     val answerId: Long = 0,
-    @ColumnInfo(name ="votingId")
+    @ColumnInfo(name = "votingId")
     val votingId: Long,
+    @ColumnInfo(name = "questionId")
+    val questionId: Long,
 //    val answerOwnerIds: List<Long>,
     @ColumnInfo(name ="answerContent")
     val answerContent: String,

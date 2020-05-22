@@ -48,15 +48,42 @@ class DatabaseTests {
     }
 
     @Test
-    fun addVoting() {
-//        val voting = Voting(type = VotingType.BORDA_COUNT, endTime = Date(1), votingContent = "Test", isOpen = true)
-//        val user = User(votingId = voting.votingId, userName = "TestU", userCode = 12)
-//        val question = Question(votingId = voting.votingId, questionContent = "TestQ")
-//        val answer = Answers(votingId = voting.votingId, answerOwnerIds = listOf(12), answerContent = "TestAns")
-//        voting.users?.add(user)
-//        voting.questions?.add(question)
-//        voting.answers?.add(answer)
-//        db.VotingDAO().insert(voting)
-//        Assert.assertEquals(voting, db.VotingDAO().getVoting(0))
+    fun addVotingTest() {
+        val voting = Voting(votingId = 1, type = VotingType.BORDA_COUNT, endTime = Date(1), votingContent = "Test", isOpen = true)
+        votingDao.insert(voting)
+        Assert.assertEquals(voting, votingDao.getVoting(voting.votingId))
+    }
+
+    @Test
+    fun addUserTest(){
+        val voting = Voting(votingId = 1, type = VotingType.BORDA_COUNT, endTime = Date(1), votingContent = "Test", isOpen = true)
+        val user = User(userId = 1, votingId = voting.votingId, userName = "TestU", userCode = 12)
+        votingDao.insert(voting)
+        userDao.insert(user)
+        Assert.assertEquals(user,userDao.getUser(user.userId,voting.votingId))
+    }
+
+    @Test
+    fun addQuestionTest(){
+        val voting = Voting(votingId = 1, type = VotingType.BORDA_COUNT, endTime = Date(1), votingContent = "Test", isOpen = true)
+        val question = Question(questionId = 1, votingId = voting.votingId, questionContent = "TestQ")
+        votingDao.insert(voting)
+        questionDao.insert(question)
+        Assert.assertEquals(question, questionDao.getQuestion(question.questionId, voting.votingId))
+    }
+
+    @Test
+    fun addAnswerTest(){
+        val voting = Voting(votingId = 1, type = VotingType.BORDA_COUNT, endTime = Date(1), votingContent = "Test", isOpen = true)
+        val question = Question(questionId = 1, votingId = voting.votingId, questionContent = "TestQ")
+        val user = User(userId = 1, votingId = voting.votingId, userName = "TestU", userCode = 12)
+        val answer = Answers(answerId = 1, votingId = voting.votingId, questionId = question.questionId, answerContent = "TestA", count = 1)
+
+        votingDao.insert(voting)
+        userDao.insert(user)
+        questionDao.insert(question)
+        answersDao.insert(answer)
+
+        Assert.assertEquals(answer, answersDao.getAnswer(answer.answerId, voting.votingId))
     }
 }

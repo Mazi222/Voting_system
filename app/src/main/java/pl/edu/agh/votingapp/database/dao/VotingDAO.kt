@@ -1,9 +1,6 @@
 package pl.edu.agh.votingapp.database.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import pl.edu.agh.votingapp.database.entities.Voting
 
 @Dao
@@ -13,12 +10,12 @@ interface VotingDAO {
     fun loadAllVotings(): List<Voting>
 
     @Query("SELECT * FROM voting WHERE votingId = :vid")
-    fun getVoting(vid: Int): Voting
+    fun getVoting(vid: Long): Voting
 
     @Insert
     fun insertAll(votings: List<Voting>)
 
-    @Insert
+    @Insert(entity = Voting::class, onConflict = OnConflictStrategy.ABORT)
     fun insert(voting: Voting)
 
     @Delete
