@@ -1,5 +1,6 @@
 package pl.edu.agh.votingapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,15 +11,15 @@ class CandidateListActivity : AppCompatActivity() {
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
     private var myDataset: Array<CandidateListElement> = arrayOf(
-        CandidateListElement("Adrian Gonzalez", android.R.drawable.ic_dialog_email),
-        CandidateListElement("Rudy Gonzalez", android.R.drawable.ic_dialog_email),
-        CandidateListElement("Rudy Gonzalez", android.R.drawable.ic_dialog_email),
-        CandidateListElement("Adrian Gonzalez", android.R.drawable.ic_dialog_email),
-        CandidateListElement("Rudy Gonzalez", android.R.drawable.ic_dialog_email),
-        CandidateListElement("Adrian Gonzalez", android.R.drawable.ic_dialog_email),
-        CandidateListElement("Rudy Gonzalez", android.R.drawable.ic_dialog_email),
-        CandidateListElement("Adrian Gonzalez", android.R.drawable.ic_dialog_email),
-        CandidateListElement("Rudy Gonzalez", android.R.drawable.ic_dialog_email)
+        CandidateListElement("Adrian Gonzalez", R.drawable.photo),
+        CandidateListElement("Adrian Gonzalez", R.drawable.photo),
+        CandidateListElement("Adrian Gonzalez", R.drawable.photo),
+        CandidateListElement("Adrian Gonzalez", R.drawable.photo),
+        CandidateListElement("Adrian Gonzalez", R.drawable.photo),
+        CandidateListElement("Adrian Gonzalez", R.drawable.photo),
+        CandidateListElement("Adrian Gonzalez", R.drawable.photo),
+        CandidateListElement("Adrian Gonzalez", R.drawable.photo),
+        CandidateListElement("Adrian Gonzalez", R.drawable.photo)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,5 +37,10 @@ class CandidateListActivity : AppCompatActivity() {
             adapter = viewAdapter
 
         }
+    }
+
+    private fun showProgram() {
+        val intent = Intent(this, CandidateProgramActivity::class.java)
+        startActivity(intent)
     }
 }

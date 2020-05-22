@@ -1,12 +1,10 @@
 package pl.edu.agh.votingapp
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 
 class CandidateListAdapter(private val myDataset: Array<CandidateListElement>) :
@@ -16,6 +14,10 @@ class CandidateListAdapter(private val myDataset: Array<CandidateListElement>) :
         val textView: TextView = view.findViewById(R.id.candidate_name) as TextView
         val candidatePhoto: ImageView = view.findViewById(R.id.ivCandidate) as ImageView
         val relativeLayout: RelativeLayout = view.findViewById(R.id.relative_layout)
+        val programButton: Button = view.findViewById(R.id.btnProgram)
+        val voteButton: Button = view.findViewById(R.id.btnVote)
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup,
@@ -30,10 +32,10 @@ class CandidateListAdapter(private val myDataset: Array<CandidateListElement>) :
         val listElement: CandidateListElement = myDataset[position]
         holder.textView.text = myDataset[position].name
         holder.candidatePhoto.setImageResource(myDataset[position].image)
-        holder.relativeLayout.setOnClickListener(View.OnClickListener { view ->
-            Toast.makeText(view.context, "Congrats, u can click on stuff", Toast.LENGTH_LONG).show()
-        })
+
     }
+
+
 
     override fun getItemCount() = myDataset.size
 }
