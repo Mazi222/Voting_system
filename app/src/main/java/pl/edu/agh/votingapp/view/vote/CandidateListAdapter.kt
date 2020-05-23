@@ -1,21 +1,19 @@
-package pl.edu.agh.votingapp
+package pl.edu.agh.votingapp.view.vote
 
-import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
-import androidx.appcompat.app.AppCompatActivity
+import pl.edu.agh.votingapp.R
 
 class CandidateListAdapter(private val myDataset: Array<CandidateListElement>) :
     RecyclerView.Adapter<CandidateListAdapter.MyViewHolder>() {
 
     class MyViewHolder(val view: View, val parent: ViewGroup) : RecyclerView.ViewHolder(view) {
 
-        val textView: TextView = view.findViewById(R.id.candidate_name) as TextView
+        val candidateName: TextView = view.findViewById(R.id.candidate_name) as TextView
         val candidatePhoto: ImageView = view.findViewById(R.id.ivCandidatePhoto) as ImageView
         val relativeLayout: RelativeLayout = view.findViewById(R.id.relative_layout)
         val programButton: Button = view.findViewById(R.id.btnProgram)
@@ -27,14 +25,15 @@ class CandidateListAdapter(private val myDataset: Array<CandidateListElement>) :
                 parent.context.startActivity(intent)
             }
             voteButton.setOnClickListener {
-                val intent = Intent(parent.context, VoteActivity::class.java)
+                val intent = Intent(parent.context, CandidateVoteActivity::class.java)
+                intent.putExtra("name", candidateName.text)
                 parent.context.startActivity(intent)
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): CandidateListAdapter.MyViewHolder {
+                                    viewType: Int): MyViewHolder {
         val cell = LayoutInflater.from(parent.context)
             .inflate(R.layout.candidate_list_item, parent, false)
 
@@ -43,7 +42,7 @@ class CandidateListAdapter(private val myDataset: Array<CandidateListElement>) :
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val listElement: CandidateListElement = myDataset[position]
-        holder.textView.text = myDataset[position].name
+        holder.candidateName.text = myDataset[position].name
         holder.candidatePhoto.setImageResource(myDataset[position].image)
 
         holder.bindButtons()

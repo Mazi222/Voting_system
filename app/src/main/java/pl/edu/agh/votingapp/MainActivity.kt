@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import pl.edu.agh.votingapp.view.create.CreateVotingActivity
+import pl.edu.agh.votingapp.view.vote.CandidateListActivity
+import pl.edu.agh.votingapp.view.vote.VotesListActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,8 +29,8 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, CreateVotingActivity::class.java)
         startActivity(intent)
     }
-    private fun joinVoting() {  // navigates to CandidateListActivity, need to be changed later
-        val intent = Intent(this, CandidateListActivity::class.java)
+    private fun joinVoting() {
+        val intent = Intent(this, VotesListActivity::class.java)
         startActivity(intent)
     }
 
