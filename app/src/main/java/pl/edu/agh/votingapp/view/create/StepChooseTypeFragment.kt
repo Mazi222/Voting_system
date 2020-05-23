@@ -70,6 +70,8 @@ class StepChooseTypeFragment : Fragment(), Step {
         private val listData: List<VotingType>
     ) : RecyclerView.Adapter<MyViewHolder>() {
 
+        private var lastSelectedPos: Int = -1
+
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
             val listItem = LayoutInflater.from(parent.context)
                 .inflate(R.layout.list_item, parent, false) as View
@@ -79,7 +81,23 @@ class StepChooseTypeFragment : Fragment(), Step {
 
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
             val votingType: VotingType = listData[position]
-            holder.bind(fragment, votingType)
+
+            holder.bind(votingType)
+
+            holder.itemView.isSelected = position == lastSelectedPos
+            holder.itemView.setOnClickListener { view ->
+                Toast.makeText(
+                    view.context,
+                    "Selected: " + votingType.type,
+                    Toast.LENGTH_SHORT
+                ).show()
+                fragment.model.votingType = votingType
+
+                val copySelectedPos = lastSelectedPos
+                lastSelectedPos = position
+                notifyItemChanged(copySelectedPos)
+                notifyItemChanged(lastSelectedPos)
+            }
         }
 
         override fun getItemCount() = listData.size
@@ -90,19 +108,9 @@ class StepChooseTypeFragment : Fragment(), Step {
         private val titleTextView: TextView = itemView.findViewById(R.id.titleTextView)
         private val descTextView: TextView = itemView.findViewById(R.id.descTextView)
 
-        fun bind(fragment: StepChooseTypeFragment, votingType: VotingType) {
+        fun bind(votingType: VotingType) {
             titleTextView.text = votingType.type
             descTextView.text = votingType.description
-
-            itemView.setOnClickListener { view ->
-                Toast.makeText(
-                    view.context,
-                    "Selected: " + votingType.type,
-                    Toast.LENGTH_SHORT
-                ).show()
-                fragment.model.votingType = votingType
-                itemView.isActivated = true
-            }
         }
     }
 

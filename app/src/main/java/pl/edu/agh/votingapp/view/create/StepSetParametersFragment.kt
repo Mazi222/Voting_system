@@ -2,13 +2,17 @@ package pl.edu.agh.votingapp.view.create
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioGroup
+import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.textfield.TextInputEditText
@@ -32,6 +36,7 @@ class StepSetParametersFragment : Fragment(R.layout.fragment_step_set_parameters
         return inflater.inflate(R.layout.fragment_step_set_parameters, container, false)
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -41,6 +46,7 @@ class StepSetParametersFragment : Fragment(R.layout.fragment_step_set_parameters
         val quorum: TextInputEditText = view.findViewById(R.id.quorum)
         val openGroup: RadioGroup = view.findViewById(R.id.openGroup)
         val endDate: TextInputEditText = view.findViewById(R.id.endDate)
+        endDate.showSoftInputOnFocus = false
 
         votingDesc.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
@@ -94,6 +100,7 @@ class StepSetParametersFragment : Fragment(R.layout.fragment_step_set_parameters
             val startDay = currentDateTime.get(Calendar.DAY_OF_MONTH)
             val startHour = currentDateTime.get(Calendar.HOUR_OF_DAY)
             val startMinute = currentDateTime.get(Calendar.MINUTE)
+            val pickedDateTime = Calendar.getInstance()
 
             DatePickerDialog(
                 requireContext(),
@@ -101,9 +108,14 @@ class StepSetParametersFragment : Fragment(R.layout.fragment_step_set_parameters
                     TimePickerDialog(
                         requireContext(),
                         TimePickerDialog.OnTimeSetListener { _, hour, minute ->
-                            val pickedDateTime = Calendar.getInstance()
                             pickedDateTime.set(year, month, day, hour, minute)
                             model.endTime = pickedDateTime.time
+                            endDate.setText(
+                                DateFormat.format(
+                                    "dd.MM.yyyy, HH:mm:ss",
+                                    pickedDateTime.time
+                                ), TextView.BufferType.EDITABLE
+                            )
                         },
                         startHour,
                         startMinute,
