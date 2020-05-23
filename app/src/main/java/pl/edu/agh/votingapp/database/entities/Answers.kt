@@ -12,9 +12,10 @@ data class Answers (
     val votingId: Long,
     @ColumnInfo(name = "questionId")
     val questionId: Long,
-//    val answerOwnerIds: List<Long>,
+    @ColumnInfo(name = "answerOwnerIds")
+    val answerOwnerIds: MutableList<Long>?,
     @ColumnInfo(name ="answerContent")
     val answerContent: String,
     @ColumnInfo(name ="count")
-    var count: Long
+    var count: Long = 0
 )

@@ -60,7 +60,7 @@ class DatabaseTests {
         val user = User(userId = 1, votingId = voting.votingId, userName = "TestU", userCode = 12)
         votingDao.insert(voting)
         userDao.insert(user)
-        Assert.assertEquals(user,userDao.getUser(user.userId,voting.votingId))
+        Assert.assertEquals(user,userDao.getUser(user.userId))
     }
 
     @Test
@@ -69,7 +69,7 @@ class DatabaseTests {
         val question = Question(questionId = 1, votingId = voting.votingId, questionContent = "TestQ")
         votingDao.insert(voting)
         questionDao.insert(question)
-        Assert.assertEquals(question, questionDao.getQuestion(question.questionId, voting.votingId))
+        Assert.assertEquals(question, questionDao.getQuestion(question.questionId))
     }
 
     @Test
@@ -77,13 +77,54 @@ class DatabaseTests {
         val voting = Voting(votingId = 1, type = VotingType.BORDA_COUNT, endTime = Date(1), votingContent = "Test", isOpen = true)
         val question = Question(questionId = 1, votingId = voting.votingId, questionContent = "TestQ")
         val user = User(userId = 1, votingId = voting.votingId, userName = "TestU", userCode = 12)
-        val answer = Answers(answerId = 1, votingId = voting.votingId, questionId = question.questionId, answerContent = "TestA", count = 1)
+        val answer = Answers(answerId = 1, votingId = voting.votingId, questionId = question.questionId, answerOwnerIds = mutableListOf(user.userId), answerContent = "TestA", count = 1)
 
         votingDao.insert(voting)
         userDao.insert(user)
         questionDao.insert(question)
         answersDao.insert(answer)
 
-        Assert.assertEquals(answer, answersDao.getAnswer(answer.answerId, voting.votingId))
+        Assert.assertEquals(answer, answersDao.getAnswer(answer.answerId))
     }
+
+    @Test
+    fun updateAnswerCountTest(){
+        val voting = Voting(votingId = 1, type = VotingType.BORDA_COUNT, endTime = Date(1), votingContent = "Test", isOpen = true)
+        val question = Question(questionId = 1, votingId = voting.votingId, questionContent = "TestQ")
+        val user = User(userId = 1, votingId = voting.votingId, userName = "TestU", userCode = 12)
+        val answer = Answers(answerId = 1, votingId = voting.votingId, questionId = question.questionId, answerOwnerIds = mutableListOf(user.userId),answerContent = "TestA", count = 1)
+
+        votingDao.insert(voting)
+        userDao.insert(user)
+        questionDao.insert(question)
+        answersDao.insert(answer)
+        Assert.assertEquals(answer, answersDao.getAnswer(answer.answerId))
+
+        answersDao.updateCount(5, answer.answerId)
+        Assert.assertNotEquals(answer, answersDao.getAnswer(answer.answerId))
+
+        answer.count+=5
+        Assert.assertEquals(answer, answersDao.getAnswer(answer.answerId))
+
+        answersDao.updateCount(3, answer.answerId)
+        answer.count+=3
+        Assert.assertEquals(answer, answersDao.getAnswer(answer.answerId))
+    }
+
+    @Test
+    fun incrementAnswerCountTest(){
+        val voting = Voting(votingId = 1, type = VotingType.BORDA_COUNT, endTime = Date(1), votingContent = "Test", isOpen = true)
+        val question = Question(questionId = 1, votingId = voting.votingId, questionContent = "TestQ")
+        val user = User(userId = 1, votingId = voting.votingId, userName = "TestU", userCode = 12)
+        val answer = Answers(answerId = 1, votingId = voting.votingId, questionId = question.questionId, answerOwnerIds = mutableListOf(user.userId),answerContent = "TestA", count = 0)
+
+        votingDao.insert(voting)
+        userDao.insert(user)
+        questionDao.insert(question)
+        answersDao.insert(answer)
+
+        answersDao.incrementCount(answer.answerId)
+        Assert.assertEquals(1, answersDao.getAnswer(answer.answerId).count)
+    }
+
 }

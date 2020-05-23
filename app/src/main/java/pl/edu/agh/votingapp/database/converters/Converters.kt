@@ -1,5 +1,6 @@
 package pl.edu.agh.votingapp.database.converters
 
+import android.util.Log
 import androidx.room.TypeConverter
 import pl.edu.agh.votingapp.VotingType
 import java.sql.Date
@@ -37,5 +38,29 @@ class Converters {
             5 -> VotingType.SINGLE_NON_TRANSFERABLE_VOTE
             else -> VotingType.NONE
         }
+    }
+
+    @TypeConverter
+    fun listOfLongsToString(value: MutableList<Long>?): String?{
+        var result: String = ""
+        if (value != null) {
+            for(i in value){
+                result += "$i,"
+                Log.d("TYPECONVERTER", result)
+            }
+            result.dropLast(1)
+            Log.d("TYPECONVERTER", result)
+        }
+        Log.i("TYPECONVERTER", result)
+        return result
+    }
+
+    @TypeConverter
+    fun stringToListOfLongs(value: String?): MutableList<Long>?{
+        Log.d("TYPECONVERTERREV", "WOLOLO")
+        Log.d("TYPECONVERTERREV",value?.split(",").toString())
+        Log.d("TYPECONVERTERREV",value?.split(",")?.dropLast(1)?.map{it.toLong()}.toString())
+
+        return value?.split(",")?.dropLast(1)?.map{it.toLong()}?.toMutableList()
     }
 }

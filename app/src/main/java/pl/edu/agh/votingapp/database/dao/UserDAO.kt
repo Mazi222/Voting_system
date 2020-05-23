@@ -11,8 +11,8 @@ interface UserDAO {
     @Query("SELECT * FROM user WHERE votingId = :vid")
     fun loadAllUsers(vid: Long): List<User>
 
-    @Query("SELECT * FROM user WHERE userId = :uid AND votingId = :vid")
-    fun getUser(uid: Long, vid: Long): User
+    @Query("SELECT * FROM user WHERE userId = :uid")
+    fun getUser(uid: Long): User
 
     @Insert
     fun insertAll(users: List<User>)

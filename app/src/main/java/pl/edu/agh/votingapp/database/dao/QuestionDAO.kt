@@ -12,8 +12,8 @@ interface QuestionDAO {
     @Query("SELECT * FROM question WHERE votingId = :vid")
     fun loadAllQuestions(vid: Long): List<Question>
 
-    @Query("SELECT * FROM question WHERE questionId = :qid AND votingId = :vid")
-    fun getQuestion(qid: Long, vid: Long): Question
+    @Query("SELECT * FROM question WHERE questionId = :qid")
+    fun getQuestion(qid: Long): Question
 
     @Insert
     fun insertAll(questions: List<Question>)
