@@ -16,6 +16,8 @@ data class Voting (
     val endTime: Date,
     @ColumnInfo(name ="votingContent")
     val votingContent: String,
+    @ColumnInfo(name = "quorum")
+    val quorum: Int = 0,
     @ColumnInfo(name ="isOpen")
     val isOpen: Boolean
 )

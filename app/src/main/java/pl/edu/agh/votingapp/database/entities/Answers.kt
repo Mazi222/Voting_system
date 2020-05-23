@@ -12,8 +12,8 @@ data class Answers (
     val votingId: Long,
     @ColumnInfo(name = "questionId")
     val questionId: Long,
-    @ColumnInfo(name = "answerOwnerIds")
-    val answerOwnerIds: MutableList<Long>?,
+    @ColumnInfo(name = "voters")
+    val voters: MutableList<Long>?,
     @ColumnInfo(name ="answerContent")
     val answerContent: String,
     @ColumnInfo(name ="count")

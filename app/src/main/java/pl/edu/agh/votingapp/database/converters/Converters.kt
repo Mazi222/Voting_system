@@ -48,7 +48,6 @@ class Converters {
                 result += "$i,"
                 Log.d("TYPECONVERTER", result)
             }
-            result.dropLast(1)
             Log.d("TYPECONVERTER", result)
         }
         Log.i("TYPECONVERTER", result)
@@ -57,6 +56,8 @@ class Converters {
 
     @TypeConverter
     fun stringToListOfLongs(value: String?): MutableList<Long>?{
+        if(value=="")
+            return mutableListOf<Long>()
         Log.d("TYPECONVERTERREV", "WOLOLO")
         Log.d("TYPECONVERTERREV",value?.split(",").toString())
         Log.d("TYPECONVERTERREV",value?.split(",")?.dropLast(1)?.map{it.toLong()}.toString())

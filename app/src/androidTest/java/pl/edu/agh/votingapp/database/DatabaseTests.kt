@@ -1,10 +1,10 @@
 package pl.edu.agh.votingapp.database
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -20,10 +20,10 @@ import pl.edu.agh.votingapp.database.entities.Question
 import pl.edu.agh.votingapp.database.entities.User
 import pl.edu.agh.votingapp.database.entities.Voting
 import java.sql.Date
-import java.sql.Time
 
 @RunWith(AndroidJUnit4::class)
 class DatabaseTests {
+    private val TAG: String = "DATABASE_TEST"
 
     private lateinit var votingDao: VotingDAO
     private lateinit var userDao: UserDAO
@@ -56,75 +56,89 @@ class DatabaseTests {
 
     @Test
     fun addUserTest(){
-        val voting = Voting(votingId = 1, type = VotingType.BORDA_COUNT, endTime = Date(1), votingContent = "Test", isOpen = true)
-        val user = User(userId = 1, votingId = voting.votingId, userName = "TestU", userCode = 12)
-        votingDao.insert(voting)
+        val user = User(userId = 1, votingId = 1, userName = "TestU", userCode = 12)
         userDao.insert(user)
         Assert.assertEquals(user,userDao.getUser(user.userId))
     }
 
     @Test
     fun addQuestionTest(){
-        val voting = Voting(votingId = 1, type = VotingType.BORDA_COUNT, endTime = Date(1), votingContent = "Test", isOpen = true)
-        val question = Question(questionId = 1, votingId = voting.votingId, questionContent = "TestQ")
-        votingDao.insert(voting)
+        val question = Question(questionId = 1, votingId = 1, questionContent = "TestQ")
         questionDao.insert(question)
         Assert.assertEquals(question, questionDao.getQuestion(question.questionId))
     }
 
     @Test
     fun addAnswerTest(){
-        val voting = Voting(votingId = 1, type = VotingType.BORDA_COUNT, endTime = Date(1), votingContent = "Test", isOpen = true)
-        val question = Question(questionId = 1, votingId = voting.votingId, questionContent = "TestQ")
-        val user = User(userId = 1, votingId = voting.votingId, userName = "TestU", userCode = 12)
-        val answer = Answers(answerId = 1, votingId = voting.votingId, questionId = question.questionId, answerOwnerIds = mutableListOf(user.userId), answerContent = "TestA", count = 1)
-
-        votingDao.insert(voting)
-        userDao.insert(user)
-        questionDao.insert(question)
+        val answer = Answers(answerId = 1, votingId = 1, questionId = 2, voters = mutableListOf(1), answerContent = "TestA", count = 1)
         answersDao.insert(answer)
-
         Assert.assertEquals(answer, answersDao.getAnswer(answer.answerId))
     }
 
     @Test
     fun updateAnswerCountTest(){
-        val voting = Voting(votingId = 1, type = VotingType.BORDA_COUNT, endTime = Date(1), votingContent = "Test", isOpen = true)
-        val question = Question(questionId = 1, votingId = voting.votingId, questionContent = "TestQ")
-        val user = User(userId = 1, votingId = voting.votingId, userName = "TestU", userCode = 12)
-        val answer = Answers(answerId = 1, votingId = voting.votingId, questionId = question.questionId, answerOwnerIds = mutableListOf(user.userId),answerContent = "TestA", count = 1)
-
-        votingDao.insert(voting)
-        userDao.insert(user)
-        questionDao.insert(question)
+        val answer = Answers(answerId = 1, votingId = 1, questionId = 1, voters = mutableListOf(1),answerContent = "TestA", count = 1)
         answersDao.insert(answer)
-        Assert.assertEquals(answer, answersDao.getAnswer(answer.answerId))
 
-        answersDao.updateCount(5, answer.answerId)
+        answersDao.updateCount(answer.answerId,5)
         Assert.assertNotEquals(answer, answersDao.getAnswer(answer.answerId))
 
         answer.count+=5
+        Log.d(TAG+"updateAnswerCountTest", answer.toString())
+        Log.d(TAG+"updateAnswerCountTest", answersDao.getAnswer(answer.answerId).toString())
+
         Assert.assertEquals(answer, answersDao.getAnswer(answer.answerId))
 
-        answersDao.updateCount(3, answer.answerId)
+        answersDao.updateCount(answer.answerId,3)
         answer.count+=3
+
+        Log.d(TAG+"updateAnswerCountTest", answer.toString())
+        Log.d(TAG+"updateAnswerCountTest", answersDao.getAnswer(answer.answerId).toString())
+
         Assert.assertEquals(answer, answersDao.getAnswer(answer.answerId))
     }
 
     @Test
     fun incrementAnswerCountTest(){
-        val voting = Voting(votingId = 1, type = VotingType.BORDA_COUNT, endTime = Date(1), votingContent = "Test", isOpen = true)
-        val question = Question(questionId = 1, votingId = voting.votingId, questionContent = "TestQ")
-        val user = User(userId = 1, votingId = voting.votingId, userName = "TestU", userCode = 12)
-        val answer = Answers(answerId = 1, votingId = voting.votingId, questionId = question.questionId, answerOwnerIds = mutableListOf(user.userId),answerContent = "TestA", count = 0)
-
-        votingDao.insert(voting)
-        userDao.insert(user)
-        questionDao.insert(question)
+        val answer = Answers(answerId = 1, votingId = 1, questionId = 2, voters = mutableListOf(12),answerContent = "TestA", count = 0)
         answersDao.insert(answer)
 
         answersDao.incrementCount(answer.answerId)
+
+        Log.d(TAG+"incrementAnswerCountTest", answer.toString())
+        Log.d(TAG+"incrementAnswerCountTest", answersDao.getAnswer(answer.answerId).toString())
+
         Assert.assertEquals(1, answersDao.getAnswer(answer.answerId).count)
+    }
+
+    @Test
+    fun addVoterTest() {
+        val answer = Answers(answerId = 1, votingId = 1, questionId = 1, voters = mutableListOf(1), answerContent = "TestA", count = 1)
+        answersDao.insert(answer)
+
+        answersDao.addVoter(answer.answerId,2)
+        answersDao.addVoter(answer.answerId,3)
+
+        Assert.assertNotEquals(answer, answersDao.getAnswer(answer.answerId))
+
+        answer.voters?.add(2)
+        answer.voters?.add(3)
+
+        Log.d(TAG+"addVoterTest", answer.toString())
+        Log.d(TAG+"addVoterTest", answersDao.getAnswer(answer.answerId).toString())
+
+        Assert.assertEquals(answer, answersDao.getAnswer(answer.answerId))
+    }
+
+    @Test
+    fun addAnswerWithoutVoters(){
+        val answer = Answers(answerId = 1, votingId = 1, questionId = 1, voters = mutableListOf(), answerContent = "TestA", count = 1)
+        answersDao.insert(answer)
+
+        Log.d(TAG+"addAnswerWithoutVoters", answer.toString())
+        Log.d(TAG+"addAnswerWithoutVoters", answersDao.getAnswer(answer.answerId).toString())
+
+        Assert.assertEquals(answer, answersDao.getAnswer(answer.answerId))
     }
 
 }

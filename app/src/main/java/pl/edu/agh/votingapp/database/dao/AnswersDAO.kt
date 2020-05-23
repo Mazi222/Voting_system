@@ -11,11 +11,14 @@ interface AnswersDAO {
     @Query("SELECT * FROM answers WHERE answerId = :aid")
     fun getAnswer(aid: Long): Answers
 
-    @Query("UPDATE answers SET count = count + :value WHERE answerId = :aid") //Update
-    fun updateCount(value: Long, aid: Long)
+    @Query("UPDATE answers SET count = count + :value WHERE answerId = :aid")
+    fun updateCount(aid: Long, value: Long)
 
-    @Query("UPDATE answers SET count = count + 1 WHERE answerId = :aid") //Update
+    @Query("UPDATE answers SET count = count + 1 WHERE answerId = :aid")
     fun incrementCount(aid: Long)
+
+    @Query("UPDATE answers SET voters = voters || :newVoter || ',' WHERE answerId = :aid")
+    fun addVoter(aid: Long, newVoter: Long)
 
     @Insert
     fun insertAll(answers: List<Answers>)
