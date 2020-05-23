@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
 
     android:background="@color/cardview_shadow_start_color">
-<!--    android:background="@drawable/border">-->
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
@@ -31,7 +30,7 @@
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <ImageView
-                android:id="@+id/ivCandidate"
+                android:id="@+id/ivCandidatePhoto"
                 android:tag="image_tag"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
@@ -50,13 +49,13 @@
                     android:id="@+id/btnProgram"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
                     android:layout_marginStart="25dp"
+                    android:layout_marginLeft="25dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="15dp"
                     android:background="@color/colorPrimary"
-                    android:textColor="#ffffff"
-                    android:text="Program"/>
+                    android:text="Program"
+                    android:textColor="#ffffff" />
 
                 <Button
                     android:id="@+id/btnVote"
@@ -77,44 +76,5 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
-
-<!--    <TextView-->
-<!--        android:id="@+id/candidate_name"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:gravity="center_vertical"-->
-<!--        android:layout_alignParentTop="true"-->
-<!--        android:textSize="16sp" />-->
-
-<!--    <ImageView-->
-<!--        android:id="@+id/ivCandidate"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_alignParentStart="true"-->
-<!--        android:layout_alignParentLeft="false"-->
-<!--        android:layout_centerInParent="true"-->
-<!--        android:layout_centerHorizontal="true"-->
-<!--        android:layout_marginStart="16dp"-->
-<!--        android:layout_marginEnd="16dp"-->
-<!--        android:layout_below="@id/candidate_name"-->
-<!--        android:contentDescription="Icon" />-->
-
-<!--        <Button-->
-<!--            android:id="@+id/btnProgram"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_below="@id/ivCandidate"-->
-<!--            android:layout_alignParentLeft="true"-->
-<!--            android:text="Program"-->
-<!--            android:layout_alignParentStart="true" />-->
-
-<!--        <Button-->
-<!--            android:id="@+id/btnVote"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_below="@id/ivCandidate"-->
-<!--            android:layout_alignParentRight="true"-->
-<!--            android:text="Vote"-->
-<!--            android:layout_alignParentEnd="true" />-->
 
 </RelativeLayout>
