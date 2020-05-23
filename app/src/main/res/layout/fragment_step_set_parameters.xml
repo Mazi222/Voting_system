@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!--        <TextView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:gravity="center_horizontal"-->
+        <!--            android:text="Voting properties" />-->
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="voting description"
+            android:padding="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/votingDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="num of ppl to choose"
+            android:padding="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/pplToChoose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="num of ppl entitled to vote"
+            android:padding="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/pplEntitled"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="quorum"
+            android:padding="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/quorum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <RadioGroup
+            android:id="@+id/openGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:checkedButton="@+id/first"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <RadioButton xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/openTrue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="open"
+                app:useMaterialThemeColors="false" />
+
+            <RadioButton xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/openFalse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="closed"
+                app:useMaterialThemeColors="false" />
+        </RadioGroup>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="end date"
+            android:padding="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/endDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="datetime" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+</ScrollView>

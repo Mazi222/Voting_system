@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:scrollbars="vertical"
-    android:id="@+id/choose_type"
-    tools:context=".view.create.StepChooseTypeFragment">
+    android:layout_height="match_parent">
 
-</androidx.recyclerview.widget.RecyclerView>
+    <androidx.recyclerview.widget.RecyclerView xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/choose_type"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        tools:context=".view.create.StepChooseTypeFragment">
+
+    </androidx.recyclerview.widget.RecyclerView>
+</FrameLayout>

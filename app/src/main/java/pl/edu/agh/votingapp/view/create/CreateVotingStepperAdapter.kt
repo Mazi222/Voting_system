@@ -14,22 +14,44 @@ class CreateVotingStepperAdapter(fm: FragmentManager, context: Context) :
     private val CURRENT_STEP_POSITION_KEY = "messageResourceId"
 
     override fun createStep(position: Int): Step {
-        val step = StepChooseTypeFragment()
-        val b = Bundle()
-        b.putInt(CURRENT_STEP_POSITION_KEY, position)
-        step.arguments = b
-        return step
+        when (position) {
+            0 -> {
+                val step1 = StepChooseTypeFragment()
+                val b1 = Bundle()
+                b1.putInt(CURRENT_STEP_POSITION_KEY, position)
+                step1.arguments = b1
+                return step1
+            }
+            1 -> {
+                val step2 = StepSetParametersFragment()
+                val b2 = Bundle()
+                b2.putInt(CURRENT_STEP_POSITION_KEY, position)
+                step2.arguments = b2
+                return step2
+            }
+            else -> return createStep(0)
+        }
     }
 
     override fun getCount(): Int {
-        return 1
+        return 2
     }
 
     override fun getViewModel(position: Int): StepViewModel {
-        //Override this method to set Step title for the Tabs, not necessary for other stepper types
-        return StepViewModel.Builder(context)
-//            .setTitle(R.string.tab_title) //can be a CharSequence instead
-            .setTitle("Choose type")
-            .create()
+        when (position) {
+            0 -> {
+                return StepViewModel.Builder(context)
+//                    .setTitle(R.string.tab_title) //can be a CharSequence instead
+                    .setTitle("Choose type")
+                    .create()
+            }
+            1 -> {
+                return StepViewModel.Builder(context)
+                    .setTitle("Settings")
+                    .create()
+            }
+            else -> return StepViewModel.Builder(context)
+                .create()
+        }
     }
 }
