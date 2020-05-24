@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">VotingApp</string>
+    <string name="app_name">Ballot Bull</string>
     <string name="main_subtitle">Online voting made easy</string>
     <string name="main_join_voting_btn">Join voting</string>
     <string name="main_create_voting_btn">Create new voting</string>
@@ -12,4 +12,12 @@
     <string name="back">Back</string>
     <string name="vote">Vote</string>
     <string name="program">Program</string>
+    <string name="voting_description">Voting description</string>
+    <string name="number_of_answers">Number of answers</string>
+    <string name="number_of_people_entitled_to_vote">Number of people entitled to vote</string>
+    <string name="quorum">Quorum</string>
+    <string name="type_of_voting">Type of voting</string>
+    <string name="voting_is_open">Open</string>
+    <string name="voting_is_closed">Closed</string>
+    <string name="voting_end_date">Voting end date</string>
 </resources>

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,16 +11,10 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!--        <TextView-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:gravity="center_horizontal"-->
-        <!--            android:text="Voting properties" />-->
-
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="voting description"
+            android:hint="@string/voting_description"
             android:padding="8dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -31,7 +27,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="num of ppl to choose"
+            android:hint="@string/number_of_answers"
             android:padding="8dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -45,7 +41,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="num of ppl entitled to vote"
+            android:hint="@string/number_of_people_entitled_to_vote"
             android:padding="8dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -59,7 +55,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="quorum"
+            android:hint="@string/quorum"
             android:padding="8dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -70,34 +66,62 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <RadioGroup
-            android:id="@+id/openGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:checkedButton="@+id/first"
-            android:orientation="horizontal"
-            android:padding="8dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <RadioButton xmlns:app="http://schemas.android.com/apk/res-auto"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/type_of_voting"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Type of voting " />
+
+            <RadioButton
                 android:id="@+id/openTrue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="open"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="center_vertical|fill_vertical"
+                android:text="@string/voting_is_open"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/openFalse"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toEndOf="@+id/textView4"
+                app:layout_constraintTop_toTopOf="parent"
                 app:useMaterialThemeColors="false" />
 
-            <RadioButton xmlns:app="http://schemas.android.com/apk/res-auto"
+            <RadioButton
                 android:id="@+id/openFalse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="closed"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/voting_is_closed"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/openTrue"
+                app:layout_constraintTop_toTopOf="parent"
                 app:useMaterialThemeColors="false" />
-        </RadioGroup>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="end date"
+            android:hint="@string/voting_end_date"
             android:padding="8dp">
 
             <com.google.android.material.textfield.TextInputEditText
