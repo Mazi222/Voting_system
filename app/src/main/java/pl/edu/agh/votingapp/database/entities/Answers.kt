@@ -9,13 +9,13 @@ data class Answers (
     @PrimaryKey(autoGenerate = true)
     val answerId: Long = 0,
     @ColumnInfo(name = "votingId")
-    val votingId: Long,
+    val votingId: Long = 0,
     @ColumnInfo(name = "questionId")
-    val questionId: Long,
+    val questionId: Long = 0,
     @ColumnInfo(name = "voters")
-    val voters: MutableList<Long>?,
+    val voters: MutableList<Long>? = arrayListOf(),
     @ColumnInfo(name ="answerContent")
-    val answerContent: String,
+    var answerContent: String = "",
     @ColumnInfo(name ="count")
     var count: Long = 0
 )

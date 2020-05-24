@@ -21,22 +21,21 @@ class CreateVotingActivity : AppCompatActivity(), StepperLayout.StepperListener 
             supportFragmentManager,
             this
         )
+        mStepperLayout!!.setListener(this)
     }
 
     override fun onCompleted(completeButton: View?) {
-        Toast.makeText(this, "onCompleted!", Toast.LENGTH_SHORT).show()
     }
 
     override fun onError(verificationError: VerificationError) {
         Toast.makeText(
             this,
-            "onError! -> " + verificationError.errorMessage,
+            "Error: " + verificationError.errorMessage,
             Toast.LENGTH_SHORT
         ).show()
     }
 
     override fun onStepSelected(newStepPosition: Int) {
-        Toast.makeText(this, "onStepSelected! -> $newStepPosition", Toast.LENGTH_SHORT).show()
     }
 
     override fun onReturn() {

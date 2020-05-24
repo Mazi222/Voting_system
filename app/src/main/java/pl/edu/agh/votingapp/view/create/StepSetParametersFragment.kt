@@ -10,8 +10,10 @@ import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -47,6 +49,7 @@ class StepSetParametersFragment : Fragment(R.layout.fragment_step_set_parameters
         val openGroup: RadioGroup = view.findViewById(R.id.openGroup)
         val endDate: TextInputEditText = view.findViewById(R.id.endDate)
         endDate.showSoftInputOnFocus = false
+        openGroup.findViewById<RadioButton>(R.id.openTrue).isChecked = true
 
         votingDesc.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
@@ -112,7 +115,7 @@ class StepSetParametersFragment : Fragment(R.layout.fragment_step_set_parameters
                             model.endTime = pickedDateTime.time
                             endDate.setText(
                                 DateFormat.format(
-                                    "dd.MM.yyyy, HH:mm:ss",
+                                    "dd.MM.yyyy, HH:mm",
                                     pickedDateTime.time
                                 ), TextView.BufferType.EDITABLE
                             )
@@ -132,6 +135,18 @@ class StepSetParametersFragment : Fragment(R.layout.fragment_step_set_parameters
 
     override fun verifyStep(): VerificationError? {
         //return null if the user can go to the next step, create a new VerificationError instance otherwise
+        if (!model.isContentInitialized() || model.content.isBlank()) {
+            return VerificationError("Fill the description field")
+        }
+        if (model.numOfPeopleToChoose < 1) {
+            return VerificationError("Choose number of options to choose")
+        }
+        if (model.quorum < 1) {
+            return VerificationError("Choose quorum number")
+        }
+        if (model.endTime == null) {
+            return VerificationError("Choose end time")
+        }
         return null
     }
 
@@ -140,7 +155,11 @@ class StepSetParametersFragment : Fragment(R.layout.fragment_step_set_parameters
     }
 
     override fun onError(error: VerificationError) {
-        //handle error inside of the fragment, e.g. show error on EditText
+        Toast.makeText(
+            context,
+            error.errorMessage,
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
 }

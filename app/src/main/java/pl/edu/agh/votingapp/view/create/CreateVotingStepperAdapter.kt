@@ -29,12 +29,19 @@ class CreateVotingStepperAdapter(fm: FragmentManager, context: Context) :
                 step2.arguments = b2
                 return step2
             }
+            2 -> {
+                val step3 = StepAddAnswersFragment()
+                val b3 = Bundle()
+                b3.putInt(CURRENT_STEP_POSITION_KEY, position)
+                step3.arguments = b3
+                return step3
+            }
             else -> return createStep(0)
         }
     }
 
     override fun getCount(): Int {
-        return 2
+        return 3
     }
 
     override fun getViewModel(position: Int): StepViewModel {
@@ -48,6 +55,11 @@ class CreateVotingStepperAdapter(fm: FragmentManager, context: Context) :
             1 -> {
                 return StepViewModel.Builder(context)
                     .setTitle("Settings")
+                    .create()
+            }
+            2 -> {
+                return StepViewModel.Builder(context)
+                    .setTitle("Add answers")
                     .create()
             }
             else -> return StepViewModel.Builder(context)
