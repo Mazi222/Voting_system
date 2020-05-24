@@ -13,10 +13,10 @@ interface VotingDAO {
     fun getVoting(vid: Long): Voting
 
     @Insert
-    fun insertAll(votings: List<Voting>)
+    fun insertAll(votings: List<Voting>): List<Long>
 
     @Insert(entity = Voting::class, onConflict = OnConflictStrategy.ABORT)
-    fun insert(voting: Voting)
+    fun insert(voting: Voting): Long
 
     @Delete
     fun delete(voting: Voting)

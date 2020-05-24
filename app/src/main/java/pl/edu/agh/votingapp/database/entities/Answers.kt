@@ -9,9 +9,9 @@ data class Answers (
     @PrimaryKey(autoGenerate = true)
     val answerId: Long = 0,
     @ColumnInfo(name = "votingId")
-    val votingId: Long = 0,
+    var votingId: Long = 0,
     @ColumnInfo(name = "questionId")
-    val questionId: Long = 0,
+    var questionId: Long = 0,
     @ColumnInfo(name = "voters")
     val voters: MutableList<Long>? = arrayListOf(),
     @ColumnInfo(name ="answerContent")

@@ -47,11 +47,20 @@ class StepAddAnswersFragment : Fragment(R.layout.fragment_step_add_answers), Ste
         val addAnswerBtn: Button = view.findViewById(R.id.addAnswer)
         val newAnswerContentLayout: TextInputLayout = view.findViewById(R.id.answerContentLayout)
         addAnswerBtn.setOnClickListener {
-            val newAnswer = Answers()
-            newAnswer.answerContent = newAnswerContentLayout.editText?.text.toString()
-            model.answers.add(newAnswer)
-            voting_answers.adapter?.notifyDataSetChanged()
-            newAnswerContentLayout.editText?.text = null
+            val answerText: String = newAnswerContentLayout.editText?.text.toString()
+            if (answerText.isBlank()) {
+                Toast.makeText(
+                    context,
+                    "Answer description cannot be empty!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                val newAnswer = Answers()
+                newAnswer.answerContent = answerText
+                model.answers.add(newAnswer)
+                voting_answers.adapter?.notifyDataSetChanged()
+                newAnswerContentLayout.editText?.text = null
+            }
         }
     }
 
@@ -68,11 +77,6 @@ class StepAddAnswersFragment : Fragment(R.layout.fragment_step_add_answers), Ste
     }
 
     override fun onError(error: VerificationError) {
-        Toast.makeText(
-            context,
-            error.errorMessage,
-            Toast.LENGTH_SHORT
-        ).show()
     }
 
 }

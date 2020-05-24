@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -22,6 +21,7 @@ import com.stepstone.stepper.Step
 import com.stepstone.stepper.VerificationError
 import pl.edu.agh.votingapp.R
 import pl.edu.agh.votingapp.viewmodel.create.CreateVotingViewModel
+import java.sql.Date
 import java.util.*
 
 
@@ -112,7 +112,7 @@ class StepSetParametersFragment : Fragment(R.layout.fragment_step_set_parameters
                         requireContext(),
                         TimePickerDialog.OnTimeSetListener { _, hour, minute ->
                             pickedDateTime.set(year, month, day, hour, minute)
-                            model.endTime = pickedDateTime.time
+                            model.endTime = Date(pickedDateTime.time.time)
                             endDate.setText(
                                 DateFormat.format(
                                     "dd.MM.yyyy, HH:mm",
@@ -144,8 +144,16 @@ class StepSetParametersFragment : Fragment(R.layout.fragment_step_set_parameters
         if (model.quorum < 1) {
             return VerificationError("Choose quorum number")
         }
-        if (model.endTime == null) {
+        if (model.numOfPeopleEntitled!! < Int.MAX_VALUE &&
+            model.numOfPeopleEntitled!! < model.quorum
+        ) {
+            return VerificationError("Quorum cannot be greater than the number of entitled voters")
+        }
+        if (!model.isEndTimeInitialized()) {
             return VerificationError("Choose end time")
+        }
+        if (model.endTime.before(Date())) {
+            return VerificationError("End date cannot be in the past")
         }
         return null
     }
@@ -155,11 +163,6 @@ class StepSetParametersFragment : Fragment(R.layout.fragment_step_set_parameters
     }
 
     override fun onError(error: VerificationError) {
-        Toast.makeText(
-            context,
-            error.errorMessage,
-            Toast.LENGTH_SHORT
-        ).show()
     }
 
 }
