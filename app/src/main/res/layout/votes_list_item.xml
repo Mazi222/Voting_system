@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:votes_list_card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/votesListRelativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_key"
+    android:padding="8dp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/votes_list_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        votes_list_card_view:cardCornerRadius="5dp"
+        votes_list_card_view:cardElevation="1dp"
+        votes_list_card_view:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:id="@+id/votesListLinearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:paddingStart="10dp">
+
+            <TextView
+                android:id="@+id/vote_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="Majority voting"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/vote_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:text="Majority voting description"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>
