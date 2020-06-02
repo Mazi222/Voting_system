@@ -1,6 +1,8 @@
 package pl.edu.agh.votingapp.database
 
+import android.content.Context
 import androidx.room.Database
+import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import pl.edu.agh.votingapp.database.converters.Converters
@@ -20,4 +22,20 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun UserDAO(): UserDAO
     abstract fun QuestionDAO(): QuestionDAO
     abstract fun AnswersDAO(): AnswersDAO
+    companion object {
+        private var INSTANCE: AppDatabase? = null
+
+        fun getInstance(context: Context): AppDatabase? {
+            if (INSTANCE == null) {
+                synchronized(AppDatabase::class) {
+                    INSTANCE = Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "votings.db").build()
+                }
+            }
+            return INSTANCE
+        }
+
+        fun destroyInstance() {
+            INSTANCE = null
+        }
+    }
 }
