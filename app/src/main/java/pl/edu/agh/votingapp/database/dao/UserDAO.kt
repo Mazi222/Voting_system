@@ -14,6 +14,12 @@ interface UserDAO {
     @Query("SELECT * FROM user WHERE userId = :uid")
     fun getUser(uid: Long): User
 
+    @Query("SELECT * FROM user WHERE userName = :uName")
+    fun getUserByName(uName: String): User
+
+    @Query("UPDATE user SET alreadyVote = alreadyVote + 1 WHERE userId = :uid")
+    fun incrementCount(uid: Long)
+
     @Insert
     fun insertAll(users: List<User>)
 

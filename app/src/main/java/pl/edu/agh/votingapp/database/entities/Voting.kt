@@ -17,7 +17,11 @@ data class Voting (
     @ColumnInfo(name ="votingContent")
     val votingContent: String,
     @ColumnInfo(name = "quorum")
-    val quorum: Int = 0,
+    val quorum: Int = -1,
     @ColumnInfo(name ="isOpen")
-    val isOpen: Boolean
+    val isOpen: Boolean,
+    @ColumnInfo(name ="winnersNb")
+    val winnersNb: Int = 1,
+    @ColumnInfo(name ="votingCode")
+    val votingCode: Long = -1
 )

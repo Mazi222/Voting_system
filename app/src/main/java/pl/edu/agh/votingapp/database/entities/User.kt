@@ -13,5 +13,7 @@ data class User(
     @ColumnInfo(name ="userName")
     val userName: String?,
     @ColumnInfo(name ="userCode")
-    val userCode: Long
+    val userCode: Long,
+    @ColumnInfo(name ="alreadyVote")
+    val alreadyVote: Int = 0
 )
