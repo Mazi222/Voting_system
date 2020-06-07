@@ -19,7 +19,7 @@ interface QuestionDAO {
     fun insertAll(questions: List<Question>)
 
     @Insert
-    fun insert(question: Question)
+    fun insert(question: Question): Long
 
     @Delete
     fun delete(question: Question)

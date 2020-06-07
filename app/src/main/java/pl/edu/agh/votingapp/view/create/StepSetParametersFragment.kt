@@ -14,6 +14,7 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.textfield.TextInputEditText
@@ -47,9 +48,11 @@ class StepSetParametersFragment : Fragment(R.layout.fragment_step_set_parameters
         val pplEntitled: TextInputEditText = view.findViewById(R.id.pplEntitled)
         val quorum: TextInputEditText = view.findViewById(R.id.quorum)
         val openGroup: RadioGroup = view.findViewById(R.id.openGroup)
+        val votingCode: TextInputEditText = view.findViewById(R.id.votingCode)
         val endDate: TextInputEditText = view.findViewById(R.id.endDate)
         endDate.showSoftInputOnFocus = false
         openGroup.findViewById<RadioButton>(R.id.openTrue).isChecked = true
+        votingCode.isVisible = false
 
         votingDesc.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
@@ -87,14 +90,25 @@ class StepSetParametersFragment : Fragment(R.layout.fragment_step_set_parameters
             when (checkedId) {
                 R.id.openTrue -> {
                     model.isOpen = true
+                    votingCode.isVisible = false
+                    model.votingCode = -1L
                 }
                 R.id.openFalse -> {
                     model.isOpen = false
+                    votingCode.isVisible = true
                 }
                 else -> {
                 }
             }
         }
+
+        votingCode.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {}
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                if (s.isNotEmpty()) model.votingCode = s.toString().toLong()
+            }
+        })
 
         endDate.setOnClickListener {
             val currentDateTime = Calendar.getInstance()
@@ -154,6 +168,9 @@ class StepSetParametersFragment : Fragment(R.layout.fragment_step_set_parameters
         }
         if (model.endTime.before(Date())) {
             return VerificationError("End date cannot be in the past")
+        }
+        if (!model.isOpen && model.votingCode == -1L) {
+            return VerificationError("Voting is closed, choose voting code")
         }
         return null
     }

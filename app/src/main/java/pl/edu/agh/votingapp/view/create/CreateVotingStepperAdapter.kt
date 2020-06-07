@@ -48,7 +48,6 @@ class CreateVotingStepperAdapter(fm: FragmentManager, context: Context) :
         when (position) {
             0 -> {
                 return StepViewModel.Builder(context)
-//                    .setTitle(R.string.tab_title) //can be a CharSequence instead
                     .setTitle("Choose type")
                     .create()
             }

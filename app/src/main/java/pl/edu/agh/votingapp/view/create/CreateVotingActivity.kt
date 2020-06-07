@@ -2,6 +2,7 @@ package pl.edu.agh.votingapp.view.create
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -14,12 +15,15 @@ import pl.edu.agh.votingapp.viewmodel.create.CreateVotingViewModel
 
 class CreateVotingActivity : AppCompatActivity(), StepperLayout.StepperListener {
 
+    private val TAG = "CreateVotingActivity"
+
     val model: CreateVotingViewModel by viewModels()
-    private var mStepperLayout: StepperLayout? = null
+    var mStepperLayout: StepperLayout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_voting)
+        title = "Create voting"
 
         mStepperLayout = findViewById<View>(R.id.stepperLayout) as StepperLayout
         mStepperLayout!!.adapter = CreateVotingStepperAdapter(
@@ -30,6 +34,7 @@ class CreateVotingActivity : AppCompatActivity(), StepperLayout.StepperListener 
     }
 
     override fun onCompleted(completeButton: View?) {
+        Log.d(TAG, "Create voting complete clicked")
         model.createVoting()
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
@@ -42,6 +47,7 @@ class CreateVotingActivity : AppCompatActivity(), StepperLayout.StepperListener 
     }
 
     override fun onError(verificationError: VerificationError) {
+        Log.d(TAG, "Verification error: " + verificationError.errorMessage)
         Toast.makeText(
             this,
             verificationError.errorMessage,

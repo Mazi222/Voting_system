@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Majority voting"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/descTextView"
@@ -30,12 +30,12 @@
             android:textSize="14sp" />
     </LinearLayout>
 
-    <!--    <ImageView-->
-    <!--        android:id="@+id/imageView"-->
-    <!--        android:src="@drawable/baseline_done_black_18dp"-->
-    <!--        android:layout_width="36dp"-->
-    <!--        android:layout_height="36dp"-->
-    <!--        android:layout_centerVertical="true"-->
-    <!--        android:layout_alignParentEnd="true"-->
-    <!--        android:layout_alignParentRight="true" />-->
+    <!--        <ImageView-->
+    <!--            android:id="@+id/imageView"-->
+    <!--            android:src="@drawable/baseline_done_black_18dp"-->
+    <!--            android:layout_width="36dp"-->
+    <!--            android:layout_height="36dp"-->
+    <!--            android:layout_centerVertical="true"-->
+    <!--            android:layout_alignParentEnd="true"-->
+    <!--            android:layout_alignParentRight="true" />-->
 </RelativeLayout>

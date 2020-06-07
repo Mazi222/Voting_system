@@ -20,4 +20,5 @@
     <string name="voting_is_open">Open</string>
     <string name="voting_is_closed">Closed</string>
     <string name="voting_end_date">Voting end date</string>
+    <string name="voting_code">Voting code</string>
 </resources>
