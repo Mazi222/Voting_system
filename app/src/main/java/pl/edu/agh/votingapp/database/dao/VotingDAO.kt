@@ -1,5 +1,6 @@
 package pl.edu.agh.votingapp.database.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import pl.edu.agh.votingapp.database.entities.Voting
 
@@ -7,7 +8,7 @@ import pl.edu.agh.votingapp.database.entities.Voting
 interface VotingDAO {
 
     @Query("SELECT * FROM voting")
-    fun loadAllVotings(): List<Voting>
+    fun loadAllVotings(): LiveData<List<Voting>>
 
     @Query("SELECT * FROM voting WHERE votingId = :vid")
     fun getVoting(vid: Long): Voting

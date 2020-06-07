@@ -3,6 +3,7 @@
     <string name="main_subtitle">Online voting made easy</string>
     <string name="main_join_voting_btn">Join voting</string>
     <string name="main_create_voting_btn">Create new voting</string>
+    <string name="main_list_votings_btn">List my votings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
