@@ -71,6 +71,10 @@ class FirstPastThePostVoting(override val db: AppDatabase) : BaseVoting {
         questionDao.insert(question)
     }
 
+    override fun addAnswer(answers: Answers) {
+        answersDao.insert(answers)
+    }
+
     fun sumOfAllVotes(answers: List<Answers>): Long{
         var sumOfVotes: Long = 0
 

@@ -24,8 +24,9 @@ import pl.edu.agh.votingapp.votings.exceptions.WrongVotingCodeException
 import java.sql.Date
 
 @RunWith(AndroidJUnit4::class)
-class MajorityVoteAddTest {
-    private val TAG: String = "MAJORITY_VOTE_TEST"
+class BordaCountAddTest {
+
+    private val TAG: String = "SINGLE_NON_TRANSFERABLE_VOTE_TEST"
 
     private lateinit var db: AppDatabase
     private lateinit var votingDao: VotingDAO
@@ -45,7 +46,7 @@ class MajorityVoteAddTest {
         questionDao = db.QuestionDAO()
         answersDao = db.AnswersDAO()
 
-        baseVoting = MajorityVote(db)
+        baseVoting = BordaCount(db)
     }
 
     @After
@@ -58,8 +59,8 @@ class MajorityVoteAddTest {
         val voting: Voting = Voting(votingId = 1, type = VotingType.MAJORITY_VOTE, endTime = Date(1), votingContent = "Test", votingCode = 10, isOpen = true)
         votingDao.insert(voting)
 
-        val user: User = User(userId = 1, votingId = 1, userName = "TEST",userCode = 10)
-        val user2: User = User(userId = 2, votingId = 1, userName = "TEST_2",userCode = 10)
+        val user: User = User(userId = 1, votingId = 1, userName = "TEST", userCode = 10)
+        val user2: User = User(userId = 2, votingId = 1, userName = "TEST_2", userCode = 10)
 
         val userList = mutableListOf<User>()
         userList.add(user)
@@ -88,7 +89,7 @@ class MajorityVoteAddTest {
 
     @Test
     fun updateAnswerCountTest(){
-        val voting: Voting = Voting(votingId = 1, type = VotingType.MAJORITY_VOTE, endTime = Date(1), votingContent = "Test", votingCode = 10, isOpen = true)
+        val voting: Voting = Voting(votingId = 1, type = VotingType.BORDA_COUNT, endTime = Date(1), votingContent = "Test", votingCode = 10, isOpen = true)
         votingDao.insert(voting)
 
         val user: User = User(userId = 1, votingId = 1, userName = "TEST",userCode = 10)
@@ -97,16 +98,30 @@ class MajorityVoteAddTest {
         val question: Question = Question(questionId = 1, votingId = 1, questionContent = "TEST_CONTENT")
         baseVoting.addQuestion(question)
 
-        val answers: Answers = Answers(answerId = 1, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT")
-        baseVoting.addAnswer(answers)
+        val answers1: Answers = Answers(answerId = 1, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT1")
+        val answers2: Answers = Answers(answerId = 2, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT2")
+        val answers3: Answers = Answers(answerId = 3, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT3")
+        val answers4: Answers = Answers(answerId = 4, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT4")
+        baseVoting.addAnswer(answers1)
+        baseVoting.addAnswer(answers2)
+        baseVoting.addAnswer(answers3)
+        baseVoting.addAnswer(answers4)
 
-        baseVoting.updateAnswerCount(1, "TEST", 1)
-        Assert.assertEquals(1, answersDao.getAnswer(1).count)
+        baseVoting.updateAnswerCount(1, "TEST", 1, 4)
+        baseVoting.updateAnswerCount(1, "TEST", 2, 3)
+        baseVoting.updateAnswerCount(1, "TEST", 3, 2)
+        baseVoting.updateAnswerCount(1, "TEST", 4, 1)
+
+        Assert.assertEquals(4, answersDao.getAnswer(1).count)
+        Assert.assertEquals(3, answersDao.getAnswer(2).count)
+        Assert.assertEquals(2, answersDao.getAnswer(3).count)
+        Assert.assertEquals(1, answersDao.getAnswer(4).count)
+
     }
 
     @Test(expected = WrongVotingCodeException::class)
     fun updateAnswerCountWrongCodeTest(){
-        val voting: Voting = Voting(votingId = 1, type = VotingType.MAJORITY_VOTE, endTime = Date(1), votingContent = "Test", votingCode = 10, isOpen = true)
+        val voting: Voting = Voting(votingId = 1, type = VotingType.BORDA_COUNT, endTime = Date(1), votingContent = "Test", votingCode = 10, isOpen = true)
         votingDao.insert(voting)
 
         val user: User = User(userId = 1, votingId = 1, userName = "TEST",userCode = 11)
@@ -115,15 +130,15 @@ class MajorityVoteAddTest {
         val question: Question = Question(questionId = 1, votingId = 1, questionContent = "TEST_CONTENT")
         baseVoting.addQuestion(question)
 
-        val answers: Answers = Answers(answerId = 1, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT")
-        baseVoting.addAnswer(answers)
+        val answers1: Answers = Answers(answerId = 1, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT")
+        baseVoting.addAnswer(answers1)
 
         baseVoting.updateAnswerCount(1, "TEST", 1)
     }
 
     @Test(expected = UserAlreadyVotedException::class)
     fun updateAnswerCountUserAlreadyVotedTest(){
-        val voting: Voting = Voting(votingId = 1, type = VotingType.MAJORITY_VOTE, endTime = Date(1), votingContent = "Test", votingCode = 10, isOpen = true)
+        val voting: Voting = Voting(votingId = 1, type = VotingType.BORDA_COUNT, endTime = Date(1), votingContent = "Test", votingCode = 10, isOpen = true)
         votingDao.insert(voting)
 
         val user: User = User(userId = 1, votingId = 1, userName = "TEST",userCode = 10)
@@ -143,7 +158,7 @@ class MajorityVoteAddTest {
     fun updateAnswerCountWrongTest() {
         val voting: Voting = Voting(
             votingId = 1,
-            type = VotingType.MAJORITY_VOTE,
+            type = VotingType.SINGLE_NON_TRANSFERABLE_VOTE,
             endTime = Date(1),
             votingContent = "Test",
             votingCode = 10,
@@ -158,11 +173,23 @@ class MajorityVoteAddTest {
             Question(questionId = 1, votingId = 1, questionContent = "TEST_CONTENT")
         baseVoting.addQuestion(question)
 
-        val answers: Answers =
-            Answers(answerId = 1, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT")
-        baseVoting.addAnswer(answers)
+        val answers1: Answers = Answers(answerId = 1, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT1")
+        val answers2: Answers = Answers(answerId = 2, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT2")
+        val answers3: Answers = Answers(answerId = 3, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT3")
+        val answers4: Answers = Answers(answerId = 4, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT4")
+        baseVoting.addAnswer(answers1)
+        baseVoting.addAnswer(answers2)
+        baseVoting.addAnswer(answers3)
+        baseVoting.addAnswer(answers4)
 
-        baseVoting.updateAnswerCount(1, "TEST", 1, value = 2)
-        Assert.assertNotEquals(1, answersDao.getAnswer(1).count)
+        baseVoting.updateAnswerCount(1, "TEST", 1, 4)
+        baseVoting.updateAnswerCount(1, "TEST", 2, 3)
+        baseVoting.updateAnswerCount(1, "TEST", 3, 2)
+        baseVoting.updateAnswerCount(1, "TEST", 4, 5)
+
+        Assert.assertEquals(4, answersDao.getAnswer(1).count)
+        Assert.assertEquals(3, answersDao.getAnswer(2).count)
+        Assert.assertEquals(2, answersDao.getAnswer(3).count)
+        Assert.assertNotEquals(1, answersDao.getAnswer(4).count)
     }
 }

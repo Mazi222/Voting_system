@@ -16,6 +16,7 @@ interface BaseVoting {
     fun updateAnswerCount(votingId: Long, userName: String, answerId: Long, value: Long = 1)
     fun addUser(user: User)
     fun addQuestion(question: Question)
+    fun addAnswer(answers: Answers)
     fun getAllVotings(): List<Voting>{
         return db.VotingDAO().loadAllVotings()
     }

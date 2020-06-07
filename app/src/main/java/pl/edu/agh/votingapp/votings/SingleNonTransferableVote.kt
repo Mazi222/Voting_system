@@ -55,9 +55,8 @@ class SingleNonTransferableVote(override val db: AppDatabase) : BaseVoting {
 
     override fun updateAnswerCount(votingId: Long, userName: String, answerId: Long, value: Long) {
         val user = userDao.getUserByName(userName)
-        if(user.userCode != votingDao.getVoting(votingId).votingCode) {
+        if(user.userCode != votingDao.getVoting(votingId).votingCode)
             throw WrongVotingCodeException()
-        }
         if(user.alreadyVote>=votingDao.getVoting(votingId).winnersNb)
             throw UserAlreadyVotedException()
         userDao.incrementCount(user.userId)
@@ -70,6 +69,10 @@ class SingleNonTransferableVote(override val db: AppDatabase) : BaseVoting {
 
     override fun addQuestion(question: Question) {
         questionDao.insert(question)
+    }
+
+    override fun addAnswer(answers: Answers) {
+        answersDao.insert(answers)
     }
 
     private fun sumOfAllVotes(answers: List<Answers>): Long{

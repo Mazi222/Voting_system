@@ -38,6 +38,8 @@ class MajorityVote(override val db: AppDatabase) : BaseVoting{
 
         val result = mutableListOf<Answers>()
         for(i in 0 until votingDao.getVoting(votingId).winnersNb) result.add(answers[i])
+        if(result[0].count <= sumOfVotes/2)
+            return mutableListOf<Answers>()
         return result;
     }
 
@@ -70,6 +72,10 @@ class MajorityVote(override val db: AppDatabase) : BaseVoting{
 
     override fun addQuestion(question: Question) {
         questionDao.insert(question)
+    }
+
+    override fun addAnswer(answers: Answers) {
+        answersDao.insert(answers)
     }
 
     private fun sumOfAllVotes(answers: List<Answers>): Long{

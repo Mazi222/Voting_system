@@ -23,9 +23,10 @@ import pl.edu.agh.votingapp.votings.exceptions.UserAlreadyVotedException
 import pl.edu.agh.votingapp.votings.exceptions.WrongVotingCodeException
 import java.sql.Date
 
+
 @RunWith(AndroidJUnit4::class)
-class MajorityVoteAddTest {
-    private val TAG: String = "MAJORITY_VOTE_TEST"
+class SingleNonTransferableVoteAddTest {
+    private val TAG: String = "SINGLE_NON_TRANSFERABLE_VOTE_TEST"
 
     private lateinit var db: AppDatabase
     private lateinit var votingDao: VotingDAO
@@ -45,7 +46,7 @@ class MajorityVoteAddTest {
         questionDao = db.QuestionDAO()
         answersDao = db.AnswersDAO()
 
-        baseVoting = MajorityVote(db)
+        baseVoting = SingleNonTransferableVote(db)
     }
 
     @After
@@ -88,7 +89,7 @@ class MajorityVoteAddTest {
 
     @Test
     fun updateAnswerCountTest(){
-        val voting: Voting = Voting(votingId = 1, type = VotingType.MAJORITY_VOTE, endTime = Date(1), votingContent = "Test", votingCode = 10, isOpen = true)
+        val voting: Voting = Voting(votingId = 1, type = VotingType.SINGLE_NON_TRANSFERABLE_VOTE, endTime = Date(1), votingContent = "Test", votingCode = 10, isOpen = true)
         votingDao.insert(voting)
 
         val user: User = User(userId = 1, votingId = 1, userName = "TEST",userCode = 10)
@@ -106,7 +107,7 @@ class MajorityVoteAddTest {
 
     @Test(expected = WrongVotingCodeException::class)
     fun updateAnswerCountWrongCodeTest(){
-        val voting: Voting = Voting(votingId = 1, type = VotingType.MAJORITY_VOTE, endTime = Date(1), votingContent = "Test", votingCode = 10, isOpen = true)
+        val voting: Voting = Voting(votingId = 1, type = VotingType.SINGLE_NON_TRANSFERABLE_VOTE, endTime = Date(1), votingContent = "Test", votingCode = 10, isOpen = true)
         votingDao.insert(voting)
 
         val user: User = User(userId = 1, votingId = 1, userName = "TEST",userCode = 11)
@@ -123,7 +124,7 @@ class MajorityVoteAddTest {
 
     @Test(expected = UserAlreadyVotedException::class)
     fun updateAnswerCountUserAlreadyVotedTest(){
-        val voting: Voting = Voting(votingId = 1, type = VotingType.MAJORITY_VOTE, endTime = Date(1), votingContent = "Test", votingCode = 10, isOpen = true)
+        val voting: Voting = Voting(votingId = 1, type = VotingType.SINGLE_NON_TRANSFERABLE_VOTE, endTime = Date(1), votingContent = "Test", votingCode = 10, isOpen = true)
         votingDao.insert(voting)
 
         val user: User = User(userId = 1, votingId = 1, userName = "TEST",userCode = 10)
@@ -143,7 +144,7 @@ class MajorityVoteAddTest {
     fun updateAnswerCountWrongTest() {
         val voting: Voting = Voting(
             votingId = 1,
-            type = VotingType.MAJORITY_VOTE,
+            type = VotingType.SINGLE_NON_TRANSFERABLE_VOTE,
             endTime = Date(1),
             votingContent = "Test",
             votingCode = 10,

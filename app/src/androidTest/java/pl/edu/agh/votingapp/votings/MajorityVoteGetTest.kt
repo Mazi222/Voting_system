@@ -25,7 +25,7 @@ import pl.edu.agh.votingapp.votings.exceptions.VotingIsNotOpenException
 import java.sql.Date
 
 @RunWith(AndroidJUnit4::class)
-class MajorityVoteGetTests {
+class MajorityVoteGetTest {
     private val TAG: String = "MAJORITY_VOTE_TEST"
 
     private lateinit var db: AppDatabase
