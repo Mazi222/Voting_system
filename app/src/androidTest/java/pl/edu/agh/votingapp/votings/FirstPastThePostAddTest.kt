@@ -24,9 +24,8 @@ import pl.edu.agh.votingapp.votings.exceptions.WrongVotingCodeException
 import java.sql.Date
 
 @RunWith(AndroidJUnit4::class)
-class BordaCountAddTest {
-
-    private val TAG: String = "SINGLE_NON_TRANSFERABLE_VOTE_TEST"
+class FirstPastThePostAddTest {
+    private val TAG: String = "FIRST_PAST_THE_POST_VOTE_TEST"
 
     private lateinit var db: AppDatabase
     private lateinit var votingDao: VotingDAO
@@ -46,7 +45,7 @@ class BordaCountAddTest {
         questionDao = db.QuestionDAO()
         answersDao = db.AnswersDAO()
 
-        baseVoting = BordaCount(db)
+        baseVoting = FirstPastThePostVoting(db)
     }
 
     @After
@@ -89,7 +88,7 @@ class BordaCountAddTest {
 
     @Test
     fun updateAnswerCountTest(){
-        val voting: Voting = Voting(votingId = 1, type = VotingType.BORDA_COUNT, endTime = Date(1), votingContent = "Test", votingCode = 10, isOpen = true)
+        val voting: Voting = Voting(votingId = 1, type = VotingType.FIRST_PAST_THE_POST, endTime = Date(1), votingContent = "Test", votingCode = 10, isOpen = true, winnersNb = 2)
         votingDao.insert(voting)
 
         val user: User = User(userId = 1, votingId = 1, userName = "TEST",userCode = 10)
@@ -107,21 +106,17 @@ class BordaCountAddTest {
         baseVoting.addAnswer(answers3)
         baseVoting.addAnswer(answers4)
 
-        baseVoting.updateAnswerCount(1, "TEST", 1, 4)
-        baseVoting.updateAnswerCount(1, "TEST", 2, 3)
-        baseVoting.updateAnswerCount(1, "TEST", 3, 2)
-        baseVoting.updateAnswerCount(1, "TEST", 4, 1)
+        baseVoting.updateAnswerCount(1, "TEST", 1)
+        baseVoting.updateAnswerCount(1, "TEST", 2)
 
-        Assert.assertEquals(4, answersDao.getAnswer(1).count)
-        Assert.assertEquals(3, answersDao.getAnswer(2).count)
-        Assert.assertEquals(2, answersDao.getAnswer(3).count)
-        Assert.assertEquals(1, answersDao.getAnswer(4).count)
+        Assert.assertEquals(1, answersDao.getAnswer(1).count)
+        Assert.assertEquals(1, answersDao.getAnswer(2).count)
 
     }
 
     @Test(expected = WrongVotingCodeException::class)
     fun updateAnswerCountWrongCodeTest(){
-        val voting: Voting = Voting(votingId = 1, type = VotingType.BORDA_COUNT, endTime = Date(1), votingContent = "Test", votingCode = 10, isOpen = true)
+        val voting: Voting = Voting(votingId = 1, type = VotingType.FIRST_PAST_THE_POST, endTime = Date(1), votingContent = "Test", votingCode = 10, isOpen = true)
         votingDao.insert(voting)
 
         val user: User = User(userId = 1, votingId = 1, userName = "TEST",userCode = 11)
@@ -138,7 +133,7 @@ class BordaCountAddTest {
 
     @Test(expected = UserAlreadyVotedException::class)
     fun updateAnswerCountUserAlreadyVotedTest(){
-        val voting: Voting = Voting(votingId = 1, type = VotingType.BORDA_COUNT, endTime = Date(1), votingContent = "Test", votingCode = 10, isOpen = true)
+        val voting: Voting = Voting(votingId = 1, type = VotingType.FIRST_PAST_THE_POST, endTime = Date(1), votingContent = "Test", votingCode = 10, isOpen = true, winnersNb = 2)
         votingDao.insert(voting)
 
         val user: User = User(userId = 1, votingId = 1, userName = "TEST",userCode = 10)
@@ -153,13 +148,11 @@ class BordaCountAddTest {
         baseVoting.updateAnswerCount(1, "TEST", 1, 4)
         baseVoting.updateAnswerCount(1, "TEST", 2, 3)
         baseVoting.updateAnswerCount(1, "TEST", 3, 2)
-        baseVoting.updateAnswerCount(1, "TEST", 4, 5)
-        baseVoting.updateAnswerCount(1, "TEST", 4, 5)
     }
 
     @Test
     fun updateAnswerCountWrongTest() {
-        val voting: Voting = Voting(votingId = 1, type = VotingType.BORDA_COUNT, endTime = Date(1), votingContent = "Test", votingCode = 10, isOpen = true)
+        val voting: Voting = Voting(votingId = 1, type = VotingType.FIRST_PAST_THE_POST, endTime = Date(1), votingContent = "Test", votingCode = 10, isOpen = true, winnersNb = 2)
         votingDao.insert(voting)
 
         val user: User = User(userId = 1, votingId = 1, userName = "TEST", userCode = 10)
@@ -178,14 +171,11 @@ class BordaCountAddTest {
         baseVoting.addAnswer(answers3)
         baseVoting.addAnswer(answers4)
 
-        baseVoting.updateAnswerCount(1, "TEST", 1, 4)
-        baseVoting.updateAnswerCount(1, "TEST", 2, 3)
-        baseVoting.updateAnswerCount(1, "TEST", 3, 2)
-        baseVoting.updateAnswerCount(1, "TEST", 4, 5)
+        baseVoting.updateAnswerCount(1, "TEST", 1)
+        baseVoting.updateAnswerCount(1, "TEST", 2)
 
-        Assert.assertEquals(4, answersDao.getAnswer(1).count)
-        Assert.assertEquals(3, answersDao.getAnswer(2).count)
-        Assert.assertEquals(2, answersDao.getAnswer(3).count)
+        Assert.assertEquals(1, answersDao.getAnswer(1).count)
         Assert.assertNotEquals(1, answersDao.getAnswer(4).count)
     }
+
 }
