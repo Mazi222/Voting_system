@@ -9,7 +9,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.stepstone.stepper.StepperLayout
 import com.stepstone.stepper.VerificationError
-import pl.edu.agh.votingapp.MainActivity
 import pl.edu.agh.votingapp.R
 import pl.edu.agh.votingapp.viewmodel.create.CreateVotingViewModel
 
@@ -36,7 +35,11 @@ class CreateVotingActivity : AppCompatActivity(), StepperLayout.StepperListener 
     override fun onCompleted(completeButton: View?) {
         Log.d(TAG, "Create voting complete clicked")
         model.createVoting()
-        val intent = Intent(this, MainActivity::class.java)
+
+        val intent = Intent(this, OngoingVotingActivity::class.java)
+        intent.putExtra("VOTING_END_MILLIS", model.endTime.time)
+        intent.putExtra("VOTING_END_DATE", model.endTime)
+        intent.putExtra("VOTING_NAME", model.name)
         startActivity(intent)
 
         Toast.makeText(

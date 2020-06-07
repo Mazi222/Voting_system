@@ -12,6 +12,23 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout0"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/voting_name_placeholder"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/set_voting_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -20,9 +37,10 @@
             app:layout_constraintBottom_toTopOf="@+id/textInputLayout2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout0">
 
-            <com.google.android.material.textfield.TextInputEditText
+
+        <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/votingDesc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

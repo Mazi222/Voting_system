@@ -4,7 +4,6 @@ import android.app.Application
 import android.os.AsyncTask
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.room.Room
 import pl.edu.agh.votingapp.VotingType
 import pl.edu.agh.votingapp.database.AppDatabase
 import pl.edu.agh.votingapp.database.dao.AnswersDAO
@@ -18,12 +17,7 @@ class CreateVotingViewModel(application: Application) : AndroidViewModel(applica
 
     private val TAG = "CreateVotingViewModel"
 
-    private val db: AppDatabase = Room.databaseBuilder(
-        application.applicationContext,
-        AppDatabase::class.java,
-        "app-database"
-    ).build()
-
+    private val db: AppDatabase = AppDatabase.getInstance(application.applicationContext)
     private val votingDao: VotingDAO = db.VotingDAO()
     private val answersDao: AnswersDAO = db.AnswersDAO()
     private val questionDao: QuestionDAO = db.QuestionDAO()
@@ -31,6 +25,8 @@ class CreateVotingViewModel(application: Application) : AndroidViewModel(applica
     lateinit var votingType: VotingType
     lateinit var content: String
     lateinit var endTime: Date
+
+    var name = "Voting"
     var quorum: Int = -1
     var numOfPeopleToChoose: Int = -1
     var numOfPeopleEntitled: Int? = Int.MAX_VALUE

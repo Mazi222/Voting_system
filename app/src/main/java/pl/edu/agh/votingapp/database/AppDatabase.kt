@@ -34,6 +34,12 @@ abstract class AppDatabase : RoomDatabase() {
             return INSTANCE
         }
 
+        fun getInstance() : AppDatabase {
+            if(INSTANCE == null)
+                throw RuntimeException("Database should be initialized at this point. Use getInstance(context : Context) first ")
+            return INSTANCE !!
+        }
+
         fun destroyInstance() {
             INSTANCE = null
         }
