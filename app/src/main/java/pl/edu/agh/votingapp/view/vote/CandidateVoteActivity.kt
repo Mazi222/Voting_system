@@ -12,7 +12,7 @@ class CandidateVoteActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_vote)
-        val name: String = intent.getStringExtra("name")
+        val name: String = intent.getStringExtra("name") !!
 
         val candidateName: TextView = findViewById(R.id.candidate_name)
         candidateName.text = name

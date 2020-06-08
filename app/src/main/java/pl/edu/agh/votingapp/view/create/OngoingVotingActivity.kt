@@ -15,7 +15,7 @@ import java.net.ServerSocket
 class OngoingVotingActivity : AppCompatActivity() {
 
     private val server = VoteServer()
-    private val nsdRegistrator = ServerRegistration()
+    private lateinit var nsdRegistrator : ServerRegistration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +35,7 @@ class OngoingVotingActivity : AppCompatActivity() {
         server.startServer(socket.localPort)
 
         // register service
+        nsdRegistrator = ServerRegistration(this)
         nsdRegistrator.registerServer(votingName, socket.localPort)
 
 

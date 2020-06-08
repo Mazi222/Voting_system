@@ -8,17 +8,27 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import pl.edu.agh.votingapp.R
+import pl.edu.agh.votingapp.viewmodel.join.OngoingVoting
+import java.io.Serializable
 
-class VoteListAdapter(private val votingList: Array<VoteListElement>) :
+class VoteListAdapter(private val votingList: MutableList<OngoingVoting>) :
     RecyclerView.Adapter<VoteListAdapter.MyViewHolder>() {
 
-    class MyViewHolder(val view: View, val parent: ViewGroup) : RecyclerView.ViewHolder(view) {
+    class MyViewHolder(
+        val view: View,
+        val parent: ViewGroup,
+        val votingList: MutableList<OngoingVoting>
+    ) : RecyclerView.ViewHolder(view) {
         val voteTitle: TextView = view.findViewById(R.id.vote_title) as TextView
         val voteDescription: TextView = view.findViewById(R.id.vote_description) as TextView
         val relativeLayout: RelativeLayout = view.findViewById(R.id.votesListRelativeLayout)
 
-        fun joinVoting() {
+        fun joinVoting(position: Int) {
             val intent = Intent(parent.context, JoinVotingActivity::class.java)
+            val ongoingVoting = votingList[position]
+            intent.putExtra("NAME", ongoingVoting.name)
+            intent.putExtra("HOST", ongoingVoting.host)
+            intent.putExtra("PORT", ongoingVoting.port)
             parent.context.startActivity(intent)
         }
     }
@@ -28,18 +38,16 @@ class VoteListAdapter(private val votingList: Array<VoteListElement>) :
         val cell = LayoutInflater.from(parent.context)
             .inflate(R.layout.votes_list_item, parent, false)
 
-        return MyViewHolder(cell, parent)
+        return MyViewHolder(cell, parent, votingList)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val listElement: VoteListElement = votingList[position]
-        holder.voteTitle.text = votingList[position].title
-        holder.voteDescription.text = votingList[position].description
+        holder.voteTitle.text = votingList[position].name
+        holder.voteDescription.text = ""
 
         holder.relativeLayout.setOnClickListener {
-            holder.joinVoting()
+            holder.joinVoting(position)
         }
-
     }
 
     override fun getItemCount() = votingList.size
