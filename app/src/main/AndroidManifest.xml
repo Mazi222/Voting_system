@@ -16,6 +16,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+        <activity android:name=".view.list.OngoingVotingActivity" />
         <activity android:name=".view.vote.JoinVotingActivity" />
         <activity android:name=".view.vote.VotesListActivity" />
         <activity android:name=".view.vote.VoteGivenActivity" />

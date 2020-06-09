@@ -10,15 +10,17 @@ import java.sql.Date
 data class Voting (
     @PrimaryKey(autoGenerate = true)
     val votingId: Long = 0,
-    @ColumnInfo(name ="type")
+    @ColumnInfo(name = "name")
+    var name: String = "",
+    @ColumnInfo(name = "type")
     var type: VotingType,
-    @ColumnInfo(name ="endTime")
+    @ColumnInfo(name = "endTime")
     val endTime: Date,
-    @ColumnInfo(name ="votingContent")
+    @ColumnInfo(name = "votingContent")
     val votingContent: String,
     @ColumnInfo(name = "quorum")
     val quorum: Int = -1,
-    @ColumnInfo(name ="isOpen")
+    @ColumnInfo(name = "isOpen")
     val isOpen: Boolean,
     @ColumnInfo(name ="winnersNb")
     val winnersNb: Int = 1,

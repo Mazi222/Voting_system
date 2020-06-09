@@ -22,4 +22,6 @@
     <string name="voting_is_closed">Closed</string>
     <string name="voting_end_date">Voting end date</string>
     <string name="voting_code">Voting code</string>
+    <string name="finish_voting_btn">Finish Voting</string>
+    <string name="voting_name_placeholder">Voting name</string>
 </resources>

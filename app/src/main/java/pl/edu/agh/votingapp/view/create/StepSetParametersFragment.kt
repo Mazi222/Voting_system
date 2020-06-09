@@ -43,6 +43,7 @@ class StepSetParametersFragment : Fragment(R.layout.fragment_step_set_parameters
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val votingName: TextInputEditText = view.findViewById(R.id.set_voting_name)
         val votingDesc: TextInputEditText = view.findViewById(R.id.votingDesc)
         val pplToChoose: TextInputEditText = view.findViewById(R.id.pplToChoose)
         val pplEntitled: TextInputEditText = view.findViewById(R.id.pplEntitled)
@@ -50,9 +51,18 @@ class StepSetParametersFragment : Fragment(R.layout.fragment_step_set_parameters
         val openGroup: RadioGroup = view.findViewById(R.id.openGroup)
         val votingCode: TextInputEditText = view.findViewById(R.id.votingCode)
         val endDate: TextInputEditText = view.findViewById(R.id.endDate)
+
         endDate.showSoftInputOnFocus = false
         openGroup.findViewById<RadioButton>(R.id.openTrue).isChecked = true
         votingCode.isVisible = false
+
+        votingName.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {}
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                if (s.isNotEmpty()) model.name = s.toString()
+            }
+        })
 
         votingDesc.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}

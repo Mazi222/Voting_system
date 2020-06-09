@@ -13,6 +13,9 @@ interface VotingDAO {
     @Query("SELECT * FROM voting WHERE votingId = :vid")
     fun getVoting(vid: Long): Voting
 
+    @Query("SELECT * FROM voting ORDER BY votingId DESC LIMIT 1")
+    fun getWithMaxId(): Voting
+
     @Insert
     fun insertAll(votings: List<Voting>): List<Long>
 
