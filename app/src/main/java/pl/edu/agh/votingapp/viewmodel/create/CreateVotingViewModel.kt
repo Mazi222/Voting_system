@@ -22,6 +22,7 @@ class CreateVotingViewModel(application: Application) : AndroidViewModel(applica
     private val answersDao: AnswersDAO = db.AnswersDAO()
     private val questionDao: QuestionDAO = db.QuestionDAO()
 
+    var name = "Voting"
     lateinit var votingType: VotingType
     lateinit var content: String
     lateinit var endTime: Date
@@ -50,6 +51,7 @@ class CreateVotingViewModel(application: Application) : AndroidViewModel(applica
         var winnersNb = 1
         if (numOfPeopleToChoose != -1) winnersNb = numOfPeopleToChoose
         val newVoting = Voting(
+            name = name,
             type = votingType,
             endTime = endTime,
             votingContent = content,
