@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.multidex.MultiDex
 import pl.edu.agh.votingapp.view.create.CreateVotingActivity
 import pl.edu.agh.votingapp.view.list.ListVotingsActivity
+import pl.edu.agh.votingapp.view.vote.BordaCountActivity
+import pl.edu.agh.votingapp.view.vote.JoinVotingActivity
 import pl.edu.agh.votingapp.view.vote.VotesListActivity
 
 class MainActivity : AppCompatActivity() {
@@ -43,7 +45,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun joinVoting() {
-        val intent = Intent(this, VotesListActivity::class.java)
+//        val intent = Intent(this, VotesListActivity::class.java)
+//        val intent = Intent(this, BordaCountActivity::class.java)
+//        val intent = Intent(this, JoinVotingActivity::class.java)
         startActivity(intent)
     }
 
