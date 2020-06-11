@@ -37,13 +37,12 @@ class VoteServer {
 
     fun startServer(createdPort: Int) {
         val voting = votingDao.getWithMaxId()
-        val questions = questionDAO.loadAllQuestions(voting.votingId)
         val answers = answersDAO.loadAllAnswers(voting.votingId)
         val ongoingVoting: BaseVoting = when (voting.type) {
             VotingType.BORDA_COUNT -> BordaCount(db)
             VotingType.FIRST_PAST_THE_POST -> FirstPastThePostVoting(db)
-            VotingType.TWO_ROUND_SYSTEM, VotingType.MAJORITY_VOTE -> MajorityVote(db)
             VotingType.SINGLE_NON_TRANSFERABLE_VOTE -> SingleNonTransferableVote(db)
+            VotingType.TWO_ROUND_SYSTEM, VotingType.MAJORITY_VOTE -> MajorityVote(db)
             VotingType.NONE -> throw RuntimeException()
         }
 
@@ -59,13 +58,6 @@ class VoteServer {
                     val message = VotingDto(
                         voting.votingId,
                         voting.type,
-                        questions.map {
-                            QuestionDto(
-                                it.questionId,
-                                it.votingId,
-                                it.questionContent
-                            )
-                        },
                         answers.map {
                             AnswerDto(
                                 it.answerId,
@@ -73,9 +65,9 @@ class VoteServer {
                                 it.questionId,
                                 it.answerContent
                             )
-                        }.groupBy { it.questionId },
-                        voting.votingCode,
-                        voting.votingContent
+                        },
+                        voting.votingContent,
+                        voting.winnersNb
                     )
 
                     Log.d("BallotBull", message.toString())
@@ -104,7 +96,6 @@ class VoteServer {
             }
         }.start(true)
     }
-
 
     fun stopServer() {
         server.stop(1, 1, TimeUnit.SECONDS)

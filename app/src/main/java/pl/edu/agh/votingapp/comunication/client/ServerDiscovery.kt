@@ -21,6 +21,7 @@ class ServerDiscovery(
 
     fun discoverServices() {
         stopDiscovery() // Cancel any existing discovery request
+        Log.d(TAG, "Starting new discovery")
 
         nsdHelper.initializeDiscoveryListener(object : NsdManager.DiscoveryListener {
             override fun onDiscoveryStarted(regType: String) {
@@ -29,6 +30,7 @@ class ServerDiscovery(
 
             override fun onServiceFound(service: NsdServiceInfo) {
                 Log.d(TAG, "Service discovery success $service")
+                nsdHelper.initializeResolveListener()
                 when (service.serviceType) {
                     SERVICE_TYPE -> {
                         Log.d(TAG, "Service Name: " + service.serviceName)

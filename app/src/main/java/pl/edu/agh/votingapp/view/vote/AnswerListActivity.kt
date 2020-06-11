@@ -26,7 +26,7 @@ class AnswerListActivity : AppCompatActivity() {
 
         votingConnector.loadVoting().enqueue(object : Callback<VotingDto> {
             override fun onResponse(call: Call<VotingDto>, response: Response<VotingDto>) {
-                Log.d("BallotBull", response.body().toString())
+                Log.d("BallotBull:", "Get voting response: " + response.body().toString())
                 setData(response.body()!!)
             }
 
@@ -37,15 +37,14 @@ class AnswerListActivity : AppCompatActivity() {
     }
 
     private fun setData(votingDto: VotingDto) {
-        val questionId = votingDto.answers.keys.toList()[0]
-        myDataset = votingDto.answers[questionId]?.map {
+        myDataset = votingDto.answers.map {
             AnswerListElement(
                 it.answerContent,
                 0,
                 it.questionId,
                 it.answerId
             )
-        }!!
+        }
         recyclerView = findViewById<RecyclerView>(R.id.candidate_list_rec_view).apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this@AnswerListActivity)

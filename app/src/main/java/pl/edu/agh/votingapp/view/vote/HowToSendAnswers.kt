@@ -16,10 +16,7 @@ class HowToSend {
 
         val answers: MutableMap<Long, Long> = mutableMapOf()
         answersList.forEach { answerId ->
-            answers.put(
-                answerId,
-                if (answers[answerId] == null) 1 else answers[answerId]!! + 1
-            )
+            answers[answerId] = if (answers[answerId] == null) 1 else answers[answerId]!! + 1
         }
         val request = VoteResponseDto(userDto, answers)
         val votingConnector = VotingController().createConnector()
