@@ -1,14 +1,19 @@
 package pl.edu.agh.votingapp
 
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import pl.edu.agh.votingapp.receiver.WifiReceiver
 import pl.edu.agh.votingapp.view.create.CreateVotingActivity
 import pl.edu.agh.votingapp.view.list.ListVotingsActivity
 import pl.edu.agh.votingapp.view.vote.VotesListActivity
 
 class MainActivity : AppCompatActivity() {
+
+    private val wifiReceiver = WifiReceiver()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +33,9 @@ class MainActivity : AppCompatActivity() {
         listMyVotingsBtn.setOnClickListener {
             this.listMyVotings()
         }
+
+        val intentFilter = IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION)
+        applicationContext.registerReceiver(wifiReceiver, intentFilter)
     }
 
     private fun createVoting() {
@@ -45,4 +53,9 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        applicationContext.unregisterReceiver(wifiReceiver)
+    }
 }
