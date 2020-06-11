@@ -16,7 +16,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputLayout
 import pl.edu.agh.votingapp.R
-import pl.edu.agh.votingapp.database.entities.Answers
+import pl.edu.agh.votingapp.database.entities.Answer
 import pl.edu.agh.votingapp.viewmodel.create.CreateVotingViewModel
 
 class AddAnswerDialog(
@@ -64,7 +64,7 @@ class AddAnswerDialog(
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
-                val newAnswer = Answers()
+                val newAnswer = Answer()
                 newAnswer.answerContent = answerText
                 model.addAnswer(newAnswer)
                 adapter?.notifyDataSetChanged()

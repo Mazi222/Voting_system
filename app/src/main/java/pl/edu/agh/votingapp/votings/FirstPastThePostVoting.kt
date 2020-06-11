@@ -5,7 +5,7 @@ import pl.edu.agh.votingapp.database.dao.AnswersDAO
 import pl.edu.agh.votingapp.database.dao.QuestionDAO
 import pl.edu.agh.votingapp.database.dao.UserDAO
 import pl.edu.agh.votingapp.database.dao.VotingDAO
-import pl.edu.agh.votingapp.database.entities.Answers
+import pl.edu.agh.votingapp.database.entities.Answer
 import pl.edu.agh.votingapp.database.entities.Question
 import pl.edu.agh.votingapp.database.entities.User
 import pl.edu.agh.votingapp.votings.exceptions.*
@@ -16,14 +16,14 @@ class FirstPastThePostVoting(override val db: AppDatabase) : BaseVoting {
     private val questionDao: QuestionDAO = db.QuestionDAO()
     private val answersDao: AnswersDAO = db.AnswersDAO()
 
-    override fun getResults(votingId: Long): List<Answers> {
+    override fun getResults(votingId: Long): List<Answer> {
         val answers = answersDao.loadAllAnswers(votingId).toMutableList()
         answers.sortByDescending { it.count }
         return answers
     }
 
     @Throws(QuorumNotReachedException::class)
-    override fun getWinner(votingId: Long): List<Answers>{
+    override fun getWinner(votingId: Long): List<Answer>{
         val answers = getResults(votingId)
         val sumOfVotes = sumOfAllVotes(answers)
 
@@ -32,12 +32,12 @@ class FirstPastThePostVoting(override val db: AppDatabase) : BaseVoting {
             throw QuorumNotReachedException()
         }
 
-        val result = mutableListOf<Answers>()
+        val result = mutableListOf<Answer>()
         for(i in 0 until votingDao.getVoting(votingId).winnersNb) result.add(answers[i])
-        return result;
+        return result
     }
 
-    override fun getQuestion(votingId: Long): List<Question> {
+    override fun getQuestions(votingId: Long): List<Question> {
         return questionDao.loadAllQuestions(votingId)
     }
 
@@ -70,11 +70,11 @@ class FirstPastThePostVoting(override val db: AppDatabase) : BaseVoting {
         questionDao.insert(question)
     }
 
-    override fun addAnswer(answers: Answers) {
-        answersDao.insert(answers)
+    override fun addAnswer(answer: Answer) {
+        answersDao.insert(answer)
     }
 
-    fun sumOfAllVotes(answers: List<Answers>): Long{
+    fun sumOfAllVotes(answers: List<Answer>): Long{
         var sumOfVotes: Long = 0
 
         for(answer in answers) {

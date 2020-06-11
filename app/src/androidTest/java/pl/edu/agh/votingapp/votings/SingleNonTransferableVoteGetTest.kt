@@ -16,7 +16,7 @@ import pl.edu.agh.votingapp.database.dao.AnswersDAO
 import pl.edu.agh.votingapp.database.dao.QuestionDAO
 import pl.edu.agh.votingapp.database.dao.UserDAO
 import pl.edu.agh.votingapp.database.dao.VotingDAO
-import pl.edu.agh.votingapp.database.entities.Answers
+import pl.edu.agh.votingapp.database.entities.Answer
 import pl.edu.agh.votingapp.database.entities.Question
 import pl.edu.agh.votingapp.database.entities.User
 import pl.edu.agh.votingapp.database.entities.Voting
@@ -76,9 +76,9 @@ class SingleNonTransferableVoteGetTest {
         Log.d(TAG+"_MOCK_DATA", questionDao.loadAllQuestions(1).toString())
 
 
-        val answer1 = Answers(answerId = 1, votingId = 1, questionId = question.questionId, answerContent = "Answer1")
-        val answer2 = Answers(answerId = 2, votingId = 1, questionId = question.questionId, answerContent = "Answer2")
-        val answer3 = Answers(answerId = 3, votingId = 1, questionId = question.questionId, answerContent = "Answer3")
+        val answer1 = Answer(answerId = 1, votingId = 1, questionId = question.questionId, answerContent = "Answer1")
+        val answer2 = Answer(answerId = 2, votingId = 1, questionId = question.questionId, answerContent = "Answer2")
+        val answer3 = Answer(answerId = 3, votingId = 1, questionId = question.questionId, answerContent = "Answer3")
         answersDao.insert(answer1)
         answersDao.insert(answer2)
         answersDao.insert(answer3)
@@ -147,6 +147,6 @@ class SingleNonTransferableVoteGetTest {
 
     @Test
     fun getQuestionTest(){
-        Assert.assertEquals(questionDao.getQuestion(1),baseVoting.getQuestion(1)[0])
+        Assert.assertEquals(questionDao.getQuestion(1),baseVoting.getQuestions(1)[0])
     }
 }

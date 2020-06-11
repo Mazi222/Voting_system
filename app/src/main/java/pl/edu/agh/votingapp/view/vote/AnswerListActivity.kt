@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pl.edu.agh.votingapp.R
 import pl.edu.agh.votingapp.comunication.client.VotingController
-import pl.edu.agh.votingapp.comunication.model.Voting
+import pl.edu.agh.votingapp.comunication.model.VotingDto
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,21 +24,21 @@ class AnswerListActivity : AppCompatActivity() {
 
         val votingConnector = VotingController().createConnector()
 
-        votingConnector.loadVoting().enqueue(object : Callback<Voting> {
-            override fun onResponse(call: Call<Voting>, response: Response<Voting>) {
+        votingConnector.loadVoting().enqueue(object : Callback<VotingDto> {
+            override fun onResponse(call: Call<VotingDto>, response: Response<VotingDto>) {
                 Log.d("BallotBull", response.body().toString())
                 setData(response.body()!!)
             }
 
-            override fun onFailure(call: Call<Voting>, t: Throwable) {
+            override fun onFailure(call: Call<VotingDto>, t: Throwable) {
                 Log.e("BallotBull", t.message!!)
             }
         })
     }
 
-    private fun setData(voting: Voting) {
-        val questionId = voting.answers.keys.toList()[0]
-        myDataset = voting.answers[questionId]?.map {
+    private fun setData(votingDto: VotingDto) {
+        val questionId = votingDto.answers.keys.toList()[0]
+        myDataset = votingDto.answers[questionId]?.map {
             AnswerListElement(
                 it.answerContent,
                 0,
@@ -52,7 +52,6 @@ class AnswerListActivity : AppCompatActivity() {
             adapter = CandidateListAdapter(myDataset)
         }
     }
-
 
     private fun showProgram() {
         val intent = Intent(this, CandidateProgramActivity::class.java)

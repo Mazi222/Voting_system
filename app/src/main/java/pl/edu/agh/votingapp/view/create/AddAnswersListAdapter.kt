@@ -7,11 +7,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import pl.edu.agh.votingapp.R
-import pl.edu.agh.votingapp.database.entities.Answers
+import pl.edu.agh.votingapp.database.entities.Answer
 
 class AddAnswersListAdapter(
     private val fragment: StepAddAnswersFragment,
-    private val answersList: Set<Answers>
+    private val answerList: Set<Answer>
 ) : RecyclerView.Adapter<AddAnswersListAdapter.AddAnswersViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddAnswersViewHolder {
@@ -22,16 +22,16 @@ class AddAnswersListAdapter(
     }
 
     override fun onBindViewHolder(holder: AddAnswersViewHolder, position: Int) {
-        val answers: Answers = answersList.elementAt(position)
+        val answer: Answer = answerList.elementAt(position)
 
-        holder.bind(answers)
+        holder.bind(answer)
         holder.deleteAnswerImageView.setOnClickListener {
-            fragment.model.deleteAnswer(answers)
+            fragment.model.deleteAnswer(answer)
             notifyDataSetChanged()
         }
     }
 
-    override fun getItemCount() = answersList.size
+    override fun getItemCount() = answerList.size
 
     class AddAnswersViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
@@ -39,8 +39,8 @@ class AddAnswersListAdapter(
             itemView.findViewById(R.id.answerContentTextView)
         val deleteAnswerImageView: ImageView = itemView.findViewById(R.id.deleteAnswerImageView)
 
-        fun bind(answers: Answers) {
-            answerContentTextView.text = answers.answerContent
+        fun bind(answer: Answer) {
+            answerContentTextView.text = answer.answerContent
         }
     }
 

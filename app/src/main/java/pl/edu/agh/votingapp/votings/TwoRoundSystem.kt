@@ -1,4 +1,4 @@
-//package pl.edu.agh.votingapp.votings
+package pl.edu.agh.votingapp.votings
 //
 //class TwoRoundSystem : BaseVoting {
 //    override fun getResults() {

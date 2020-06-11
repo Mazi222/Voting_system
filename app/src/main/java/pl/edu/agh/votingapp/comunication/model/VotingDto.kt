@@ -2,12 +2,13 @@ package pl.edu.agh.votingapp.comunication.model
 
 import pl.edu.agh.votingapp.VotingType
 
-class Voting(
+class VotingDto(
     val votingId: Long,
     val type: VotingType,
-    val questions: List<Question>,
-    val answers: Map<Long, List<Answer>>,
-    val code : Long
+    val questions: List<QuestionDto>,
+    val answers: Map<Long, List<AnswerDto>>,
+    val code: Long,
+    val votingContent: String
 ) {
 
     init {
@@ -21,8 +22,8 @@ class Voting(
     companion object {
         var votingId_: Long = 0
         var type_: VotingType = VotingType.NONE
-        var answers_: Map<Long, List<Answer>> = mapOf()
-        var questions_: List<Question> = listOf()
+        var answers_: Map<Long, List<AnswerDto>> = mapOf()
+        var questions_: List<QuestionDto> = listOf()
         var code_ : Long = -1
     }
 }

@@ -1,34 +1,31 @@
 package pl.edu.agh.votingapp.comunication.server
 
 import android.util.Log
-import io.ktor.application.ApplicationCall
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
 import io.ktor.gson.gson
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
-import io.ktor.request.receiveText
 import io.ktor.response.respond
 import io.ktor.routing.get
 import io.ktor.routing.post
 import io.ktor.routing.routing
 import io.ktor.server.engine.*
 import io.ktor.server.netty.Netty
-import io.ktor.util.pipeline.PipelineContext
-import pl.edu.agh.votingapp.comunication.model.Answer
-import pl.edu.agh.votingapp.comunication.model.Question
-import pl.edu.agh.votingapp.comunication.model.VoteResponse
-import pl.edu.agh.votingapp.comunication.model.Voting
+import pl.edu.agh.votingapp.VotingType
+import pl.edu.agh.votingapp.comunication.model.AnswerDto
+import pl.edu.agh.votingapp.comunication.model.QuestionDto
+import pl.edu.agh.votingapp.comunication.model.VoteResponseDto
+import pl.edu.agh.votingapp.comunication.model.VotingDto
 import java.util.concurrent.TimeUnit
 
 import pl.edu.agh.votingapp.database.AppDatabase
 import pl.edu.agh.votingapp.database.dao.AnswersDAO
 import pl.edu.agh.votingapp.database.dao.QuestionDAO
 import pl.edu.agh.votingapp.database.dao.VotingDAO
-import pl.edu.agh.votingapp.database.entities.Answers
-import java.time.Instant
-import java.time.LocalDateTime
+import pl.edu.agh.votingapp.database.entities.User
+import pl.edu.agh.votingapp.votings.*
 
 class VoteServer {
 
@@ -42,11 +39,13 @@ class VoteServer {
         val voting = votingDao.getWithMaxId()
         val questions = questionDAO.loadAllQuestions(voting.votingId)
         val answers = answersDAO.loadAllAnswers(voting.votingId)
-        val answersMap = answers.associateBy { it.answerId }
-
-        //TODO
-        // 1. create voting from .votings based on type
-        // 2. w @Post dodawaj pytania do głosowania
+        val ongoingVoting: BaseVoting = when (voting.type) {
+            VotingType.BORDA_COUNT -> BordaCount(db)
+            VotingType.FIRST_PAST_THE_POST -> FirstPastThePostVoting(db)
+            VotingType.TWO_ROUND_SYSTEM, VotingType.MAJORITY_VOTE -> MajorityVote(db)
+            VotingType.SINGLE_NON_TRANSFERABLE_VOTE -> SingleNonTransferableVote(db)
+            VotingType.NONE -> throw RuntimeException()
+        }
 
         server = embeddedServer(Netty, createdPort) {
             install(ContentNegotiation) {
@@ -57,25 +56,26 @@ class VoteServer {
             }
             routing {
                 get("/voting") {
-                    val message = Voting(
+                    val message = VotingDto(
                         voting.votingId,
                         voting.type,
                         questions.map {
-                            Question(
+                            QuestionDto(
                                 it.questionId,
                                 it.votingId,
                                 it.questionContent
                             )
                         },
                         answers.map {
-                            Answer(
+                            AnswerDto(
                                 it.answerId,
                                 it.votingId,
                                 it.questionId,
                                 it.answerContent
                             )
                         }.groupBy { it.questionId },
-                        -1 //TODO set code
+                        voting.votingCode,
+                        voting.votingContent
                     )
 
                     Log.d("BallotBull", message.toString())
@@ -83,31 +83,28 @@ class VoteServer {
                 }
 
                 post("/voting") {
-                    parseVote(voting.isOpen, answersMap)
-                    call.respond(HttpStatusCode.OK, "Votes case")
+                    val request = call.receive<VoteResponseDto>()
+                    Log.d("BallotBull", request.toString())
+                    val userDto = request.userDto
+                    val answersMap = request.answersIdToCount
+                    ongoingVoting.addUser(
+                        User(
+                            votingId = voting.votingId,
+                            userName = userDto.userName,
+                            userCode = userDto.userCode
+                        )
+                    )
+                    answersMap.forEach { (answerId, counter) ->
+                        ongoingVoting.updateAnswerCount(
+                            voting.votingId, userDto.userName, answerId, counter
+                        )
+                        call.respond(HttpStatusCode.OK, "Votes case")
+                    }
                 }
             }
         }.start(true)
     }
 
-    private suspend fun PipelineContext<Unit, ApplicationCall>.parseVote(
-        isOpen: Boolean,
-        answersMap: Map<Long, Answers>
-    ) {
-        val request = call.receive<VoteResponse>()
-        Log.d("BallotBull", request.toString())
-
-        request.answersIds.forEach { answerId ->
-            val answer = answersMap[answerId]
-            if (answer != null) {
-                answer.count += 1
-                if (isOpen) {
-                    answer.voters?.add(request.userCode)
-                }
-            }
-
-        }
-    }
 
     fun stopServer() {
         server.stop(1, 1, TimeUnit.SECONDS)

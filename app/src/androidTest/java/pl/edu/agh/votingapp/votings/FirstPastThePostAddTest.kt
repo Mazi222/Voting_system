@@ -15,7 +15,7 @@ import pl.edu.agh.votingapp.database.dao.AnswersDAO
 import pl.edu.agh.votingapp.database.dao.QuestionDAO
 import pl.edu.agh.votingapp.database.dao.UserDAO
 import pl.edu.agh.votingapp.database.dao.VotingDAO
-import pl.edu.agh.votingapp.database.entities.Answers
+import pl.edu.agh.votingapp.database.entities.Answer
 import pl.edu.agh.votingapp.database.entities.Question
 import pl.edu.agh.votingapp.database.entities.User
 import pl.edu.agh.votingapp.database.entities.Voting
@@ -81,9 +81,9 @@ class FirstPastThePostAddTest {
 
     @Test
     fun addAnswerTest(){
-        val answers: Answers = Answers(answerId = 1, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT")
-        baseVoting.addAnswer(answers)
-        Assert.assertEquals(answers, answersDao.loadAllAnswers(1)[0])
+        val answer: Answer = Answer(answerId = 1, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT")
+        baseVoting.addAnswer(answer)
+        Assert.assertEquals(answer, answersDao.loadAllAnswers(1)[0])
     }
 
     @Test
@@ -97,14 +97,14 @@ class FirstPastThePostAddTest {
         val question: Question = Question(questionId = 1, votingId = 1, questionContent = "TEST_CONTENT")
         baseVoting.addQuestion(question)
 
-        val answers1: Answers = Answers(answerId = 1, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT1")
-        val answers2: Answers = Answers(answerId = 2, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT2")
-        val answers3: Answers = Answers(answerId = 3, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT3")
-        val answers4: Answers = Answers(answerId = 4, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT4")
-        baseVoting.addAnswer(answers1)
-        baseVoting.addAnswer(answers2)
-        baseVoting.addAnswer(answers3)
-        baseVoting.addAnswer(answers4)
+        val answer1: Answer = Answer(answerId = 1, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT1")
+        val answer2: Answer = Answer(answerId = 2, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT2")
+        val answer3: Answer = Answer(answerId = 3, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT3")
+        val answer4: Answer = Answer(answerId = 4, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT4")
+        baseVoting.addAnswer(answer1)
+        baseVoting.addAnswer(answer2)
+        baseVoting.addAnswer(answer3)
+        baseVoting.addAnswer(answer4)
 
         baseVoting.updateAnswerCount(1, "TEST", 1)
         baseVoting.updateAnswerCount(1, "TEST", 2)
@@ -125,8 +125,8 @@ class FirstPastThePostAddTest {
         val question: Question = Question(questionId = 1, votingId = 1, questionContent = "TEST_CONTENT")
         baseVoting.addQuestion(question)
 
-        val answers1: Answers = Answers(answerId = 1, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT")
-        baseVoting.addAnswer(answers1)
+        val answer1: Answer = Answer(answerId = 1, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT")
+        baseVoting.addAnswer(answer1)
 
         baseVoting.updateAnswerCount(1, "TEST", 1)
     }
@@ -142,8 +142,8 @@ class FirstPastThePostAddTest {
         val question: Question = Question(questionId = 1, votingId = 1, questionContent = "TEST_CONTENT")
         baseVoting.addQuestion(question)
 
-        val answers: Answers = Answers(answerId = 1, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT")
-        baseVoting.addAnswer(answers)
+        val answer: Answer = Answer(answerId = 1, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT")
+        baseVoting.addAnswer(answer)
 
         baseVoting.updateAnswerCount(1, "TEST", 1, 4)
         baseVoting.updateAnswerCount(1, "TEST", 2, 3)
@@ -162,14 +162,14 @@ class FirstPastThePostAddTest {
             Question(questionId = 1, votingId = 1, questionContent = "TEST_CONTENT")
         baseVoting.addQuestion(question)
 
-        val answers1: Answers = Answers(answerId = 1, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT1")
-        val answers2: Answers = Answers(answerId = 2, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT2")
-        val answers3: Answers = Answers(answerId = 3, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT3")
-        val answers4: Answers = Answers(answerId = 4, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT4")
-        baseVoting.addAnswer(answers1)
-        baseVoting.addAnswer(answers2)
-        baseVoting.addAnswer(answers3)
-        baseVoting.addAnswer(answers4)
+        val answer1: Answer = Answer(answerId = 1, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT1")
+        val answer2: Answer = Answer(answerId = 2, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT2")
+        val answer3: Answer = Answer(answerId = 3, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT3")
+        val answer4: Answer = Answer(answerId = 4, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT4")
+        baseVoting.addAnswer(answer1)
+        baseVoting.addAnswer(answer2)
+        baseVoting.addAnswer(answer3)
+        baseVoting.addAnswer(answer4)
 
         baseVoting.updateAnswerCount(1, "TEST", 1)
         baseVoting.updateAnswerCount(1, "TEST", 2)

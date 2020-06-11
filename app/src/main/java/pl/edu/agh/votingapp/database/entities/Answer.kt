@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Answers (
+data class Answer (
     @PrimaryKey(autoGenerate = true)
     val answerId: Long = 0,
     @ColumnInfo(name = "votingId")

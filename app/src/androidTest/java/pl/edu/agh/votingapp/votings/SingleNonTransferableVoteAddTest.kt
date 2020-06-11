@@ -15,7 +15,7 @@ import pl.edu.agh.votingapp.database.dao.AnswersDAO
 import pl.edu.agh.votingapp.database.dao.QuestionDAO
 import pl.edu.agh.votingapp.database.dao.UserDAO
 import pl.edu.agh.votingapp.database.dao.VotingDAO
-import pl.edu.agh.votingapp.database.entities.Answers
+import pl.edu.agh.votingapp.database.entities.Answer
 import pl.edu.agh.votingapp.database.entities.Question
 import pl.edu.agh.votingapp.database.entities.User
 import pl.edu.agh.votingapp.database.entities.Voting
@@ -82,9 +82,9 @@ class SingleNonTransferableVoteAddTest {
 
     @Test
     fun addAnswerTest(){
-        val answers: Answers = Answers(answerId = 1, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT")
-        baseVoting.addAnswer(answers)
-        Assert.assertEquals(answers, answersDao.loadAllAnswers(1)[0])
+        val answer: Answer = Answer(answerId = 1, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT")
+        baseVoting.addAnswer(answer)
+        Assert.assertEquals(answer, answersDao.loadAllAnswers(1)[0])
     }
 
     @Test
@@ -98,8 +98,8 @@ class SingleNonTransferableVoteAddTest {
         val question: Question = Question(questionId = 1, votingId = 1, questionContent = "TEST_CONTENT")
         baseVoting.addQuestion(question)
 
-        val answers: Answers = Answers(answerId = 1, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT")
-        baseVoting.addAnswer(answers)
+        val answer: Answer = Answer(answerId = 1, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT")
+        baseVoting.addAnswer(answer)
 
         baseVoting.updateAnswerCount(1, "TEST", 1)
         Assert.assertEquals(1, answersDao.getAnswer(1).count)
@@ -116,8 +116,8 @@ class SingleNonTransferableVoteAddTest {
         val question: Question = Question(questionId = 1, votingId = 1, questionContent = "TEST_CONTENT")
         baseVoting.addQuestion(question)
 
-        val answers: Answers = Answers(answerId = 1, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT")
-        baseVoting.addAnswer(answers)
+        val answer: Answer = Answer(answerId = 1, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT")
+        baseVoting.addAnswer(answer)
 
         baseVoting.updateAnswerCount(1, "TEST", 1)
     }
@@ -133,8 +133,8 @@ class SingleNonTransferableVoteAddTest {
         val question: Question = Question(questionId = 1, votingId = 1, questionContent = "TEST_CONTENT")
         baseVoting.addQuestion(question)
 
-        val answers: Answers = Answers(answerId = 1, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT")
-        baseVoting.addAnswer(answers)
+        val answer: Answer = Answer(answerId = 1, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT")
+        baseVoting.addAnswer(answer)
 
         baseVoting.updateAnswerCount(1, "TEST", 1)
         baseVoting.updateAnswerCount(1, "TEST", 1)
@@ -159,9 +159,9 @@ class SingleNonTransferableVoteAddTest {
             Question(questionId = 1, votingId = 1, questionContent = "TEST_CONTENT")
         baseVoting.addQuestion(question)
 
-        val answers: Answers =
-            Answers(answerId = 1, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT")
-        baseVoting.addAnswer(answers)
+        val answer: Answer =
+            Answer(answerId = 1, votingId = 1, questionId = 1, answerContent = "TEST_ANS_CONTENT")
+        baseVoting.addAnswer(answer)
 
         baseVoting.updateAnswerCount(1, "TEST", 1, value = 2)
         Assert.assertNotEquals(1, answersDao.getAnswer(1).count)

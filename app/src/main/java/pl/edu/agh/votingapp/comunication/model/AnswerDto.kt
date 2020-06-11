@@ -1,6 +1,6 @@
 package pl.edu.agh.votingapp.comunication.model
 
-class Answer(
+class AnswerDto(
     val answerId: Long,
     var votingId: Long,
     var questionId: Long,

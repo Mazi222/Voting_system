@@ -2,22 +2,22 @@ package pl.edu.agh.votingapp.comunication.client
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import pl.edu.agh.votingapp.comunication.model.VoteResponse
-import pl.edu.agh.votingapp.comunication.model.Voting
+import pl.edu.agh.votingapp.comunication.model.VoteResponseDto
+import pl.edu.agh.votingapp.comunication.model.VotingDto
 import pl.edu.agh.votingapp.viewmodel.join.ServerData
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.http.GET
-import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.POST
 
 interface VoteConnector {
 
     @GET("/voting")
-    fun loadVoting(): Call<Voting>
+    fun loadVoting(): Call<VotingDto>
 
     @POST("/voting")
-    fun sendAnswers(answers: VoteResponse): Call<String>
+    fun sendAnswers(answers: VoteResponseDto): Call<String>
 }
 
 class VotingController {

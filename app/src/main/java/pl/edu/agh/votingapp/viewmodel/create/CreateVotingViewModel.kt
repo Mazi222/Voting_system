@@ -9,7 +9,7 @@ import pl.edu.agh.votingapp.database.AppDatabase
 import pl.edu.agh.votingapp.database.dao.AnswersDAO
 import pl.edu.agh.votingapp.database.dao.QuestionDAO
 import pl.edu.agh.votingapp.database.dao.VotingDAO
-import pl.edu.agh.votingapp.database.entities.Answers
+import pl.edu.agh.votingapp.database.entities.Answer
 import pl.edu.agh.votingapp.database.entities.Voting
 import java.sql.Date
 
@@ -32,7 +32,7 @@ class CreateVotingViewModel(application: Application) : AndroidViewModel(applica
     var numOfPeopleEntitled: Int? = Int.MAX_VALUE
     var isOpen: Boolean = true
     var votingCode: Long = -1
-    var answers: MutableSet<Answers> = HashSet()
+    var answers: MutableSet<Answer> = HashSet()
 
     fun isVotingTypeInitialized() = this::votingType.isInitialized
     fun isContentInitialized() = this::content.isInitialized
@@ -74,11 +74,11 @@ class CreateVotingViewModel(application: Application) : AndroidViewModel(applica
         }
     }
 
-    fun addAnswer(answer: Answers): Boolean {
+    fun addAnswer(answer: Answer): Boolean {
         return answers.add(answer)
     }
 
-    fun deleteAnswer(answer: Answers): Boolean {
+    fun deleteAnswer(answer: Answer): Boolean {
         return answers.remove(answer)
     }
 
