@@ -22,7 +22,6 @@ class CreateVotingViewModel(application: Application) : AndroidViewModel(applica
     private val answersDao: AnswersDAO = db.AnswersDAO()
     private val questionDao: QuestionDAO = db.QuestionDAO()
 
-    var name = "Voting"
     lateinit var votingType: VotingType
     lateinit var content: String
     lateinit var endTime: Date
@@ -62,7 +61,6 @@ class CreateVotingViewModel(application: Application) : AndroidViewModel(applica
         )
         var votingId: Long
 
-//      wersja bez questions
         AsyncTask.execute {
             votingId = votingDao.insert(newVoting)
             Log.d(TAG, "New voting inserted into database with id: $votingId")
