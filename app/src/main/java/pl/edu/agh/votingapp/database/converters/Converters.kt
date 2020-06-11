@@ -3,7 +3,9 @@ package pl.edu.agh.votingapp.database.converters
 import android.util.Log
 import androidx.room.TypeConverter
 import pl.edu.agh.votingapp.VotingType
-import java.sql.Date
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class Converters {
     @TypeConverter

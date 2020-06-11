@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import pl.edu.agh.votingapp.VotingType
-import java.sql.Date
+import java.util.*
 
 @Entity
 data class Voting (

@@ -22,7 +22,7 @@ import pl.edu.agh.votingapp.database.entities.User
 import pl.edu.agh.votingapp.database.entities.Voting
 import pl.edu.agh.votingapp.votings.exceptions.QuorumNotReachedException
 import pl.edu.agh.votingapp.votings.exceptions.VotingIsNotOpenException
-import java.sql.Date
+import java.util.*
 
 
 @RunWith(AndroidJUnit4::class)
