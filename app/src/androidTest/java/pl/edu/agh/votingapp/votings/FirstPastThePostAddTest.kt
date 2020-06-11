@@ -21,7 +21,7 @@ import pl.edu.agh.votingapp.database.entities.User
 import pl.edu.agh.votingapp.database.entities.Voting
 import pl.edu.agh.votingapp.votings.exceptions.UserAlreadyVotedException
 import pl.edu.agh.votingapp.votings.exceptions.WrongVotingCodeException
-import java.sql.Date
+import java.util.*
 
 @RunWith(AndroidJUnit4::class)
 class FirstPastThePostAddTest {

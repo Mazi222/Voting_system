@@ -19,7 +19,7 @@ import pl.edu.agh.votingapp.database.entities.Answers
 import pl.edu.agh.votingapp.database.entities.Question
 import pl.edu.agh.votingapp.database.entities.User
 import pl.edu.agh.votingapp.database.entities.Voting
-import java.sql.Date
+import java.util.*
 
 @RunWith(AndroidJUnit4::class)
 class DatabaseTests {
