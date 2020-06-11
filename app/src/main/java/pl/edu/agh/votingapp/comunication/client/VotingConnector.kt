@@ -1,41 +1,39 @@
 package pl.edu.agh.votingapp.comunication.client
 
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.android.Android
-import io.ktor.client.features.json.JacksonSerializer
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.request.get
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import pl.edu.agh.votingapp.VotingType
-import pl.edu.agh.votingapp.view.vote.CandidateListElement
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import pl.edu.agh.votingapp.comunication.model.VoteResponse
+import pl.edu.agh.votingapp.comunication.model.Voting
 import pl.edu.agh.votingapp.viewmodel.join.ServerData
+import retrofit2.Call
+import retrofit2.Retrofit
+import retrofit2.http.GET
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.POST
 
-class VotingConnector {
+interface VoteConnector {
 
-    private val host = ServerData.host
-    private val port = ServerData.port
+    @GET("/voting")
+    fun loadVoting(): Call<Voting>
 
-    suspend fun getVotingData() : Array<CandidateListElement>{
-
-        val client = HttpClient(Android){
-            install(JsonFeature) {
-                serializer = JacksonSerializer()
-            }
-        }
-
-        // Start two requests asynchronously.
-        val firstRequest = GlobalScope.async { client.get<VotingDescription>("https://$host:$port/voting") }
-
-        // Get the request contents without blocking threads, but suspending the function until both
-        // requests are done.
-        val response = firstRequest.await()
-
-        TODO("PARSE DATA")
-        return arrayOf()
-    }
-
+    @POST("/voting")
+    fun sendAnswers(answers: VoteResponse): Call<String>
 }
 
-class VotingDescription(votingId : Long, type : VotingType, questions : Array<Long>, answers : Array<Long>)
+class VotingController {
 
+    fun createConnector(): VoteConnector {
+        val gson: Gson = GsonBuilder()
+            .setLenient()
+            .create()
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+        return retrofit.create(VoteConnector::class.java)
+    }
+
+    companion object {
+        val BASE_URL = ServerData.getUrl()
+    }
+}

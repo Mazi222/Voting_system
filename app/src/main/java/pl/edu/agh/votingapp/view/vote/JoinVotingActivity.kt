@@ -14,17 +14,17 @@ class JoinVotingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join_voting)
         var name = intent.getStringExtra("NAME")
-        var host = intent.getSerializableExtra("HOST") as InetAddress
-        var port = intent.getIntExtra("PORT", 8080)
+        val host = intent.getSerializableExtra("HOST") as InetAddress
+        val port = intent.getIntExtra("PORT", 8080)
 
-        TODO("TUTAJ POTRZEBNA JEST ZMIANA WIDOKU")
+//        TODO("TUTAJ POTRZEBNA JEST ZMIANA WIDOKU")
 //        - pole na userCode : Long? i przekazanie go przez intent dalej
 //        - wyświetlenie nazwy głosowania
 //        - dodanie popupu "czy na pewno chcesz dołaczyć"
 
         val joinVotingButton: Button = findViewById(R.id.btn_login)
         joinVotingButton.setOnClickListener {
-            val intent = Intent(this, CandidateListActivity::class.java)
+            val intent = Intent(this, AnswerListActivity::class.java)
             ServerData.host = host
             ServerData.port = port
             startActivity(intent)

@@ -1,14 +1,21 @@
 package pl.edu.agh.votingapp
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.multidex.MultiDex
 import pl.edu.agh.votingapp.view.create.CreateVotingActivity
 import pl.edu.agh.votingapp.view.list.ListVotingsActivity
 import pl.edu.agh.votingapp.view.vote.VotesListActivity
 
 class MainActivity : AppCompatActivity() {
+
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

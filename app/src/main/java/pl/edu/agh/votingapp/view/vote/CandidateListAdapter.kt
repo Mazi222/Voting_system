@@ -8,7 +8,7 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import pl.edu.agh.votingapp.R
 
-class CandidateListAdapter(private val myDataset: Array<CandidateListElement>) :
+class CandidateListAdapter(private val myDataset: List<AnswerListElement>) :
     RecyclerView.Adapter<CandidateListAdapter.MyViewHolder>() {
 
     class MyViewHolder(val view: View, val parent: ViewGroup) : RecyclerView.ViewHolder(view) {
@@ -41,7 +41,7 @@ class CandidateListAdapter(private val myDataset: Array<CandidateListElement>) :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val listElement: CandidateListElement = myDataset[position]
+        val listElement: AnswerListElement = myDataset[position]
         holder.candidateName.text = myDataset[position].name
         holder.candidatePhoto.setImageResource(myDataset[position].image)
 

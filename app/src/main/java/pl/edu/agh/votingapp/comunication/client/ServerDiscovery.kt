@@ -20,7 +20,7 @@ class ServerDiscovery(
     var nsdHelper = NsdHelper(context)
 
     fun discoverServices() {
-        nsdHelper.stopDiscovery() // Cancel any existing discovery request
+        stopDiscovery() // Cancel any existing discovery request
 
         nsdHelper.initializeDiscoveryListener(object : NsdManager.DiscoveryListener {
             override fun onDiscoveryStarted(regType: String) {
@@ -75,5 +75,7 @@ class ServerDiscovery(
             nsdHelper.SERVICE_TYPE, NsdManager.PROTOCOL_DNS_SD, NsdHelper.mDiscoveryListener
         )
     }
+
+    fun stopDiscovery() = nsdHelper.stopDiscovery()
 
 }

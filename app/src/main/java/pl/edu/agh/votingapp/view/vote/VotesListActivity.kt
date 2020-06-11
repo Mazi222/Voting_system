@@ -13,16 +13,17 @@ class VotesListActivity : AppCompatActivity() {
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var votingList: OngoingVotings
-    private lateinit var serverDiscovery : ServerDiscovery
+    private lateinit var serverDiscovery: ServerDiscovery
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_votes_list)
 
         votingList = OngoingVotings()
+        viewAdapter = VoteListAdapter(votingList.getVotings())
+
         serverDiscovery = ServerDiscovery(this, viewAdapter, votingList)
         viewManager = LinearLayoutManager(this)
-        viewAdapter = VoteListAdapter(votingList.getVotings())
 
         recyclerView = findViewById<RecyclerView>(R.id.vote_list_rec_view).apply {
             setHasFixedSize(true)
@@ -32,4 +33,20 @@ class VotesListActivity : AppCompatActivity() {
 
         serverDiscovery.discoverServices()
     }
+
+    override fun onPause() {
+        super.onPause()
+        serverDiscovery.stopDiscovery()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        serverDiscovery.stopDiscovery()
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        serverDiscovery.stopDiscovery()
+    }
+
 }

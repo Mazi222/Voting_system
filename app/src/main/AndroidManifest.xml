@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!--        android:name="android.support.multidex.MultiDexApplication"-->
 
     <application
         android:allowBackup="true"
@@ -26,7 +27,7 @@
         <activity android:name=".view.vote.VoteGivenActivity" />
         <activity android:name=".view.vote.CandidateVoteActivity" />
         <activity android:name=".view.vote.CandidateProgramActivity" />
-        <activity android:name=".view.vote.CandidateListActivity" />
+        <activity android:name=".view.vote.AnswerListActivity" />
         <activity
             android:name=".view.create.CreateVotingActivity"
             android:parentActivityName=".MainActivity">
