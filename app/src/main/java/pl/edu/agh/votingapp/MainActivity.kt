@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import pl.edu.agh.votingapp.view.create.CreateVotingActivity
-import pl.edu.agh.votingapp.view.vote.CandidateListActivity
+import pl.edu.agh.votingapp.view.list.ListVotingsActivity
 import pl.edu.agh.votingapp.view.vote.VotesListActivity
 
 class MainActivity : AppCompatActivity() {
@@ -23,14 +23,25 @@ class MainActivity : AppCompatActivity() {
         joinVotingBtn.setOnClickListener {
             this.joinVoting()
         }
+
+        val listMyVotingsBtn: Button = findViewById(R.id.list_votings_btn)
+        listMyVotingsBtn.setOnClickListener {
+            this.listMyVotings()
+        }
     }
 
     private fun createVoting() {
         val intent = Intent(this, CreateVotingActivity::class.java)
         startActivity(intent)
     }
+
     private fun joinVoting() {
         val intent = Intent(this, VotesListActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun listMyVotings() {
+        val intent = Intent(this, ListVotingsActivity::class.java)
         startActivity(intent)
     }
 

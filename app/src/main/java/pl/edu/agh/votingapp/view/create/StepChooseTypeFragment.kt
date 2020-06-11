@@ -53,7 +53,7 @@ class StepChooseTypeFragment : Fragment(), Step {
     }
 
     override fun onSelected() {
-        //update UI when selected
+        //update UI when selectede
     }
 
     override fun onError(error: VerificationError) {

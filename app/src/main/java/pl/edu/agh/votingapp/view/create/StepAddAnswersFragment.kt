@@ -1,23 +1,23 @@
 package pl.edu.agh.votingapp.view.create
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.textfield.TextInputLayout
 import com.stepstone.stepper.Step
 import com.stepstone.stepper.VerificationError
 import kotlinx.android.synthetic.main.fragment_step_add_answers.*
 import pl.edu.agh.votingapp.R
-import pl.edu.agh.votingapp.database.entities.Answers
 import pl.edu.agh.votingapp.viewmodel.create.CreateVotingViewModel
 
 class StepAddAnswersFragment : Fragment(R.layout.fragment_step_add_answers), Step {
+
+    private val TAG = "StepAddAnswersFragment"
 
     val model: CreateVotingViewModel by activityViewModels()
 
@@ -45,22 +45,10 @@ class StepAddAnswersFragment : Fragment(R.layout.fragment_step_add_answers), Ste
         }
 
         val addAnswerBtn: Button = view.findViewById(R.id.addAnswer)
-        val newAnswerContentLayout: TextInputLayout = view.findViewById(R.id.answerContentLayout)
         addAnswerBtn.setOnClickListener {
-            val answerText: String = newAnswerContentLayout.editText?.text.toString()
-            if (answerText.isBlank()) {
-                Toast.makeText(
-                    context,
-                    "Answer description cannot be empty!",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                val newAnswer = Answers()
-                newAnswer.answerContent = answerText
-                model.answers.add(newAnswer)
-                voting_answers.adapter?.notifyDataSetChanged()
-                newAnswerContentLayout.editText?.text = null
-            }
+            Log.d(TAG, "Add new answer button clicked")
+            val editAnswerDialog = AddAnswerDialog(voting_answers.adapter)
+            editAnswerDialog.show(this.childFragmentManager, "EditAnswerDialog")
         }
     }
 
