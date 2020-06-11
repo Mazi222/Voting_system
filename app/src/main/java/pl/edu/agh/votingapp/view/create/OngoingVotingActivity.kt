@@ -4,13 +4,12 @@ import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.text.format.DateFormat
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import pl.edu.agh.votingapp.R
 import pl.edu.agh.votingapp.comunication.server.ServerRegistration
 import pl.edu.agh.votingapp.comunication.server.VoteServer
-import java.net.ServerSocket
 
 class OngoingVotingActivity : AppCompatActivity() {
 
@@ -28,26 +27,22 @@ class OngoingVotingActivity : AppCompatActivity() {
         val votingNameView = findViewById<TextView>(R.id.voting_name)
         votingNameView.text = votingName
 
-        // create port
-        val socket = ServerSocket(0)
-
         // create server
-        server.startServer(socket.localPort)
+        AsyncTask.execute { server.startServer(8080) }
 
         // register service
         nsdRegistrator = ServerRegistration(this)
-        nsdRegistrator.registerServer(votingName, socket.localPort)
+        nsdRegistrator.registerServer(votingName,8080)
 
 
         val timeToEnd = intent.getLongExtra("VOTING_END_MILLIS", 60 * 60 * 10)
         Handler().postDelayed({
             server.stopServer()
         }, timeToEnd)
-    }
 
-    fun finishVotingEarly() {
         val finishVotingButton: Button = findViewById(R.id.finish_voting_button)
         finishVotingButton.setOnClickListener {
+            Log.d("BallotBull", "Finish voting early")
             server.stopServer()
         }
     }

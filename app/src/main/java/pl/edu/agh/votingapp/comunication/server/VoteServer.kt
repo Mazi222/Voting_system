@@ -27,6 +27,8 @@ import pl.edu.agh.votingapp.database.dao.AnswersDAO
 import pl.edu.agh.votingapp.database.dao.QuestionDAO
 import pl.edu.agh.votingapp.database.dao.VotingDAO
 import pl.edu.agh.votingapp.database.entities.Answers
+import java.time.Instant
+import java.time.LocalDateTime
 
 class VoteServer {
 
@@ -41,6 +43,10 @@ class VoteServer {
         val questions = questionDAO.loadAllQuestions(voting.votingId)
         val answers = answersDAO.loadAllAnswers(voting.votingId)
         val answersMap = answers.associateBy { it.answerId }
+
+        //TODO
+        // 1. create voting from .votings based on type
+        // 2. w @Post dodawaj pytania do głosowania
 
         server = embeddedServer(Netty, createdPort) {
             install(ContentNegotiation) {
@@ -68,7 +74,9 @@ class VoteServer {
                                 it.questionId,
                                 it.answerContent
                             )
-                        }.groupBy { it.questionId })
+                        }.groupBy { it.questionId },
+                        -1 //TODO set code
+                    )
 
                     Log.d("BallotBull", message.toString())
                     call.respond(message)

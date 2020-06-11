@@ -1,6 +1,7 @@
 package pl.edu.agh.votingapp.viewmodel.join
 
 import android.net.nsd.NsdServiceInfo
+import android.util.Log
 import java.net.InetAddress
 
 class OngoingVotings{
@@ -19,7 +20,15 @@ class OngoingVotings{
 }
 
 class OngoingVoting(nsdInfo: NsdServiceInfo) {
-    var name: String = nsdInfo.serviceName
-    var port: Int = nsdInfo.port
-    var host: InetAddress = nsdInfo.host!!
+
+    var name: String
+    var port: Int
+    var host: InetAddress
+
+    init {
+        Log.d("BallotBull: FROM NSD", "Name: ${nsdInfo.serviceName}, port: ${nsdInfo.port}, host: ${nsdInfo.port}")
+        this.name = nsdInfo.serviceName
+        this.port = nsdInfo.port
+        this.host = nsdInfo.host
+    }
 }
