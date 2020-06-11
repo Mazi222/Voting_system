@@ -12,7 +12,7 @@ import retrofit2.Response
 
 class HowToSend {
 
-    fun sendingExample(answersList: List<Long>, userDto: UserDto) {
+    fun sendingExample(answersList: List<Long /*AnswerListElement*/>, userDto: UserDto) {
 
         val answers: MutableMap<Long, Long> = mutableMapOf()
         answersList.forEach { answerId ->

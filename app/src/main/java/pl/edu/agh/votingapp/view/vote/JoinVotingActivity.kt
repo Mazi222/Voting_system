@@ -13,9 +13,9 @@ class JoinVotingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join_voting)
-        var name = intent.getStringExtra("NAME")
-        val host = intent.getSerializableExtra("HOST") as InetAddress
-        val port = intent.getIntExtra("PORT", 8080)
+//        var name = intent.getStringExtra("NAME")
+//        val host = intent.getSerializableExtra("HOST") as InetAddress
+//        val port = intent.getIntExtra("PORT", 8080)
 
 //        TODO("TUTAJ POTRZEBNA JEST ZMIANA WIDOKU")
 //        - pole na userCode : Long? i przekazanie go przez intent dalej
@@ -25,8 +25,8 @@ class JoinVotingActivity : AppCompatActivity() {
         val joinVotingButton: Button = findViewById(R.id.btn_login)
         joinVotingButton.setOnClickListener {
             val intent = Intent(this, AnswerListActivity::class.java)
-            ServerData.host = host
-            ServerData.port = port
+//            ServerData.host = host
+//            ServerData.port = port
             startActivity(intent)
         }
     }
