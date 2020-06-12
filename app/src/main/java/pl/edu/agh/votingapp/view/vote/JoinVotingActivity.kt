@@ -1,21 +1,12 @@
 package pl.edu.agh.votingapp.view.vote
 
-import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.widget.*
 import pl.edu.agh.votingapp.R
 import java.net.InetAddress
-import android.graphics.Color
-import android.transition.Slide
-import android.transition.TransitionManager
 import android.util.Log
-import android.view.Gravity
-import android.view.View
 import androidx.appcompat.app.AlertDialog
 import pl.edu.agh.votingapp.viewmodel.join.ServerData
 
