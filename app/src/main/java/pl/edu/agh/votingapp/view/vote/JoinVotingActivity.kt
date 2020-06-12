@@ -15,7 +15,7 @@ class JoinVotingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join_voting)
-        val name = intent.getStringExtra("NAME")
+        var name = intent.getStringExtra("NAME")
         val host = intent.getSerializableExtra("HOST") as InetAddress
         val port = intent.getIntExtra("PORT", 8080)
 
