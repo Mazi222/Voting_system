@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.multidex.MultiDex
 import pl.edu.agh.votingapp.receiver.WifiReceiver
 import pl.edu.agh.votingapp.view.create.CreateVotingActivity
-import pl.edu.agh.votingapp.view.list.ListVotingsActivity
+import pl.edu.agh.votingapp.view.list.FinishedVotingListActivity
 import pl.edu.agh.votingapp.view.vote.VotesListActivity
 
 class MainActivity : AppCompatActivity() {
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun listMyVotings() {
-        val intent = Intent(this, ListVotingsActivity::class.java)
+        val intent = Intent(this, FinishedVotingListActivity::class.java)
         startActivity(intent)
     }
 
