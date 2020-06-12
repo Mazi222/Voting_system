@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun joinVoting() {
-//        val intent = Intent(this, VotesListActivity::class.java)
+        val intent = Intent(this, VotesListActivity::class.java)
 //        val intent = Intent(this, BordaCountActivity::class.java)
 //        val intent = Intent(this, JoinVotingActivity::class.java)
         startActivity(intent)

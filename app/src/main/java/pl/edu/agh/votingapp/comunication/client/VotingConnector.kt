@@ -13,7 +13,7 @@ import retrofit2.http.POST
 
 interface VoteConnector {
 
-    @GET("/voting")
+    @GET("/api/json-storage/bin/facffcc")
     fun loadVoting(): Call<VotingDto>
 
     @POST("/voting")
@@ -34,6 +34,6 @@ class VotingController {
     }
 
     companion object {
-        val BASE_URL = ServerData.getUrl()
+        val BASE_URL =  "https://extendsclass.com/"
     }
 }
