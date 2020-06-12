@@ -22,6 +22,9 @@ class AnswerListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_candidate_list)
 
+        val userName = intent.getStringExtra("userName")
+        val userCode = intent.getStringExtra("userCode")
+
         val votingConnector = VotingController().createConnector()
 
         votingConnector.loadVoting().enqueue(object : Callback<VotingDto> {
