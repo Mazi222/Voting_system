@@ -13,13 +13,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".view.list.ListVotingsActivity"
+            android:name=".view.list.FinishedVotingListActivity"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".view.list.OngoingVotingActivity" />
+        <activity
+            android:name=".view.list.FinishedVotingActivity"
+            android:parentActivityName=".view.list.FinishedVotingListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.list.FinishedVotingListActivity" />
+        </activity>
         <activity android:name=".view.vote.JoinVotingActivity" />
         <activity android:name=".view.vote.VotesListActivity" />
         <activity android:name=".view.vote.VoteGivenActivity" />

@@ -10,6 +10,9 @@ interface VotingDAO {
     @Query("SELECT * FROM voting")
     fun loadAllVotings(): LiveData<List<Voting>>
 
+    @Query("SELECT * FROM voting WHERE endTime < datetime('now')")
+    fun loadFinishedVotings(): LiveData<List<Voting>>
+
     @Query("SELECT * FROM voting WHERE votingId = :vid")
     fun getVoting(vid: Long): Voting
 

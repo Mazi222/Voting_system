@@ -8,7 +8,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
-        tools:context=".view.list.ListVotingsActivity">
+        tools:context=".view.list.FinishedVotingListActivity">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/noDataFoundText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="@string/no_data_available" />
 </FrameLayout>

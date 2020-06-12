@@ -4,13 +4,15 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.room.Room
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import pl.edu.agh.votingapp.database.AppDatabase
 import pl.edu.agh.votingapp.database.dao.VotingDAO
 import pl.edu.agh.votingapp.database.entities.Voting
 
-class ListVotingsViewModel(application: Application) : AndroidViewModel(application) {
+class FinishedVotingViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val TAG = "ListVotingsViewModel"
+    private val TAG = "FinishedVotingViewModel"
 
     private val db: AppDatabase = Room.databaseBuilder(
         application.applicationContext,
@@ -20,9 +22,10 @@ class ListVotingsViewModel(application: Application) : AndroidViewModel(applicat
 
     private val votingDao: VotingDAO = db.VotingDAO()
 
-    val votingList: LiveData<List<Voting>>
+    val votingList: LiveData<List<Voting>> = votingDao.loadAllVotings()
 
-    init {
-        votingList = votingDao.loadAllVotings()
+    suspend fun getVotingById(votingId: Long): Voting = withContext(Dispatchers.IO) {
+        votingDao.getVoting(votingId)
     }
+
 }
