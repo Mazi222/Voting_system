@@ -32,8 +32,7 @@ class CandidateListAdapter(private val myDataset: List<AnswerListElement>) :
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): MyViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val cell = LayoutInflater.from(parent.context)
             .inflate(R.layout.candidate_list_item, parent, false)
 

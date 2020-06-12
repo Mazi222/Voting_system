@@ -39,6 +39,7 @@ class JoinVotingActivity : AppCompatActivity() {
                 mAlertDialog.setTitle("")
                 mAlertDialog.setMessage("Are you sure you want to join this voting?")
                 mAlertDialog.setPositiveButton("Yes") { dialog, id ->
+
                     Log.d("BallotBull: join voting", "Join voting with name ${name!!}")
                     val intent = Intent(this, AnswerListActivity::class.java)
                     ServerData.host = host

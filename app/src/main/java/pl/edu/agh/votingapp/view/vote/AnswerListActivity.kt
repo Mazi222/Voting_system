@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pl.edu.agh.votingapp.R
+import pl.edu.agh.votingapp.VotingType
 import pl.edu.agh.votingapp.comunication.client.VotingController
 import pl.edu.agh.votingapp.comunication.model.VotingDto
 import retrofit2.Call
@@ -51,7 +52,10 @@ class AnswerListActivity : AppCompatActivity() {
         recyclerView = findViewById<RecyclerView>(R.id.candidate_list_rec_view).apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this@AnswerListActivity)
-            adapter = CandidateListAdapter(myDataset)
+            when(votingDto.type) {
+                VotingType.BORDA_COUNT -> adapter = BordaCountAdapter(myDataset)
+                else -> adapter = CandidateListAdapter(myDataset)
+            }
         }
     }
 
