@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import pl.edu.agh.votingapp.R
 import pl.edu.agh.votingapp.VotingType
@@ -34,12 +33,7 @@ class VotingTypeListAdapter(
         holder.bind(votingType)
 
         holder.itemView.isSelected = position == lastSelectedPos
-        holder.itemView.setOnClickListener { view ->
-            Toast.makeText(
-                view.context,
-                "Selected: " + votingType.type,
-                Toast.LENGTH_SHORT
-            ).show()
+        holder.itemView.setOnClickListener {
             fragment.model.votingType = votingType
 
             val copySelectedPos = lastSelectedPos
