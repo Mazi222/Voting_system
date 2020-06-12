@@ -61,6 +61,7 @@ class CreateVotingViewModel(application: Application) : AndroidViewModel(applica
             votingContent = content,
             quorum = quorum,
             isOpen = isOpen,
+            votingCode = votingCode,
             winnersNb = winnersNb
         )
         var votingId: Long

@@ -10,7 +10,7 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:text="@string/main_subtitle"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +36,7 @@
         android:id="@+id/constraintLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -44,13 +44,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <Button
                 android:id="@+id/join_voting_btn"
                 style="@style/Widget.MaterialComponents.Button.Icon"
-                android:layout_width="190dp"
+                android:layout_width="130dp"
                 android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 android:text="@string/main_join_voting_btn"
                 android:textAllCaps="true"
                 android:textColor="@color/design_default_color_on_primary"
@@ -59,10 +65,12 @@
             <Button
                 android:id="@+id/create_voting_btn"
                 style="@style/Widget.MaterialComponents.Button.Icon"
-                android:layout_width="190dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 android:text="@string/main_create_voting_btn"
                 android:textAllCaps="true"
                 android:textColor="@color/design_default_color_on_primary"
@@ -71,8 +79,10 @@
             <Button
                 android:id="@+id/list_votings_btn"
                 style="@style/Widget.MaterialComponents.Button.Icon"
-                android:layout_width="190dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 android:text="@string/main_list_votings_btn"
                 android:textAllCaps="true"
                 android:textColor="@color/design_default_color_on_primary"

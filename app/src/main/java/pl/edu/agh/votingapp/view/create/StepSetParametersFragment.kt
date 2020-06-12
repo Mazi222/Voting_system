@@ -10,13 +10,11 @@ import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RadioButton
-import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.TextInputEditText
 import com.stepstone.stepper.Step
 import com.stepstone.stepper.VerificationError
@@ -48,13 +46,12 @@ class StepSetParametersFragment : Fragment(R.layout.fragment_step_set_parameters
         val pplToChoose: TextInputEditText = view.findViewById(R.id.pplToChoose)
         val pplEntitled: TextInputEditText = view.findViewById(R.id.pplEntitled)
         val quorum: TextInputEditText = view.findViewById(R.id.quorum)
-        val openGroup: RadioGroup = view.findViewById(R.id.openGroup)
+        val isOpenSwitch: SwitchMaterial = view.findViewById(R.id.isOpenSwitch)
         val votingCode: TextInputEditText = view.findViewById(R.id.votingCode)
         val endDate: TextInputEditText = view.findViewById(R.id.endDate)
 
         endDate.showSoftInputOnFocus = false
-        openGroup.findViewById<RadioButton>(R.id.openTrue).isChecked = true
-        votingCode.isVisible = false
+        isOpenSwitch.isChecked = true
 
         votingName.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
@@ -96,20 +93,8 @@ class StepSetParametersFragment : Fragment(R.layout.fragment_step_set_parameters
             }
         })
 
-        openGroup.setOnCheckedChangeListener { _, checkedId ->
-            when (checkedId) {
-                R.id.openTrue -> {
-                    model.isOpen = true
-                    votingCode.isVisible = false
-                    model.votingCode = -1L
-                }
-                R.id.openFalse -> {
-                    model.isOpen = false
-                    votingCode.isVisible = true
-                }
-                else -> {
-                }
-            }
+        isOpenSwitch.setOnCheckedChangeListener { _, isChecked ->
+            model.isOpen = isChecked
         }
 
         votingCode.addTextChangedListener(object : TextWatcher {
@@ -139,7 +124,7 @@ class StepSetParametersFragment : Fragment(R.layout.fragment_step_set_parameters
                             model.endTime = Date(pickedDateTime.time.time)
                             endDate.setText(
                                 DateFormat.format(
-                                    "dd.MM.yyyy, HH:mm",
+                                    "EEE, MMM dd yyyy, HH:mm",
                                     pickedDateTime.time
                                 ), TextView.BufferType.EDITABLE
                             )
@@ -179,8 +164,8 @@ class StepSetParametersFragment : Fragment(R.layout.fragment_step_set_parameters
         if (model.endTime.before(Date())) {
             return VerificationError("End date cannot be in the past")
         }
-        if (!model.isOpen && model.votingCode == -1L) {
-            return VerificationError("Voting is closed, choose voting code")
+        if (model.votingCode == -1L) {
+            return VerificationError("Choose voting code")
         }
         return null
     }

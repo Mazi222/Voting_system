@@ -2,8 +2,8 @@
     <string name="app_name">Ballot Bull</string>
     <string name="main_subtitle">Online voting made easy</string>
     <string name="main_join_voting_btn">Join voting</string>
-    <string name="main_create_voting_btn">Create new voting</string>
-    <string name="main_list_votings_btn">List my votings</string>
+    <string name="main_create_voting_btn">Create voting</string>
+    <string name="main_list_votings_btn">Finished votings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -17,7 +17,7 @@
     <string name="number_of_answers">Number of answers</string>
     <string name="number_of_people_entitled_to_vote">Number of people entitled to vote</string>
     <string name="quorum">Quorum</string>
-    <string name="type_of_voting">Type of voting</string>
+    <string name="is_voting_open">Is voting open</string>
     <string name="voting_is_open">Open</string>
     <string name="voting_is_closed">Closed</string>
     <string name="voting_end_date">Voting end date</string>

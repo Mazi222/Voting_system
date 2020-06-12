@@ -28,7 +28,8 @@
         <activity android:name=".view.vote.CandidateListActivity" />
         <activity
             android:name=".view.create.CreateVotingActivity"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:noHistory="true">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />

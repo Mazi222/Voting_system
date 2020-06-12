@@ -44,6 +44,9 @@ class CreateVotingActivity : AppCompatActivity(), StepperLayout.StepperListener 
             "Successfully created new voting!",
             Toast.LENGTH_SHORT
         ).show()
+
+        this.viewModelStore.clear()
+        finish()
     }
 
     override fun onError(verificationError: VerificationError) {
