@@ -3,28 +3,13 @@ package pl.edu.agh.votingapp.viewmodel.join
 import android.net.nsd.NsdServiceInfo
 import android.os.AsyncTask
 import android.util.Log
+import pl.edu.agh.votingapp.comunication.NsdHelper
 import java.net.Inet4Address
 import java.net.InetAddress
 
 class OngoingVotings {
 
-    init {
-        val nsdServiceInfo = NsdServiceInfo()
-        nsdServiceInfo.serviceName = "Wybieramy ziemniaki"
-        nsdServiceInfo.port = 8080
-        AsyncTask.execute {
-            nsdServiceInfo.host = InetAddress.getByName("127.0.0.1")
-            votings.add(OngoingVoting(nsdServiceInfo))
-        }
-    }
-
-    companion object {
-        var votings: MutableList<OngoingVoting> = arrayListOf()
-    }
-
-    fun getVotings(): MutableList<OngoingVoting> {
-        return votings
-    }
+    var votings: MutableList<OngoingVoting> = arrayListOf()
 
     fun addVoting(nsdInfo: NsdServiceInfo) {
         votings.add(OngoingVoting(nsdInfo))
@@ -39,11 +24,17 @@ class OngoingVoting(nsdInfo: NsdServiceInfo) {
 
     init {
         Log.d(
-            "BallotBull: FROM NSD",
-            "Name: ${nsdInfo.serviceName}, port: ${nsdInfo.port}, host: ${nsdInfo.port}"
+            "BallotBull",
+            "Ongoing Votng from NSD - Name: ${nsdInfo.serviceName}, port: ${nsdInfo.port}, host: ${nsdInfo.host}"+
+                    "host2 : ${InetAddress.getByName(nsdInfo.serviceName.substringAfter('ə'))}"
         )
-        this.name = nsdInfo.serviceName
-        this.port = nsdInfo.port
-        this.host = nsdInfo.host
+
+
+        this.name = nsdInfo.serviceName.substringBefore('ə')
+//        this.port = nsdInfo.port
+//        this.host = nsdInfo.host
+        this.port = 8080
+        this.host = InetAddress.getByName(nsdInfo.serviceName.substringAfter('ə'))
+
     }
 }

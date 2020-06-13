@@ -11,6 +11,7 @@ import com.stepstone.stepper.StepperLayout
 import com.stepstone.stepper.VerificationError
 import pl.edu.agh.votingapp.R
 import pl.edu.agh.votingapp.viewmodel.create.CreateVotingViewModel
+import java.util.*
 
 class CreateVotingActivity : AppCompatActivity(), StepperLayout.StepperListener {
 
@@ -38,8 +39,9 @@ class CreateVotingActivity : AppCompatActivity(), StepperLayout.StepperListener 
 
         val intent = Intent(this, OngoingVotingActivity::class.java)
         intent.putExtra("VOTING_END_MILLIS", model.endTime.time)
-        intent.putExtra("VOTING_END_DATE", model.endTime.toString())
+        intent.putExtra("VOTING_END_DATE", Date(model.endTime.time))
         intent.putExtra("VOTING_NAME", model.name)
+        intent.putExtra("CODE", model.votingCode)
         startActivity(intent)
 
         Toast.makeText(

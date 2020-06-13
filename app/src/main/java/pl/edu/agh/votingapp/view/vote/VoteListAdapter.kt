@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import pl.edu.agh.votingapp.R
 import pl.edu.agh.votingapp.viewmodel.join.OngoingVoting
+import pl.edu.agh.votingapp.viewmodel.join.ServerData
 import java.io.Serializable
 
 class VoteListAdapter(private val votingList: MutableList<OngoingVoting>) :
@@ -27,8 +28,8 @@ class VoteListAdapter(private val votingList: MutableList<OngoingVoting>) :
             val intent = Intent(parent.context, JoinVotingActivity::class.java)
             val ongoingVoting = votingList[position]
             intent.putExtra("NAME", ongoingVoting.name)
-            intent.putExtra("HOST", ongoingVoting.host)
-            intent.putExtra("PORT", ongoingVoting.port)
+            ServerData.host = ongoingVoting.host
+            ServerData.port = ongoingVoting.port
             parent.context.startActivity(intent)
         }
     }

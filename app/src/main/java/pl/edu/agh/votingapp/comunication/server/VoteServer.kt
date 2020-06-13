@@ -33,7 +33,10 @@ class VoteServer {
     private val questionDAO: QuestionDAO = db.QuestionDAO()
     private val votingDao: VotingDAO = db.VotingDAO()
     private val answersDAO: AnswersDAO = db.AnswersDAO()
-    private lateinit var server: ApplicationEngine
+
+    companion object {
+        lateinit var server: ApplicationEngine
+    }
 
     fun startServer(createdPort: Int) {
         val voting = votingDao.getWithMaxId()
@@ -95,10 +98,13 @@ class VoteServer {
                 }
             }
         }.start(true)
+        Log.e("BallotBull", "Serwer started $server")
     }
 
     fun stopServer() {
+//        TODO()
         server.stop(1, 1, TimeUnit.SECONDS)
+//        }
     }
 
 }

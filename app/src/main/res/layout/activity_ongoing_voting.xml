@@ -7,31 +7,6 @@
     tools:context=".view.create.OngoingVotingActivity">
 
     <TextView
-        android:id="@+id/finish_date"
-        android:layout_width="204dp"
-        android:layout_height="113dp"
-        android:gravity="center|center_vertical"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/finish_voting_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/voting_name"
-        tools:text="13.06.2020 13:55" />
-
-    <Button
-        android:id="@+id/finish_voting_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/finish_voting_btn"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/finish_date" />
-
-    <TextView
         android:id="@+id/voting_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,5 +19,54 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Wybory" />
+
+    <TextView
+        android:id="@+id/finish_date"
+        android:layout_width="204dp"
+        android:layout_height="113dp"
+        android:gravity="center|center_vertical"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/code_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/voting_name"
+        tools:text="13.06.2020 13:55" />
+
+    <Button
+        android:id="@+id/finish_voting_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/finish_voting_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/code_view" />
+
+    <TextView
+        android:id="@+id/code_view"
+        android:layout_width="158dp"
+        android:layout_height="62dp"
+        android:gravity="center|center_vertical"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/finish_voting_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/code_label"
+        app:layout_constraintTop_toBottomOf="@+id/finish_date"
+        tools:text="Code" />
+
+    <TextView
+        android:id="@+id/code_label"
+        android:layout_width="77dp"
+        android:layout_height="60dp"
+        android:gravity="center|center_vertical"
+        android:text="@string/voting_code_label"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/code_view"
+        app:layout_constraintEnd_toStartOf="@+id/code_view"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Code" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

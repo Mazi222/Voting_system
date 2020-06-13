@@ -27,6 +27,7 @@ class AnswerListActivity : AppCompatActivity() {
         votingConnector.loadVoting().enqueue(object : Callback<VotingDto> {
             override fun onResponse(call: Call<VotingDto>, response: Response<VotingDto>) {
                 Log.d("BallotBull:", "Get voting response: " + response.body().toString())
+                Log.d("BallotBull:", "Get voting response: $response")
                 setData(response.body()!!)
             }
 
@@ -37,6 +38,7 @@ class AnswerListActivity : AppCompatActivity() {
     }
 
     private fun setData(votingDto: VotingDto) {
+        title = votingDto.votingContent
         myDataset = votingDto.answers.map {
             AnswerListElement(
                 it.answerContent,

@@ -2,20 +2,13 @@ package pl.edu.agh.votingapp.viewmodel.join
 
 import java.net.InetAddress
 
-class ServerData(host_ : InetAddress, port_ : Int)  {
+class ServerData {
+    companion object {
+        lateinit var host: InetAddress
+        var port: Int = 8080
 
-    companion object{
-        lateinit var host : InetAddress
-        var port : Int = 8080
-
-        fun getUrl() : String {
-            return "http://$host:$port/voting"
+        fun getUrl(): String {
+            return "http://$host:$port/"
         }
     }
-
-    init{
-        var host : InetAddress = host_
-        var port : Int = port_
-    }
-
 }
