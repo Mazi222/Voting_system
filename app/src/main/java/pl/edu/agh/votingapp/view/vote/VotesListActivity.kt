@@ -20,7 +20,7 @@ class VotesListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_votes_list)
 
         votingList = OngoingVotings()
-        viewAdapter = VoteListAdapter(votingList.getVotings())
+        viewAdapter = VoteListAdapter(votingList.votings)
 
         serverDiscovery = ServerDiscovery(this, viewAdapter, votingList)
         viewManager = LinearLayoutManager(this)
@@ -31,7 +31,7 @@ class VotesListActivity : AppCompatActivity() {
             adapter = viewAdapter
         }
 
-        serverDiscovery.discoverServices()
+        serverDiscovery.discoverServices(this)
     }
 
     override fun onPause() {

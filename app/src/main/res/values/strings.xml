@@ -25,4 +25,5 @@
     <string name="voting_name_placeholder">Voting name</string>
     <string name="voting_code">Voting code</string>
     <string name="confirm">Confirm</string>
+    <string name="voting_code_label">Code:</string>
 </resources>

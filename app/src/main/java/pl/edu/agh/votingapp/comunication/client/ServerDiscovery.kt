@@ -1,5 +1,6 @@
 package pl.edu.agh.votingapp.comunication.client
 
+import android.app.Activity
 import android.content.Context
 import android.net.nsd.NsdManager
 import android.net.nsd.NsdServiceInfo
@@ -19,7 +20,7 @@ class ServerDiscovery(
 
     var nsdHelper = NsdHelper(context)
 
-    fun discoverServices() {
+    fun discoverServices(activity : Activity) {
         stopDiscovery() // Cancel any existing discovery request
         Log.d(TAG, "Starting new discovery")
 
@@ -35,7 +36,11 @@ class ServerDiscovery(
                     SERVICE_TYPE -> {
                         Log.d(TAG, "Service Name: " + service.serviceName)
                         votingList.addVoting(service)
-                        viewAdapter.notifyDataSetChanged()
+                        Log.d(TAG, "viewAdapter $viewAdapter")
+                        activity.runOnUiThread {
+                            viewAdapter.notifyDataSetChanged()
+                        }
+                        Log.d(TAG, "3")
                     }
                     else -> {
                         Log.d(TAG, "Undefined Service Name: " + service.serviceName)
@@ -46,13 +51,13 @@ class ServerDiscovery(
             override fun onServiceLost(service: NsdServiceInfo) {
                 Log.e(TAG, "Service lost $service")
                 var removeIndex: Int? = null
-                for ((index, voting) in votingList.getVotings().withIndex()) {
-                    if (voting.name == service.serviceName) {
+                for ((index, voting) in votingList.votings.withIndex()) {
+                    if (service.serviceName.contains(voting.name)) {
                         removeIndex = index
                         break
                     }
                 }
-                if (removeIndex != null) votingList.getVotings().removeAt(removeIndex)
+                if (removeIndex != null) votingList.votings.removeAt(removeIndex)
             }
 
             override fun onDiscoveryStopped(serviceType: String) {

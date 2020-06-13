@@ -11,7 +11,7 @@ import pl.edu.agh.votingapp.database.dao.QuestionDAO
 import pl.edu.agh.votingapp.database.dao.VotingDAO
 import pl.edu.agh.votingapp.database.entities.Answer
 import pl.edu.agh.votingapp.database.entities.Voting
-import java.sql.Date
+import java.util.Date
 
 class CreateVotingViewModel(application: Application) : AndroidViewModel(application) {
 

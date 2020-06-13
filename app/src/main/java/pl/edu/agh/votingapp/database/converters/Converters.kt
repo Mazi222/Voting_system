@@ -3,8 +3,6 @@ package pl.edu.agh.votingapp.database.converters
 import android.util.Log
 import androidx.room.TypeConverter
 import pl.edu.agh.votingapp.VotingType
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class Converters {
@@ -15,7 +13,7 @@ class Converters {
 
     @TypeConverter
     fun dateToTimestamp(date: Date?): Long? {
-        return date?.time?.toLong()
+        return date?.time
     }
 
     @TypeConverter

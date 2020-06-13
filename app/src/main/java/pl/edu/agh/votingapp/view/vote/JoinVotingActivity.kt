@@ -5,10 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
 import pl.edu.agh.votingapp.R
-import java.net.InetAddress
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
-import pl.edu.agh.votingapp.viewmodel.join.ServerData
 
 class JoinVotingActivity : AppCompatActivity() {
 
@@ -16,8 +14,6 @@ class JoinVotingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join_voting)
         val name = intent.getStringExtra("NAME")
-        val host = intent.getSerializableExtra("HOST") as InetAddress
-        val port = intent.getIntExtra("PORT", 8080)
 
         val etFirstName: EditText = findViewById(R.id.etFirstName) as EditText
         val etLastName: EditText = findViewById(R.id.etLastName) as EditText
@@ -42,8 +38,6 @@ class JoinVotingActivity : AppCompatActivity() {
 
                     Log.d("BallotBull: join voting", "Join voting with name ${name!!}")
                     val intent = Intent(this, AnswerListActivity::class.java)
-                    ServerData.host = host
-                    ServerData.port = port
                     intent.putExtra("userName", "$firstName $lastName")
                     intent.putExtra("userCode", "$userCode")
                     startActivity(intent)
