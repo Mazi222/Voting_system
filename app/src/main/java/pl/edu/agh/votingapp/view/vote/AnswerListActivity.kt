@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pl.edu.agh.votingapp.R
@@ -18,6 +20,7 @@ class AnswerListActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var myDataset: List<AnswerListElement>
+    private lateinit var confirmBtn: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +28,7 @@ class AnswerListActivity : AppCompatActivity() {
 
         val userName = intent.getStringExtra("userName")
         val userCode = intent.getStringExtra("userCode")
+        confirmBtn = findViewById(R.id.confirm_btn)
 
         val votingConnector = VotingController().createConnector()
 
@@ -52,9 +56,16 @@ class AnswerListActivity : AppCompatActivity() {
         recyclerView = findViewById<RecyclerView>(R.id.candidate_list_rec_view).apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this@AnswerListActivity)
+
+            title = votingDto.votingContent
+
             when(votingDto.type) {
+
                 VotingType.BORDA_COUNT -> adapter = BordaCountAdapter(myDataset)
-                else -> adapter = CandidateListAdapter(myDataset)
+                else -> {
+                    adapter = CandidateListAdapter(myDataset)
+                    confirmBtn.visibility = View.INVISIBLE
+                }
             }
         }
     }

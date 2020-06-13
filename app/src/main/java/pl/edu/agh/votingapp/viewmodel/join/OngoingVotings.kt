@@ -10,22 +10,12 @@ class OngoingVotings {
 
     init {
         val nsdServiceInfo = NsdServiceInfo()
-        nsdServiceInfo.serviceName = "Wybieramy ziemniaki"
+        nsdServiceInfo.serviceName = "Sample voting"
         nsdServiceInfo.port = 8080
-        val brokul = NsdServiceInfo()
-        brokul.serviceName = "Wybieramy brokuły"
-        brokul.port = 8080
-        val brukselka = NsdServiceInfo()
-        brukselka.serviceName = "Wybieramy brukselki"
-        brukselka.port = 8080
 
         AsyncTask.execute {
             nsdServiceInfo.host = InetAddress.getByName("127.0.0.1")
             votings.add(OngoingVoting(nsdServiceInfo))
-            brokul.host = InetAddress.getByName("127.0.0.1")
-            votings.add(OngoingVoting(brokul))
-            brukselka.host = InetAddress.getByName("127.0.0.1")
-            votings.add(OngoingVoting(brukselka))
         }
     }
 
