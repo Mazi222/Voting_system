@@ -9,6 +9,7 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.http.GET
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface VoteConnector {
@@ -17,7 +18,7 @@ interface VoteConnector {
     fun loadVoting(): Call<VotingDto>
 
     @POST("/voting")
-    fun sendAnswers(answers: VoteResponseDto): Call<String>
+    fun sendAnswers(@Body answers: VoteResponseDto): Call<String>
 }
 
 class VotingController {

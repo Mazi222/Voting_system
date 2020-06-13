@@ -54,7 +54,6 @@ class AnswerListActivity : AppCompatActivity() {
     }
 
     private fun setData(votingDto: VotingDto) {
-//        var bordaAnswerList: Map<AnswerListElement>
         myDataset = votingDto.answers.map {
             AnswerListElement(
                 it.answerContent,
@@ -74,6 +73,9 @@ class AnswerListActivity : AppCompatActivity() {
 
             title = votingDto.votingContent
 
+//            A spróbuj może wyciągnąć tego retrofita z listenera do jakiejś funkcji
+//                    I ta funkcję wywołać?
+
             when(votingDto.type) {
                 VotingType.BORDA_COUNT -> {
                     adapter = BordaCountAdapter(myDataset,this@AnswerListActivity)
@@ -92,7 +94,6 @@ class AnswerListActivity : AppCompatActivity() {
                                     Log.d("BallotBull: votes send ", t.message!!)
 
                                 }
-
                             })
                         Log.d("Final Map: ", bordaAnswerMap.toString())
                     }
@@ -103,6 +104,7 @@ class AnswerListActivity : AppCompatActivity() {
             }
         }
     }
+
 
     fun updateAnswerMap(answerId: Long, points: Long) {
         bordaAnswerMap.put(answerId, points)
