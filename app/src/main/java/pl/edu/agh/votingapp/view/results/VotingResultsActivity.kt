@@ -73,9 +73,9 @@ class VotingResultsActivity : AppCompatActivity() {
             try {
                 /**************************************** MOCK START *********************
                 val winners = arrayListOf(
-                Answers(answerContent = "elo elo elo elo elo elo elo elo elo", count = 10L),
-                Answers(answerContent = "hej hej", count = 7L),
-                Answers(answerContent = "jou jou", count = 4L)
+                Answer(answerContent = "elo elo elo elo elo elo elo elo elo", count = 10L),
+                Answer(answerContent = "hej hej", count = 7L),
+                Answer(answerContent = "jou jou", count = 4L)
                 )
                  **************************** MOCK END ***********************************/
 
@@ -86,7 +86,7 @@ class VotingResultsActivity : AppCompatActivity() {
                 Log.d(TAG, "Quorum not reached!")
                 winnersText.visibility = View.GONE
                 winnersTableLayout.visibility = View.GONE
-                resultMessage.text = "Nobody wins! Quorum has not been reached."
+                resultMessage.text = getString(R.string.quorum_not_reached_msg)
                 resultMessage.visibility = View.VISIBLE
             }
 
