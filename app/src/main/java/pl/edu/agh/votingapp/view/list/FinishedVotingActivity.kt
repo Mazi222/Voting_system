@@ -32,6 +32,7 @@ class FinishedVotingActivity : AppCompatActivity() {
         val votingId = intent.getLongExtra("VOTING_ID", 0L)
         lifecycleScope.launch {
             voting = model.getVotingById(votingId)
+
             title = voting.name
 
             // set view
