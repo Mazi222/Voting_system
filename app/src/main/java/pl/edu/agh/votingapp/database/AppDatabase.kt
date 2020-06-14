@@ -15,7 +15,7 @@ import pl.edu.agh.votingapp.database.entities.Question
 import pl.edu.agh.votingapp.database.entities.User
 import pl.edu.agh.votingapp.database.entities.Voting
 
-@Database(entities = [(Voting::class), (User::class), (Question::class), (Answer::class)], version = 2, exportSchema = false)
+@Database(entities = [(Voting::class), (User::class), (Question::class), (Answer::class)], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun VotingDAO(): VotingDAO
