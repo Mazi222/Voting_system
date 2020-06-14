@@ -64,6 +64,10 @@ class VotingResultsActivity : AppCompatActivity() {
             VotingType.SINGLE_NON_TRANSFERABLE_VOTE -> SingleNonTransferableVote(db)
             else -> MajorityVote(db)
         }
+        val seriesName = when (votingType) {
+            VotingType.BORDA_COUNT -> "Points"
+            else -> "Votes"
+        }
 
         val barChart = getBarChart()
         val data: MutableList<DataEntry> = ArrayList()
@@ -103,7 +107,7 @@ class VotingResultsActivity : AppCompatActivity() {
             }
 
             val series = barChart.bar(data)
-            series.name("Votes")
+            series.name(seriesName)
             series.tooltip()
                 .position(Position.RIGHT_CENTER)
                 .anchor(Anchor.LEFT_CENTER)
