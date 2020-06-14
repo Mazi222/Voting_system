@@ -1,14 +1,16 @@
 package pl.edu.agh.votingapp.view.vote
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import pl.edu.agh.votingapp.R
+import pl.edu.agh.votingapp.comunication.model.UserDto
 
-class CandidateListAdapter(private val myDataset: List<AnswerListElement>) :
+class CandidateListAdapter(private val myDataset: List<AnswerListElement>, private val userDto: UserDto) :
     RecyclerView.Adapter<CandidateListAdapter.MyViewHolder>() {
 
     class MyViewHolder(val view: View, val parent: ViewGroup) : RecyclerView.ViewHolder(view) {
@@ -19,13 +21,18 @@ class CandidateListAdapter(private val myDataset: List<AnswerListElement>) :
         val programButton: Button = view.findViewById(R.id.btnProgram)
         val voteButton: Button = view.findViewById(R.id.btnVote)
 
-        fun bindButtons() {
+        fun bindButtons(myDataset: List<AnswerListElement>, position: Int, userDto: UserDto) {
             programButton.setOnClickListener {
                 val intent = Intent(parent.context, CandidateProgramActivity::class.java)
                 parent.context.startActivity(intent)
             }
             voteButton.setOnClickListener {
                 val intent = Intent(parent.context, CandidateVoteActivity::class.java)
+                Log.d("TUUTUTUTUUT", userDto.votingId.toString())
+                intent.putExtra("answerId", myDataset[position].answerId)
+                intent.putExtra("votingId", userDto.votingId)
+                intent.putExtra("userCode", userDto.userCode)
+                intent.putExtra("userName", userDto.userName)
                 intent.putExtra("name", candidateName.text)
                 parent.context.startActivity(intent)
             }
@@ -44,7 +51,7 @@ class CandidateListAdapter(private val myDataset: List<AnswerListElement>) :
         holder.candidateName.text = myDataset[position].name
         holder.candidatePhoto.setImageResource(myDataset[position].image)
 
-        holder.bindButtons()
+        holder.bindButtons(myDataset, position, userDto)
 
     }
 

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pl.edu.agh.votingapp.R
@@ -23,7 +24,7 @@ class AnswerListActivity : AppCompatActivity() {
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var myDataset: List<AnswerListElement>
     private lateinit var confirmBtn: Button
-    private lateinit var bordaAnswerMap: MutableMap<Long, Long> //MutableList<AnswerListElement>
+    private lateinit var bordaAnswerMap: MutableMap<Long, Long>
     private lateinit var userDto: UserDto
     private lateinit var userName: String
     private lateinit var userCode: String
@@ -73,32 +74,36 @@ class AnswerListActivity : AppCompatActivity() {
 
             title = votingDto.votingContent
 
-//            A spróbuj może wyciągnąć tego retrofita z listenera do jakiejś funkcji
-//                    I ta funkcję wywołać?
-
             when(votingDto.type) {
                 VotingType.BORDA_COUNT -> {
                     adapter = BordaCountAdapter(myDataset,this@AnswerListActivity)
                     confirmBtn.setOnClickListener {
-//                        validate()    TODO
-                        val request = VoteResponseDto(userDto, bordaAnswerMap)
-                        val votingConnector = VotingController().createConnector()
+                        if(isValidAnswer(myDataset.size)) {
+                            val request = VoteResponseDto(userDto, bordaAnswerMap)
+                            val votingConnector = VotingController().createConnector()
 
-                        votingConnector.sendAnswers(request).enqueue(
-                            object : Callback<String> {
-                                override fun onResponse(call: Call<String>, response: Response<String>) {
-                                    Log.d("BallotBull: votes send", response.body()!!)
-                                }
+                            votingConnector.sendAnswers(request).enqueue(
+                                object : Callback<String> {
+                                    override fun onResponse(
+                                        call: Call<String>,
+                                        response: Response<String>
+                                    ) {
+//                                        Log.d("BallotBull: votes send", response.body()!!)
+                                        Log.d("BallotBull: votes send", response.toString())
+                                    }
 
-                                override fun onFailure(call: Call<String>, t: Throwable) {
-                                    Log.d("BallotBull: votes send ", t.message!!)
+                                    override fun onFailure(call: Call<String>, t: Throwable) {
+                                        Log.d("BallotBull: votes send ", t.message!!)
 
-                                }
-                            })
-                        Log.d("Final Map: ", bordaAnswerMap.toString())
+                                    }
+                                })
+                            Log.d("Final Map: ", bordaAnswerMap.toString())
+                        } else {
+                            Toast.makeText(this@AnswerListActivity, "Incorrect input", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 } else -> {
-                    adapter = CandidateListAdapter(myDataset)
+                    adapter = CandidateListAdapter(myDataset, userDto)
                     confirmBtn.visibility = View.INVISIBLE
                 }
             }
@@ -108,6 +113,18 @@ class AnswerListActivity : AppCompatActivity() {
 
     fun updateAnswerMap(answerId: Long, points: Long) {
         bordaAnswerMap.put(answerId, points)
+    }
+
+    fun isValidAnswer(size: Int): Boolean {
+        var pointSum: Long = 0
+        bordaAnswerMap.forEach {
+            pointSum += it.value
+        }
+        var expectedPointSum: Long = 0
+        for (i in 1..size) {
+            expectedPointSum += i
+        }
+        return expectedPointSum == pointSum
     }
 
     private fun showProgram() {

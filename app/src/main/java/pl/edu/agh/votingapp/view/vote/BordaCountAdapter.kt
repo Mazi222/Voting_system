@@ -43,6 +43,4 @@ class BordaCountAdapter(private val myDataset: List<AnswerListElement>, val mCon
             }
         })
     }
-
-
 }
