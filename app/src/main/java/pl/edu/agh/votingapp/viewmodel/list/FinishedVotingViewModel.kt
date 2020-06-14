@@ -12,14 +12,9 @@ import pl.edu.agh.votingapp.database.entities.Voting
 
 class FinishedVotingViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val TAG = "FinishedVotingViewModel"
+    private val TAG = "BallotBull"
 
-    private val db: AppDatabase = Room.databaseBuilder(
-        application.applicationContext,
-        AppDatabase::class.java,
-        "app-database"
-    ).build()
-
+    private val db: AppDatabase = AppDatabase.getInstance(application.applicationContext)
     private val votingDao: VotingDAO = db.VotingDAO()
 
     val votingList: LiveData<List<Voting>> = votingDao.loadAllVotings()

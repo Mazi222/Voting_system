@@ -2,7 +2,7 @@ package pl.edu.agh.votingapp.comunication.model
 
 import pl.edu.agh.votingapp.VotingType
 
-class VotingDto(
+data class VotingDto(
     val votingId: Long,
     val type: VotingType,
     val answers: List<AnswerDto>,

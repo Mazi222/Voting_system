@@ -37,14 +37,15 @@ class OngoingVotingActivity : AppCompatActivity() {
         val votingNameView = findViewById<TextView>(R.id.voting_name)
         votingNameView.text = votingName
 
+        val host = getIpAddress()
+        Log.d("BallotBull", "Current server IP: $host")
+
         // create server
         AsyncTask.execute {
-            server.startServer(8080)
+            server.startServer(8080, host!!)
         }
 
         // register service
-        val host = getIpAddress()
-        Log.d("BallotBull", "Current server IP: $host")
         nsdRegistrator = ServerRegistration(this)
         nsdRegistrator.registerServer(votingName, 8080, host!!)
 
@@ -63,12 +64,14 @@ class OngoingVotingActivity : AppCompatActivity() {
     }
 
     private fun finishVoting() {
-        nsdRegistrator.unregisterServer();
-        VoteServer.stopServer()
+        if(VoteServer.isWorking()) {
+            nsdRegistrator.unregisterServer();
+            VoteServer.stopServer()
 
-        val i = Intent(this, MainActivity::class.java)
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        startActivity(i)
+            val i = Intent(this, MainActivity::class.java)
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(i)
+        }
     }
 
     @Suppress("DEPRECATION")

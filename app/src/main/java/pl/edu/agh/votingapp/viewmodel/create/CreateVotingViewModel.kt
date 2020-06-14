@@ -15,7 +15,7 @@ import java.util.Date
 
 class CreateVotingViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val TAG = "CreateVotingViewModel"
+    private val TAG = "BallotBull"
 
     private val db: AppDatabase = AppDatabase.getInstance(application.applicationContext)
     private val votingDao: VotingDAO = db.VotingDAO()

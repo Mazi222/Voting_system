@@ -26,4 +26,9 @@ data class Voting (
     val winnersNb: Int = 1,
     @ColumnInfo(name ="votingCode")
     val votingCode: Long = -1
-)
+
+) {
+    override fun toString(): String {
+        return "Voting(votingId=$votingId, name='$name', type=$type, endTime=$endTime, votingContent='$votingContent', quorum=$quorum, isOpen=$isOpen, winnersNb=$winnersNb, votingCode=$votingCode)"
+    }
+}

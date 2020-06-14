@@ -14,10 +14,10 @@ import io.ktor.routing.post
 import io.ktor.routing.routing
 import io.ktor.server.engine.*
 import io.ktor.server.netty.Netty
+import io.ktor.server.netty.NettyApplicationEngine
 import io.ktor.util.pipeline.PipelineContext
 import pl.edu.agh.votingapp.VotingType
 import pl.edu.agh.votingapp.comunication.model.AnswerDto
-import pl.edu.agh.votingapp.comunication.model.QuestionDto
 import pl.edu.agh.votingapp.comunication.model.VoteResponseDto
 import pl.edu.agh.votingapp.comunication.model.VotingDto
 import java.util.concurrent.TimeUnit
@@ -30,6 +30,7 @@ import pl.edu.agh.votingapp.database.entities.Answer
 import pl.edu.agh.votingapp.database.entities.User
 import pl.edu.agh.votingapp.database.entities.Voting
 import pl.edu.agh.votingapp.votings.*
+import java.net.InetAddress
 
 class VoteServer {
 
@@ -39,17 +40,23 @@ class VoteServer {
     private val answersDAO: AnswersDAO = db.AnswersDAO()
 
     companion object {
-        lateinit var server: ApplicationEngine
+        var server: ApplicationEngine? = null
 
         fun stopServer() {
-            if (:: server.isInitialized) {
-                Log.e("BallotBull", "Server stopped $server")
-                server.stop(1, 1, TimeUnit.SECONDS)
+            if (isWorking()) {
+                Log.d("BallotBull", "Server stopped")
+                server?.stop(1, 1, TimeUnit.SECONDS)
+                server = null
+            } else {
+                Log.e("BallotBull", "Can't stop server")
             }
+        }
+        fun isWorking() : Boolean {
+            return server != null
         }
     }
 
-    fun startServer(createdPort: Int) {
+    fun startServer(createdPort: Int, host: InetAddress) {
         val voting = votingDao.getWithMaxId()
         val answers = answersDAO.loadAllAnswers(voting.votingId)
         val ongoingVoting: BaseVoting = when (voting.type) {
@@ -60,8 +67,8 @@ class VoteServer {
             VotingType.NONE -> throw RuntimeException("Voting must have one of folowing types. Impossible state.")
         }
 
-        Log.e("BallotBull", "Server created")
-        server = embeddedServer(Netty, createdPort) {
+        Log.d("BallotBull", "Server created with voting ${voting.toString()}")
+        server = embeddedServer(Netty, createdPort, host = host.hostAddress) {
             install(ContentNegotiation) {
                 gson {
                     setPrettyPrinting()
@@ -76,7 +83,8 @@ class VoteServer {
                     receiveVote(ongoingVoting, voting)
                 }
             }
-        }.start(true)
+        }
+        (server as NettyApplicationEngine).start(true)
         Log.e("BallotBull", "Server started $server")
     }
 
@@ -108,7 +116,7 @@ class VoteServer {
         voting: Voting
     ) {
         val request = call.receive<VoteResponseDto>()
-        Log.d("BallotBull", "Incoming vote " + request.toString())
+        Log.d("BallotBull", "Incoming vote $request")
         val userDto = request.userDto
         val answersMap = request.answersIdToCount
         ongoingVoting.addUser(
