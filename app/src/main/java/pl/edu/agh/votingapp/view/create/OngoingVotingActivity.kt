@@ -1,6 +1,7 @@
 package pl.edu.agh.votingapp.view.create
 
 import android.content.Context
+import android.content.Intent
 import android.net.wifi.WifiManager
 import android.os.AsyncTask
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import pl.edu.agh.votingapp.MainActivity
 import pl.edu.agh.votingapp.R
 import pl.edu.agh.votingapp.comunication.server.ServerRegistration
 import pl.edu.agh.votingapp.comunication.server.VoteServer
@@ -18,7 +20,7 @@ import java.net.InetAddress
 class OngoingVotingActivity : AppCompatActivity() {
 
     private val server = VoteServer()
-    private lateinit var nsdRegistrator : ServerRegistration
+    private lateinit var nsdRegistrator: ServerRegistration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,25 +38,37 @@ class OngoingVotingActivity : AppCompatActivity() {
         votingNameView.text = votingName
 
         // create server
-        AsyncTask.execute { server.startServer(8080) }
+        AsyncTask.execute {
+            server.startServer(8080)
+        }
 
         // register service
         val host = getIpAddress()
-        Log.e("BallotBull", "Current server IP: $host")
+        Log.d("BallotBull", "Current server IP: $host")
         nsdRegistrator = ServerRegistration(this)
         nsdRegistrator.registerServer(votingName, 8080, host!!)
 
         val timeToEnd = intent.getLongExtra("VOTING_END_MILLIS", 60 * 60 * 10)
         Handler().postDelayed({
-            server.stopServer()
-//            server.unregisterService
-        }, timeToEnd)
+            Log.d("BallotBull", "Finish voting normally")
+            finishVoting()
+        }, timeToEnd - System.currentTimeMillis())
 
         val finishVotingButton: Button = findViewById(R.id.finish_voting_button)
         finishVotingButton.setOnClickListener {
             Log.d("BallotBull", "Finish voting early")
-            server.stopServer()
+            finishVoting()
+            VoteServer.stopServer()
         }
+    }
+
+    private fun finishVoting() {
+        nsdRegistrator.unregisterServer();
+        VoteServer.stopServer()
+
+        val i = Intent(this, MainActivity::class.java)
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(i)
     }
 
     @Suppress("DEPRECATION")

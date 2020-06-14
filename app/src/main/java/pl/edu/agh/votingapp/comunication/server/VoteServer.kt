@@ -1,6 +1,7 @@
 package pl.edu.agh.votingapp.comunication.server
 
 import android.util.Log
+import io.ktor.application.ApplicationCall
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
@@ -13,6 +14,7 @@ import io.ktor.routing.post
 import io.ktor.routing.routing
 import io.ktor.server.engine.*
 import io.ktor.server.netty.Netty
+import io.ktor.util.pipeline.PipelineContext
 import pl.edu.agh.votingapp.VotingType
 import pl.edu.agh.votingapp.comunication.model.AnswerDto
 import pl.edu.agh.votingapp.comunication.model.QuestionDto
@@ -24,7 +26,9 @@ import pl.edu.agh.votingapp.database.AppDatabase
 import pl.edu.agh.votingapp.database.dao.AnswersDAO
 import pl.edu.agh.votingapp.database.dao.QuestionDAO
 import pl.edu.agh.votingapp.database.dao.VotingDAO
+import pl.edu.agh.votingapp.database.entities.Answer
 import pl.edu.agh.votingapp.database.entities.User
+import pl.edu.agh.votingapp.database.entities.Voting
 import pl.edu.agh.votingapp.votings.*
 
 class VoteServer {
@@ -36,6 +40,13 @@ class VoteServer {
 
     companion object {
         lateinit var server: ApplicationEngine
+
+        fun stopServer() {
+            if (:: server.isInitialized) {
+                Log.e("BallotBull", "Server stopped $server")
+                server.stop(1, 1, TimeUnit.SECONDS)
+            }
+        }
     }
 
     fun startServer(createdPort: Int) {
@@ -46,65 +57,72 @@ class VoteServer {
             VotingType.FIRST_PAST_THE_POST -> FirstPastThePostVoting(db)
             VotingType.SINGLE_NON_TRANSFERABLE_VOTE -> SingleNonTransferableVote(db)
             VotingType.TWO_ROUND_SYSTEM, VotingType.MAJORITY_VOTE -> MajorityVote(db)
-            VotingType.NONE -> throw RuntimeException()
+            VotingType.NONE -> throw RuntimeException("Voting must have one of folowing types. Impossible state.")
         }
 
+        Log.e("BallotBull", "Server created")
         server = embeddedServer(Netty, createdPort) {
             install(ContentNegotiation) {
                 gson {
                     setPrettyPrinting()
-
                 }
             }
             routing {
                 get("/voting") {
-                    val message = VotingDto(
-                        voting.votingId,
-                        voting.type,
-                        answers.map {
-                            AnswerDto(
-                                it.answerId,
-                                it.votingId,
-                                it.questionId,
-                                it.answerContent
-                            )
-                        },
-                        voting.votingContent,
-                        voting.winnersNb
-                    )
-
-                    Log.d("BallotBull", message.toString())
-                    call.respond(message)
+                    sendVotingData(voting, answers)
                 }
 
                 post("/voting") {
-                    val request = call.receive<VoteResponseDto>()
-                    Log.d("BallotBull", request.toString())
-                    val userDto = request.userDto
-                    val answersMap = request.answersIdToCount
-                    ongoingVoting.addUser(
-                        User(
-                            votingId = voting.votingId,
-                            userName = userDto.userName,
-                            userCode = userDto.userCode
-                        )
-                    )
-                    answersMap.forEach { (answerId, counter) ->
-                        ongoingVoting.updateAnswerCount(
-                            voting.votingId, userDto.userName, answerId, counter
-                        )
-                        call.respond(HttpStatusCode.OK, "Votes case")
-                    }
+                    receiveVote(ongoingVoting, voting)
                 }
             }
         }.start(true)
-        Log.e("BallotBull", "Serwer started $server")
+        Log.e("BallotBull", "Server started $server")
     }
 
-    fun stopServer() {
-//        TODO()
-        server.stop(1, 1, TimeUnit.SECONDS)
-//        }
+    private suspend fun PipelineContext<Unit, ApplicationCall>.sendVotingData(
+        voting: Voting,
+        answers: List<Answer>
+    ) {
+        val message = VotingDto(
+            voting.votingId,
+            voting.type,
+            answers.map {
+                AnswerDto(
+                    it.answerId,
+                    it.votingId,
+                    it.questionId,
+                    it.answerContent
+                )
+            },
+            voting.votingContent,
+            voting.winnersNb
+        )
+
+        Log.d("BallotBull", "Client connected to voting")
+        call.respond(message)
     }
 
+    private suspend fun PipelineContext<Unit, ApplicationCall>.receiveVote(
+        ongoingVoting: BaseVoting,
+        voting: Voting
+    ) {
+        val request = call.receive<VoteResponseDto>()
+        Log.d("BallotBull", "Incoming vote " + request.toString())
+        val userDto = request.userDto
+        val answersMap = request.answersIdToCount
+        ongoingVoting.addUser(
+            User(
+                votingId = voting.votingId,
+                userName = userDto.userName,
+                userCode = userDto.userCode
+            )
+        )
+        answersMap.forEach { (answerId, counter) ->
+            ongoingVoting.updateAnswerCount(
+                voting.votingId, userDto.userName, answerId, counter
+            )
+        }
+        call.respond(HttpStatusCode.OK, "Votes case")
+    }
 }

@@ -25,4 +25,7 @@ class ServerRegistration(context: Context) {
             serviceInfo, NsdManager.PROTOCOL_DNS_SD, NsdHelper.mRegistrationListener
         )
     }
+    fun unregisterServer() {
+        nsdHelper.tearDownRegistration()
+    }
 }
