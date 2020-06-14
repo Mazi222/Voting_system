@@ -48,8 +48,8 @@ class FirstPastThePostAdapter(private val myDataset: List<AnswerListElement>, va
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val listElement: AnswerListElement = myDataset[position]
-        holder.candidateName.text = myDataset[position].name
-        holder.candidatePhoto.setImageResource(myDataset[position].image)
+        holder.candidateName.text = listElement.name
+        holder.candidatePhoto.setImageResource(listElement.image)
 
         holder.bindButtons()
 

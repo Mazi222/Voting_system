@@ -27,14 +27,18 @@ class JoinVotingActivity : AppCompatActivity() {
 
         val joinVotingButton: Button = findViewById(R.id.btn_login)
         joinVotingButton.setOnClickListener {
-            if (firstName.trim().isEmpty() || lastName.trim().isEmpty() || userCode.trim().isEmpty()) {
-                Toast.makeText(applicationContext, "Please fill all fields", Toast.LENGTH_SHORT).show()
+            if (firstName.trim().isEmpty()
+                || lastName.trim().isEmpty()
+                || userCode.trim().isEmpty()
+            ) {
+                Toast.makeText(applicationContext, "Please fill all fields", Toast.LENGTH_SHORT)
+                    .show()
             } else {
                 val mAlertDialog = AlertDialog.Builder(this@JoinVotingActivity)
                 mAlertDialog.setIcon(R.mipmap.ic_launcher_round)
                 mAlertDialog.setTitle("")
                 mAlertDialog.setMessage("Are you sure you want to join this voting?")
-                mAlertDialog.setPositiveButton("Yes") { dialog, id ->
+                mAlertDialog.setPositiveButton("Yes") { _, _ ->
 
                     Log.d("BallotBull: join voting", "Join voting with name ${name!!}")
                     val intent = Intent(this, AnswerListActivity::class.java)
@@ -42,7 +46,7 @@ class JoinVotingActivity : AppCompatActivity() {
                     intent.putExtra("userCode", "$userCode")
                     startActivity(intent)
                 }
-                mAlertDialog.setNegativeButton("No") { dialog, id ->
+                mAlertDialog.setNegativeButton("No") { _, _ ->
                 }
                 mAlertDialog.show()
             }

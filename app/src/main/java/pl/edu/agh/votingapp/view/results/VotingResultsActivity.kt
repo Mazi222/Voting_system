@@ -81,7 +81,7 @@ class VotingResultsActivity : AppCompatActivity() {
 
                 Log.d(TAG, "Getting winners...")
                 val winners = vote.getWinner(votingId)
-                prepareWinnersTable(winners)
+                prepareWinnersTable(winners, votingType)
             } catch (e: QuorumNotReachedException) {
                 Log.d(TAG, "Quorum not reached!")
                 winnersText.visibility = View.GONE
@@ -102,8 +102,12 @@ class VotingResultsActivity : AppCompatActivity() {
                 data.add(ValueDataEntry(it.answerContent, it.count))
             }
 
+            val seriesName = when (votingType) {
+                VotingType.BORDA_COUNT -> "Points"
+                else -> "Votes"
+            }
             val series = barChart.bar(data)
-            series.name("Votes")
+            series.name(seriesName)
             series.tooltip()
                 .position(Position.RIGHT_CENTER)
                 .anchor(Anchor.LEFT_CENTER)
@@ -117,7 +121,7 @@ class VotingResultsActivity : AppCompatActivity() {
         anyChartView.clear()
     }
 
-    private fun prepareWinnersTable(winners: List<Answer>) {
+    private fun prepareWinnersTable(winners: List<Answer>, votingType: VotingType) {
         val tableTextSize = 40F
 
         for (i in -1 until winners.size) {
@@ -166,12 +170,14 @@ class VotingResultsActivity : AppCompatActivity() {
             voteCountText.setTextSize(TypedValue.COMPLEX_UNIT_PX, tableTextSize)
             if (i == -1) {
                 voteCountText.setBackgroundColor(Color.parseColor("#f0f0f0"))
-                voteCountText.text = "Votes"
+                voteCountText.text = when (votingType) {
+                    VotingType.BORDA_COUNT -> "Points"
+                    else -> "Votes"
+                }
             } else {
                 voteCountText.setBackgroundColor(Color.parseColor("#f8f8f8"))
                 voteCountText.text = winners[i].count.toString()
             }
-
 
             val tableRow = TableRow(this@VotingResultsActivity)
             tableRow.id = i + 1
@@ -210,7 +216,6 @@ class VotingResultsActivity : AppCompatActivity() {
 
                 tableRowSep.addView(sepView)
                 winnersTableLayout.addView(tableRowSep, tableRowSepParams)
-
             }
         }
     }
@@ -233,13 +238,6 @@ class VotingResultsActivity : AppCompatActivity() {
         barChart.yAxis(0).title("Number of votes")
         barChart.xAxis(0).title("Answers")
         barChart.xAxis(0).labels().enabled(false)
-//        barChart.xAxis(0).labels()
-//            .width(120)
-//            .rotation(-90)
-//            .offsetX(-10)
-//            .position(Position.LEFT_CENTER.jsBase)
-//            .anchor(Anchor.CENTER)
-
         return barChart
     }
 }

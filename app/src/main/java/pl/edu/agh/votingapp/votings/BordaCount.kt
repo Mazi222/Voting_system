@@ -30,7 +30,7 @@ class BordaCount(override val db: AppDatabase) : BaseVoting {
 
     override suspend fun getWinner(votingId: Long): List<Answer> = withContext(Dispatchers.IO) {
         val answers = getResults(votingId)
-        val sumOfVotes = sumOfAllVotes(answers)
+        val sumOfVotes = sumOfAllVotes(votingId)
 
         val quorum = votingDao.getVoting(votingId).quorum
         if (quorum != -1 && quorum > sumOfVotes) {
@@ -80,13 +80,8 @@ class BordaCount(override val db: AppDatabase) : BaseVoting {
         answersDao.insert(answer)
     }
 
-    private fun sumOfAllVotes(answers: List<Answer>): Long{
-        var sumOfVotes: Long = 0
-
-        for(answer in answers) {
-            if(answer.voters!=null)
-                sumOfVotes += answer.voters.size
-        }
+    private fun sumOfAllVotes(votingId: Long): Long{
+        var sumOfVotes: Long = userDao.loadAllUsers(votingId).size.toLong()
         return sumOfVotes
     }
 }

@@ -70,7 +70,6 @@ class SingleNonTransferableVoteAddTest {
         baseVoting.addUser(user2)
 
         Assert.assertEquals(userList, userDao.loadAllUsers(1))
-        Assert.assertEquals(userList, baseVoting.getVoters(1))
     }
 
     @Test

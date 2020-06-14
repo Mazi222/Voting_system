@@ -17,6 +17,7 @@ import pl.edu.agh.votingapp.R
 import pl.edu.agh.votingapp.comunication.server.ServerRegistration
 import pl.edu.agh.votingapp.comunication.server.VoteServer
 import java.net.InetAddress
+import java.util.Date
 
 class OngoingVotingActivity : AppCompatActivity() {
 

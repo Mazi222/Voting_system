@@ -27,7 +27,7 @@ class FirstPastThePostVoting(override val db: AppDatabase) : BaseVoting {
     @Throws(QuorumNotReachedException::class)
     override suspend fun getWinner(votingId: Long): List<Answer> = withContext(Dispatchers.IO) {
         val Answer = getResults(votingId)
-        val sumOfVotes = sumOfAllVotes(Answer)
+        val sumOfVotes = sumOfAllVotes(votingId)
 
         val quorum = votingDao.getVoting(votingId).quorum
         if (quorum != -1 && quorum > sumOfVotes) {
@@ -80,13 +80,8 @@ class FirstPastThePostVoting(override val db: AppDatabase) : BaseVoting {
         AnswerDao.insert(answer)
     }
 
-    fun sumOfAllVotes(Answer: List<Answer>): Long{
-        var sumOfVotes: Long = 0
-
-        for(answer in Answer) {
-            if(answer.voters!=null)
-                sumOfVotes += answer.voters.size
-        }
+    fun sumOfAllVotes(votingId: Long): Long{
+        var sumOfVotes: Long = userDao.loadAllUsers(votingId).size.toLong()
         return sumOfVotes
     }
 }
