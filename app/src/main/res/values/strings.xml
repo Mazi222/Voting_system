@@ -14,7 +14,7 @@
     <string name="vote">Vote</string>
     <string name="program">Program</string>
     <string name="voting_description">Voting description</string>
-    <string name="number_of_answers">Number of answers</string>
+    <string name="number_of_answers">Number of winning answers</string>
     <string name="number_of_people_entitled_to_vote">Number of people entitled to vote</string>
     <string name="quorum">Quorum</string>
     <string name="is_voting_open">Is voting open</string>
