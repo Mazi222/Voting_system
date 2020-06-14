@@ -1,5 +1,7 @@
 package pl.edu.agh.votingapp.votings
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import pl.edu.agh.votingapp.database.AppDatabase
 import pl.edu.agh.votingapp.database.dao.AnswersDAO
 import pl.edu.agh.votingapp.database.dao.QuestionDAO
@@ -20,43 +22,47 @@ class BordaCount(override val db: AppDatabase) : BaseVoting {
     private val questionDao: QuestionDAO = db.QuestionDAO()
     private val answersDao: AnswersDAO = db.AnswersDAO()
 
-    override fun getResults(votingId: Long): List<Answers> {
+    override suspend fun getResults(votingId: Long): List<Answers> = withContext(Dispatchers.IO) {
         val answers = answersDao.loadAllAnswers(votingId).toMutableList()
         answers.sortByDescending { it.count }
-        return answers
+        answers
     }
 
-    override fun getWinner(votingId: Long): List<Answers> {
+    override suspend fun getWinner(votingId: Long): List<Answers> = withContext(Dispatchers.IO) {
         val answers = getResults(votingId)
         val sumOfVotes = sumOfAllVotes(answers)
 
         val quorum = votingDao.getVoting(votingId).quorum
-        if(quorum != -1 && quorum > sumOfVotes){
+        if (quorum != -1 && quorum > sumOfVotes) {
             throw QuorumNotReachedException()
         }
 
         val result = mutableListOf<Answers>()
-        for(i in 0 until votingDao.getVoting(votingId).winnersNb) result.add(answers[i])
-        return result;
+        for (i in 0 until votingDao.getVoting(votingId).winnersNb) result.add(answers[i])
+        result
     }
 
-    override fun getQuestion(votingId: Long): List<Question> {
-        return questionDao.loadAllQuestions(votingId)
+    override suspend fun getQuestion(votingId: Long): List<Question> = withContext(Dispatchers.IO) {
+        questionDao.loadAllQuestions(votingId)
     }
 
-    override fun getVoters(votingId: Long): List<User> {
-        if(votingDao.getVoting(votingId).isOpen){
-            return userDao.loadAllUsers(votingId)
+    override suspend fun getVoters(votingId: Long): List<User> = withContext(Dispatchers.IO) {
+        if (votingDao.getVoting(votingId).isOpen) {
+            throw VotingIsNotOpenException()
         }
-        throw VotingIsNotOpenException()
+        userDao.loadAllUsers(votingId)
+    }
+
+    override suspend fun getCount(votingId: Long): Long = withContext(Dispatchers.IO) {
+        answersDao.loadAllAnswers(votingId).fold(0L) { sum, answer -> sum + answer.count }
     }
 
     override fun updateAnswerCount(votingId: Long, userName: String, answerId: Long, value: Long) {
         val user = userDao.getUserByName(userName)
-        if(user.userCode != votingDao.getVoting(votingId).votingCode) {
+        if (user.userCode != votingDao.getVoting(votingId).votingCode) {
             throw WrongVotingCodeException()
         }
-        if(user.alreadyVote>=answersDao.loadAllAnswers(votingId).size)
+        if (user.alreadyVote >= answersDao.loadAllAnswers(votingId).size)
             throw UserAlreadyVotedException()
         userDao.incrementCount(user.userId)
         answersDao.updateCount(answerId, value)

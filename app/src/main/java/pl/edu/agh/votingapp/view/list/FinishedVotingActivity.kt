@@ -1,16 +1,17 @@
 package pl.edu.agh.votingapp.view.list
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.format.DateFormat
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import pl.edu.agh.votingapp.R
 import pl.edu.agh.votingapp.database.entities.Voting
+import pl.edu.agh.votingapp.view.results.VotingResultsActivity
 import pl.edu.agh.votingapp.viewmodel.list.FinishedVotingViewModel
 
 class FinishedVotingActivity : AppCompatActivity() {
@@ -31,7 +32,6 @@ class FinishedVotingActivity : AppCompatActivity() {
         val votingId = intent.getLongExtra("VOTING_ID", 0L)
         lifecycleScope.launch {
             voting = model.getVotingById(votingId)
-
             title = voting.name
 
             // set view
@@ -43,13 +43,13 @@ class FinishedVotingActivity : AppCompatActivity() {
                 voting.endTime
             )
             showResultsBtn.setOnClickListener {
-                Toast.makeText(
-                    this@FinishedVotingActivity,
-                    "TODO: Show results",
-                    Toast.LENGTH_SHORT
-                ).show()
+                val intent = Intent(this@FinishedVotingActivity, VotingResultsActivity::class.java)
+                intent.putExtra("VOTING_ID", votingId)
+                intent.putExtra("VOTING_NAME", voting.name)
+                intent.putExtra("VOTING_TYPE", voting.type)
+                this@FinishedVotingActivity.startActivity(intent)
             }
-
         }
+
     }
 }

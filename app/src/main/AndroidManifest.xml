@@ -13,6 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".view.results.VotingResultsActivity"
+            android:parentActivityName=".view.list.FinishedVotingActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.list.FinishedVotingActivity" />
+        </activity>
+        <activity
             android:name=".view.list.FinishedVotingListActivity"
             android:parentActivityName=".MainActivity">
             <meta-data
@@ -34,8 +41,8 @@
         <activity android:name=".view.vote.CandidateListActivity" />
         <activity
             android:name=".view.create.CreateVotingActivity"
-            android:parentActivityName=".MainActivity"
-            android:noHistory="true">
+            android:noHistory="true"
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />

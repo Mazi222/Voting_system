@@ -7,10 +7,11 @@ import pl.edu.agh.votingapp.database.entities.User
 
 interface BaseVoting {
     val db: AppDatabase
-    fun getResults(votingId: Long): List<Answers>
-    fun getWinner(votingId: Long): List<Answers>
-    fun getQuestion(votingId: Long): List<Question>
-    fun getVoters(votingId: Long): List<User>
+    suspend fun getResults(votingId: Long): List<Answers>
+    suspend fun getWinner(votingId: Long): List<Answers>
+    suspend fun getQuestion(votingId: Long): List<Question>
+    suspend fun getVoters(votingId: Long): List<User>
+    suspend fun getCount(votingId: Long): Long
 
     fun updateAnswerCount(votingId: Long, userName: String, answerId: Long, value: Long = 1)
     fun addUser(user: User)
