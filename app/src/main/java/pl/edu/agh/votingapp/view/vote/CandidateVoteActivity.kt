@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
+import pl.edu.agh.votingapp.MainActivity
 import pl.edu.agh.votingapp.R
 import pl.edu.agh.votingapp.comunication.client.VotingController
 import pl.edu.agh.votingapp.comunication.model.UserDto
@@ -56,7 +58,10 @@ class CandidateVoteActivity : AppCompatActivity() {
                 }
             })
 
-        val intent = Intent(this, VoteGivenActivity::class.java)
-        startActivity(intent)
+        Toast.makeText(this@CandidateVoteActivity, "Thank you for voting", Toast.LENGTH_SHORT).show()
+        val i = Intent(this, MainActivity::class.java)
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(i)
+
     }
 }

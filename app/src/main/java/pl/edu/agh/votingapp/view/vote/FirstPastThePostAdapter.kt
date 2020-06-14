@@ -1,17 +1,21 @@
 package pl.edu.agh.votingapp.view.vote
 
+import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import pl.edu.agh.votingapp.R
 import pl.edu.agh.votingapp.comunication.model.UserDto
 
-class CandidateListAdapter(private val myDataset: List<AnswerListElement>, private val userDto: UserDto) :
-    RecyclerView.Adapter<CandidateListAdapter.MyViewHolder>() {
+class FirstPastThePostAdapter(private val myDataset: List<AnswerListElement>, val mContext: Context) :
+    RecyclerView.Adapter<FirstPastThePostAdapter.MyViewHolder>() {
 
     class MyViewHolder(val view: View, val parent: ViewGroup) : RecyclerView.ViewHolder(view) {
 
@@ -21,22 +25,17 @@ class CandidateListAdapter(private val myDataset: List<AnswerListElement>, priva
         val programButton: Button = view.findViewById(R.id.btnProgram)
         val voteButton: Button = view.findViewById(R.id.btnVote)
 
-        fun bindButtons(myDataset: List<AnswerListElement>, position: Int, userDto: UserDto) {
+        fun bindButtons() {
             programButton.setOnClickListener {
                 val intent = Intent(parent.context, CandidateProgramActivity::class.java)
                 parent.context.startActivity(intent)
             }
+
             voteButton.setOnClickListener {
-                val intent = Intent(parent.context, CandidateVoteActivity::class.java)
-                intent.putExtra("answerId", myDataset[position].answerId)
-                intent.putExtra("votingId", userDto.votingId)
-                intent.putExtra("userCode", userDto.userCode)
-                intent.putExtra("userName", userDto.userName)
-                intent.putExtra("name", candidateName.text)
-                parent.context.startActivity(intent)
             }
         }
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val cell = LayoutInflater.from(parent.context)
@@ -45,14 +44,23 @@ class CandidateListAdapter(private val myDataset: List<AnswerListElement>, priva
         return MyViewHolder(cell, parent)
     }
 
+    override fun getItemCount() = myDataset.size
+
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val listElement: AnswerListElement = myDataset[position]
         holder.candidateName.text = myDataset[position].name
         holder.candidatePhoto.setImageResource(myDataset[position].image)
 
-        holder.bindButtons(myDataset, position, userDto)
+        holder.bindButtons()
 
+        holder.itemView.setOnClickListener {
+            Log.d("Holder", "Click")
+            addAnswerToMap(position)
+        }
     }
 
-    override fun getItemCount() = myDataset.size
+    fun addAnswerToMap(position: Int) {
+        val activity = mContext as AnswerListActivity
+        activity.updateAnswerMap(myDataset[position].answerId, 1)
+    }
 }

@@ -24,7 +24,6 @@
                 android:value=".MainActivity" />
         </activity>
         <activity android:name=".view.vote.VotesListActivity" />
-        <activity android:name=".view.vote.VoteGivenActivity" />
         <activity android:name=".view.vote.CandidateVoteActivity" />
         <activity android:name=".view.vote.CandidateProgramActivity" />
         <activity android:name=".view.vote.AnswerListActivity" />
