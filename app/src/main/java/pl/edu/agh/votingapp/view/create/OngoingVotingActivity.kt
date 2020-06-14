@@ -6,6 +6,7 @@ import android.net.wifi.WifiManager
 import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
+import android.text.format.DateFormat
 import android.text.format.Formatter.formatIpAddress
 import android.util.Log
 import android.widget.Button
@@ -16,6 +17,7 @@ import pl.edu.agh.votingapp.R
 import pl.edu.agh.votingapp.comunication.server.ServerRegistration
 import pl.edu.agh.votingapp.comunication.server.VoteServer
 import java.net.InetAddress
+import java.util.*
 
 class OngoingVotingActivity : AppCompatActivity() {
 
@@ -27,7 +29,10 @@ class OngoingVotingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_ongoing_voting)
         // set view
         val finishDateView = findViewById<TextView>(R.id.finish_date)
-        finishDateView.text = intent.getSerializableExtra("VOTING_END_DATE")?.toString()
+        finishDateView.text = DateFormat.format(
+            "EEE, MMM dd yyyy, HH:mm",
+            intent.getSerializableExtra("VOTING_END_DATE") as Date
+        )
 
         val codeView = findViewById<TextView>(R.id.code_view)
         codeView.text = intent.getLongExtra("CODE", -1).toString()
@@ -64,7 +69,7 @@ class OngoingVotingActivity : AppCompatActivity() {
     }
 
     private fun finishVoting() {
-        if(VoteServer.isWorking()) {
+        if (VoteServer.isWorking()) {
             nsdRegistrator.unregisterServer();
             VoteServer.stopServer()
 
