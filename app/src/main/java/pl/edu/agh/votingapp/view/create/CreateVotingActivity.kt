@@ -11,7 +11,6 @@ import com.stepstone.stepper.StepperLayout
 import com.stepstone.stepper.VerificationError
 import pl.edu.agh.votingapp.R
 import pl.edu.agh.votingapp.viewmodel.create.CreateVotingViewModel
-import java.util.*
 
 class CreateVotingActivity : AppCompatActivity(), StepperLayout.StepperListener {
 

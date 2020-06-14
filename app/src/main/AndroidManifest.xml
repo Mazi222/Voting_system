@@ -37,7 +37,6 @@
         <activity android:name=".view.create.OngoingVotingActivity" />
         <activity android:name=".view.vote.JoinVotingActivity" />
         <activity android:name=".view.vote.VotesListActivity" />
-        <activity android:name=".view.vote.VoteGivenActivity" />
         <activity android:name=".view.vote.CandidateVoteActivity" />
         <activity android:name=".view.vote.CandidateProgramActivity" />
         <activity android:name=".view.vote.AnswerListActivity" />

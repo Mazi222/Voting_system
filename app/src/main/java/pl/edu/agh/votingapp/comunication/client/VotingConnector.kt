@@ -35,6 +35,6 @@ class VotingController {
     }
 
     companion object {
-        val BASE_URL = ServerData.getUrl()
+        val BASE_URL =  ServerData.getUrl()
     }
 }
