@@ -20,9 +20,7 @@ class CreateVotingViewModel(application: Application) : AndroidViewModel(applica
     private val db: AppDatabase = AppDatabase.getInstance(application.applicationContext)
     private val votingDao: VotingDAO = db.VotingDAO()
     private val answersDao: AnswersDAO = db.AnswersDAO()
-    private val questionDao: QuestionDAO = db.QuestionDAO()
 
-    var name = "Voting"
     lateinit var votingType: VotingType
     lateinit var content: String
     lateinit var endTime: Date
